@@ -1,0 +1,6 @@
+IDEA 1 "NEWSBOOK"
+
+User would login and set preferences of what kind of news you are interested in and visualise social response and news event on a map somehow summarrised.
+Add interest and recommendations 
+Visualisation of a map showing areas
+
