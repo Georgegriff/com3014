@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.com3014.group1.projectmatching.core;
+package com.com3014.group1.projectmatching.core.services;
 
 import org.springframework.stereotype.Service;
 

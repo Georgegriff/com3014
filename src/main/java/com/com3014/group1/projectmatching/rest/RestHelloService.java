@@ -1,6 +1,6 @@
-package com.com3014.group1.projectmatching.services.rest;
+package com.com3014.group1.projectmatching.rest;
 
-import com.com3014.group1.projectmatching.core.HelloService;
+import com.com3014.group1.projectmatching.core.services.HelloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
