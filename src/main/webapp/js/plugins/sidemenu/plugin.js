@@ -49,12 +49,16 @@ define(['underscore', 'jquery', 'jquery.ui', 'text!js/plugins/sidemenu/template/
                             });
                         }
                         function show() {
+                             $('.slideable').addClass('animate-cont');
                             $sideMenu.toggle("slide", {direction: "right"});
+                           
                             visible = true;
                         }
                         function hide() {
                             if (visible) {
-                                $sideMenu.toggle("slide", {direction: "right"});
+                          
+                                $sideMenu.toggle("slide", {direction: "right"}, 600);
+                                    $('.slideable').removeClass('animate-cont');
                                 visible = false;
                             }
                         }
