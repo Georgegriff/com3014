@@ -51,6 +51,7 @@ define(['underscore', 'jquery', 'jquery.ui', 'text!js/plugins/sidemenu/template/
                         function show() {
                              $('.slideable').addClass('animate-cont');
                             $sideMenu.toggle("slide", {direction: "right"});
+                            
                            
                             visible = true;
                         }

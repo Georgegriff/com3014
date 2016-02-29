@@ -101,6 +101,7 @@ ul {
     min-width:270px;
     background: white;
     display: none;
+    font-size:150%;
     border-left: solid 1px #fbf9ee;
 }
 .menu-push {
@@ -200,8 +201,8 @@ ul {
     transition: 1s;
     display:flex;
     min-height:300px;
-    max-height:700px;
-    max-width:500px;
+    width:100%;
+    height:100%;
     border: solid 2px #f1f1f1;
     flex-direction: column;
 }
@@ -320,4 +321,26 @@ ul {
         height:150px;
         width: 150px;
     }
+}
+/** Mobile */
+@media screen and (max-width: 894px) {
+    #sidemenu {
+        flex:4;
+    }
+    .profile-icon {
+        margin-top:10px;
+        margin-right:10px;
+    }
+    
+}
+/** Mobile Landscape */
+@media screen and (max-width: 600px) and (orientation : landscape){}
+    .swiper {
+        height:80%;
+    }
+    .profile-icon {
+        margin-top:10px;
+        margin-right:10px;
+    }
+    
 }
