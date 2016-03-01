@@ -334,7 +334,7 @@ ul {
     
 }
 /** Mobile Landscape */
-@media screen and (max-width: 600px) and (orientation : landscape){}
+@media screen and (max-width: 600px) and (orientation : landscape){
     .swiper {
         height:80%;
     }
