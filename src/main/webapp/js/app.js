@@ -3,32 +3,93 @@ define(['underscore', 'jquery', 'js/components/banner/banner', 'js/components/co
         function (_, $, banner, container, PluginConfig) {
             "use strict";
             function App() {
-                var pluginNames = JSON.parse(PluginConfig).plugins,
-                        PLUGIN_PATH_ROOT = "js/plugins/",
-                        $swipeCont = $('<article class="swipe-stack">'),
-                        PLUGIN_FILE = "/plugin";
+                var ROOT = "/",
+                        self = this;
                 App.prototype.init = function init() {
-                    var self = this;
                     self.loadComponents();
-                    self.swipers = [];
-                    self.$swipeCont = $swipeCont;
-                    self.SWIPE_PRELOADS = 3;
-                    self.loadPlugins(pluginNames).done(function () {
-                        // TODO:: Setup routing and correct views for page urls
-                        self.showSwipers();
-                    });
+                    self.loadPlugins()
+                            .done(initRouteHandler);
+                    self.pages = {};
                 };
-                App.prototype.showSwipers = function showSwipers() {
-                    var swipers = this.swipers,
-                            $swiper;
-                    this.container.showContent($swipeCont);
-                    _.each(swipers, function (swiper) {
-                        $swiper = swiper.render();
-                        $swipeCont.prepend($swiper);
-                        swiper.init();
 
+                function initRouteHandler() {
+                    $('a').on('click', function (event) {
+                        return self.routeHandler($(this).attr("href"), event);
                     });
+                    window.onpopstate = function popSate(event) {
+                        return self.routeHandler(window.location.pathname, event);
+                    };
+                    self.routeHandler(window.location.pathname);
+                }
 
+                App.prototype.routeHandler = function routeHandler(route, event) {
+                    if (typeof (route) !== 'undefined' && route) {
+
+                        switch (route) {
+                            case ROOT:
+                                showPage("user-swiper", event);
+                                break;
+                            default:
+                                return true;
+                                break;
+                        }
+                    } else {
+                        return true;
+                    }
+
+
+                };
+                function showPage(name, event) {
+                    if (event) {
+                        event.preventDefault();
+                    }
+                    loadPage(name).then(function (page) {
+                        page.show();
+                    });
+                }
+                function loadPage(name) {
+                    var PAGE_NAME_ROOT = "js/pages/",
+                            PAGE_FILE = "/page";
+
+                    // check for cached page
+                    if (!self.pages[name]) {
+                        return self.requireModule(PAGE_NAME_ROOT, name, PAGE_FILE)
+                                .then(function () {
+                                    return self.pages[name];
+                                });
+                    } else {
+                        return getPage();
+                    }
+
+                }
+                function getPage() {
+                    return $.Deferred().resolveWith(self.pages[name]);
+                }
+                /**
+                 * Lazy load a module
+                 * @param {type} path
+                 * @param {type} names
+                 * @param {type} filename
+                 * @returns {Deferred}
+                 */
+                App.prototype.requireModule = function requireModule(path, names, filename) {
+                    names = _.isArray(names) ? names : [names];
+                    var promise = $.Deferred(),
+                            fullPath,
+                            app = this,
+                            moduleCount = names.length;
+                    _.each(names, function (moduleName) {
+                        fullPath = path + moduleName + filename;
+                        require([fullPath], function (module) {
+                            module.init(app, moduleName);
+                            moduleCount--;
+
+                            if (moduleCount <= 0) {
+                                promise.resolve();
+                            }
+                        });
+                    });
+                    return promise;
                 }
                 /**
                  * 
@@ -43,28 +104,17 @@ define(['underscore', 'jquery', 'js/components/banner/banner', 'js/components/co
                  *Asyncronously load plugins
                  *@param {Array} pluginNames pluginName
                  */
-                App.prototype.loadPlugins = function loadPlugins(pluginNames) {
-                    var promise = $.Deferred(),
-                            path = '',
-                            app = this,
-                            pluginCount = pluginNames.length;
-                    _.each(pluginNames, function (pluginName) {
-                        path = PLUGIN_PATH_ROOT + pluginName + PLUGIN_FILE;
-                        require([path], function (plugin) {
-                            plugin.init(app);
-                            pluginCount--;
-
-                            if (pluginCount <= 0) {
-                                promise.resolve();
-                            }
-                        });
-                    });
-                    return promise;
+                App.prototype.loadPlugins = function loadPlugins() {
+                    var pluginNames = JSON.parse(PluginConfig).plugins,
+                            PLUGIN_PATH_ROOT = "js/plugins/",
+                            PLUGIN_FILE = "/plugin";
+                    return self.requireModule(PLUGIN_PATH_ROOT, pluginNames, PLUGIN_FILE);
                 };
                 App.prototype.parseTemplate = function parseTemplate(html, attributes) {
                     return _.template(html)(attributes || {});
 
-                }
+                };
+
 
             }
 
