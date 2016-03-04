@@ -1,0 +1,15 @@
+IDEA 1 "NEWSBOOK"
+
+User would login and set preferences of what kind of news you are interested in and visualise social response and news event on a map somehow summarrised.
+-Add interest and recommendations 
+-Visualisation of a map showing areas
+
+IDEA 2 "SOCIAL MEDIA LOOKUP"
+Basically a system where you could pull all social media accounts of a person and visualise it
+-Would need investigation
+
+IDEA 3 "GROUP COLLABORATION IE MATCH.COM"
+Create projects on wesbite and try and recruit people
+-Could have a map visualising projects around a user
+-Tinder style swiping system to accept or remove people
+-Can have a person finding a project and a style of a project manager finding people
