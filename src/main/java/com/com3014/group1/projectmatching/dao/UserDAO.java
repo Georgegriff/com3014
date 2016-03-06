@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Manages Database interactions for Users
  */
 package com.com3014.group1.projectmatching.dao;
 
@@ -11,7 +9,9 @@ import com.com3014.group1.projectmatching.model.Skill;
 import com.com3014.group1.projectmatching.model.User;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -20,15 +20,25 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class UserDAO {
-
-    public List<User> getAllUsers() {
+    
+    private Map<Integer, User> users;
+    
+    public UserDAO(){
+        this.users = getAllUsers();
+    }
+    
+      public User findUserById(int id){
+       return this.users.get(id);
+    }
+    
+    private Map<Integer, User> getAllUsers() {
 
         List<Skill> skills = new ArrayList<Skill>();
         skills.add(new Skill("Java", 12));
         skills.add(new Skill("C++", 12));
 
         List<Qualification> qualifications = new ArrayList<Qualification>();
-        qualifications.add(new Qualification("Computer Sceince", "Degree"));
+        qualifications.add(new Qualification("Computer Science", "Degree"));
         qualifications.add(new Qualification("Maths", "A Level"));
 
         User user1 = new User();
@@ -63,11 +73,11 @@ public class UserDAO {
         user2.setQualifications(qualifications2);
         user2.setInterests(new ArrayList<String>(Arrays.asList(new String[]{"Web Design", "Networking"})));
 
-        List<User> userList = new ArrayList<User>();
-        userList.add(user1);
-        userList.add(user2);
+        Map<Integer, User> userMap = new HashMap<Integer, User>();
+        userMap.put(user1.getUserId(), user1);
+        userMap.put(user2.getUserId(), user2);
 
-        return userList;
+        return userMap;
     }
 
 }

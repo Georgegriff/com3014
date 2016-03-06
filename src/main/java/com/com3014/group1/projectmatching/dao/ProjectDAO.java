@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Manages databse interactions for Projects
  */
 package com.com3014.group1.projectmatching.dao;
 
@@ -15,7 +13,9 @@ import com.com3014.group1.projectmatching.model.Skill;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -24,8 +24,19 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class ProjectDAO {
-
-    public List<Project> getAllProjects() {
+    
+    final private Map<Integer, Project> projects;
+    
+    public ProjectDAO(){
+        // temp until database
+        projects = getAllProjects();
+    }
+    
+    public Project findProjectById(int id){
+       return projects.get(id);
+    }
+    
+    private Map<Integer, Project> getAllProjects() {
 
         List<Skill> skills1 = new ArrayList<Skill>();
         skills1.add(new Skill("Java", 12));
@@ -76,11 +87,11 @@ public class ProjectDAO {
         project2.setRoles(roles2);
         project2.setInterests(new ArrayList<String>(Arrays.asList(new String[]{"Web design", "Tennis"})));
 
-        List<Project> projectList = new ArrayList<Project>();
-        projectList.add(project1);
-        projectList.add(project2);
+        Map<Integer, Project> projects = new HashMap<Integer,Project>();
+        projects.put(project1.getProjectId(), project1);
+        projects.put(project2.getProjectId(), project2);
 
-        return projectList;
+        return projects;
     }
 
 }
