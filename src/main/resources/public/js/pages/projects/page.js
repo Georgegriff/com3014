@@ -15,13 +15,15 @@ define(['underscore', 'jquery', 'text!js/pages/projects/template/template.html']
                                         .then(showAddTile);
                             }
                         }
-                        function showAddTile(){
-                            
+                        function showAddTile() {
+
                         }
                         function showProjects(projects) {
                             if (projects && projects.length) {
                                 projects.forEach(function (project) {
-                                    createProjectTile(project);
+                                    if (project) {
+                                        createProjectTile(project);
+                                    }
                                 });
                             }
                             return $.Deferred().resolve();

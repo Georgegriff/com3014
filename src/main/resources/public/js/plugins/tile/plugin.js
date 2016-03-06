@@ -11,7 +11,7 @@ define(['underscore', 'jquery', 'text!js/plugins/tile/template/template.html'],
                           }));
                           
                           function attachTo($parent){
-                              $parent.append($tile);
+                              $parent.prepend($tile);
                           }
                           return {
                               attachTo : attachTo

@@ -27,15 +27,20 @@ public class ProjectService {
         return projectDAO.findProjectById(id);
     }
 
-    public List<Project> getProjectsForUser(Integer userId) {
+    public List<Project> getProjectsForUser(int userId) {
         // TODO: dummy implementation at the moment
         int[] projects = {1,2};
         List<Project> userProjects = new ArrayList<>();
-        for(int i = 0; i < projects.length; i++){
-            userProjects.add(projectDAO.findProjectById(1));
+        for(int i = 1; i <= projects.length; i++){
+            userProjects.add(projectDAO.findProjectById(i));
         }
     
         return userProjects;
+    }
+
+    public List<Project> createProject(int userId, Project projectData) {
+        //TODO::
+        return null;
     }
 
 }
