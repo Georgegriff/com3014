@@ -38,7 +38,11 @@ define(function () {
                             history.pushState(null, null, route);
                         }
                     }
+                    if (route.indexOf("/project/") > -1) {
+                        route = app.models.project.getProjectPath("id");
+                    }
                     switch (route) {
+
                         case ROOT:
                             showPage("user-swiper", event);
                             break;
@@ -47,6 +51,9 @@ define(function () {
                             break;
                         case app.models.project.getUserProjectsPath(app.currentUser.userId):
                             showPage("projects", event);
+                            break;
+                        case app.models.project.getProjectPath("id"):
+                            showPage("project-profile", event);
                             break;
                         default:
                             return true;

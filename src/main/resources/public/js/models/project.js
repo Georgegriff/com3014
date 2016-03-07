@@ -1,13 +1,22 @@
 /* global define: true, document: true */
-define(['jquery'],
-        function ($) {
+define(['jquery', 'js/models/requests'],
+        function ($, Requests) {
             "use strict";
+            function getUserProjectsPath(userId) {
+                return "/user/" + userId + "/projects";
+            }
+            function getProjectPath(projectId) {
+                return "/project/" + projectId;
+            }
             return {
-                getUserProjectsPath: function (userId) {
-                    return "/user/" + userId + "/projects";
-                },
+                getUserProjectsPath: getUserProjectsPath,
                 getUserProjects: function (id) {
-                    return $.getJSON("/user/" + id + "/projects");
+                    return Requests.getJSON(getUserProjectsPath(id));
+                },
+                getProjectPath: getProjectPath,
+                getProject: function (projectId) {
+                    return Requests.getJSON(getProjectPath(projectId));
                 }
+
             };
         });

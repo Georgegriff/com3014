@@ -31,6 +31,7 @@ define(['underscore', 'jquery', 'text!js/pages/projects/template/template.html']
                         function createProjectTile(project) {
                             var $tiles = $('.tiles'),
                                     tile = new app.Tile(project.name, project.description);
+                            tile.setLink(app.models.project.getProjectPath(project.projectId));
                             tile.attachTo($tiles);
                         }
                         function show() {

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author George
  */
 @RestController
+@RequestMapping("/services")
 public class RestUserService {
 
     @Autowired
@@ -26,6 +27,7 @@ public class RestUserService {
     public User getUser(@PathVariable String id) {
         return userService.getUser(Integer.parseInt(id));
     }
+
     @RequestMapping(value = "/userinfo", headers = "Accept=application/json")
     public User getCurrentUser() {
         //TODO:: hard coded to user 1 at the momentT

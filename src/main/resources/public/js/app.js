@@ -15,12 +15,12 @@ define(['underscore',
                 App.prototype.init = function init() {
                     self.initModels();
                     self.loadComponents();
-                    self.initialiseUser().
-                            then(self.loadPlugins)
-                            .then(initRouteHandler)
-                            .then();
-                    self.pages = {};
                     routing = new Routing(self);
+                    self.initialiseUser()
+                            .then(self.loadPlugins)
+                            .then(initRouteHandler);
+                    self.pages = {};
+
                 };
                 App.prototype.initialiseUser = function initUser() {
                     return UserModel.getCurrentUser().then(function (user) {
@@ -47,8 +47,8 @@ define(['underscore',
                 App.prototype.routeHandler = function routeHandler(route, event) {
                     routing.routeHandler(route, event);
                 };
-           
-                
+
+
                 /**
                  * Lazy load a module
                  * @param {type} path

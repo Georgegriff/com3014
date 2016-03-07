@@ -1,16 +1,16 @@
 /* global define: true, document: true */
-define(['jquery'],
-        function ($) {
+define(['jquery','js/models/requests'],
+        function ($, Requests) {
             "use strict";
             var USER_PATH = "/user",
                     CURRENT_USER = "/userinfo",
                     currentUser = null;
             return {
                 getUser: function (id) {
-                    return $.getJSON(USER_PATH + id);
+                    return Requests.getJSON(USER_PATH + id);
                 },
                 getCurrentUser: function () {
-                    return $.getJSON(CURRENT_USER).then(function (user) {
+                    return Requests.getJSON(CURRENT_USER).then(function (user) {
                         currentUser = user;
                         return user;
                     });
