@@ -1,5 +1,5 @@
 /* global define: true, document: true */
-define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.html'],
+define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm'],
         function (_, $, Template) {
             "use strict";
             return {
@@ -9,9 +9,10 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         var $page = $(app.parseTemplate(Template));
 
                         function render() {
-                            if (app.swipers) {   
-                                app.swipers.attachTo($page);
-                                app.swipers.showSwipers();
+                            var swipers =  app.plugins.swipers;
+                            if (swipers) {   
+                                swipers.attachTo($page);
+                                swipers.showSwipers();
                                 
                             }
                         }

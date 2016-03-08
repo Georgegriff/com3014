@@ -1,5 +1,5 @@
 /* global define: true, document: true */
-define(['underscore', 'jquery', 'js/plugins/swipers/swiper', 'text!js/plugins/swipers/template/template.html'], function (_, $, Swiper, Template) {
+define(['underscore', 'jquery', 'js/plugins/swipers/swiper', 'text!js/plugins/swipers/template/template.htm'], function (_, $, Swiper, Template) {
     "use strict";
     return  {
         init: function (app) {
@@ -57,7 +57,7 @@ define(['underscore', 'jquery', 'js/plugins/swipers/swiper', 'text!js/plugins/sw
                 };
             }
 
-            app.swipers = new Swipers();
+            return new Swipers();
         }
     };
 

@@ -1,5 +1,5 @@
 /* global define: true, document: true */
-define(['underscore', 'jquery', 'text!js/pages/project-profile/template/template.html'],
+define(['underscore', 'jquery', 'text!js/pages/project-profile/template/template.htm'],
         function (_, $, Template) {
             "use strict";
             return {

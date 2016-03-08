@@ -1,5 +1,5 @@
 /* global define: true, document: true */
-define(['underscore', 'jquery', 'text!js/pages/projects/template/template.html'],
+define(['underscore', 'jquery', 'text!js/pages/projects/template/template.htm'],
         function (_, $, Template) {
             "use strict";
             return {
@@ -30,7 +30,7 @@ define(['underscore', 'jquery', 'text!js/pages/projects/template/template.html']
                         }
                         function createProjectTile(project) {
                             var $tiles = $('.tiles'),
-                                    tile = new app.Tile(project.name, project.description);
+                                    tile = new app.plugins.Tile(project.name, project.description);
                             tile.setLink(app.models.project.getProjectPath(project.projectId));
                             tile.attachTo($tiles);
                         }

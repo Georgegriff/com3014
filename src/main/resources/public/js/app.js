@@ -3,19 +3,21 @@ define(['underscore',
     'jquery',
     'js/components/banner/banner',
     'js/components/core-container/container',
-    "text!js/plugins.json",
     "js/routing",
+    "js/pluginloader",
     "js/models/user",
     "js/models/project"],
-        function (_, $, banner, container, PluginConfig, Routing, UserModel, ProjectModel) {
+        function (_, $, banner, container, Routing, PluginLoader, UserModel, ProjectModel) {
             "use strict";
             function App() {
                 var self = this,
-                        routing = null;
+                        routing = null,
+                        pluginLoader = null;
                 App.prototype.init = function init() {
                     self.initModels();
                     self.loadComponents();
                     routing = new Routing(self);
+                    pluginLoader = new PluginLoader(self);
                     self.initialiseUser()
                             .then(self.loadPlugins)
                             .then(initRouteHandler);
@@ -74,7 +76,7 @@ define(['underscore',
                         });
                     });
                     return promise;
-                }
+                };
                 /**
                  * 
                  *Initialise core components that can have plugins attached to
@@ -89,10 +91,7 @@ define(['underscore',
                  *@param {Array} pluginNames pluginName
                  */
                 App.prototype.loadPlugins = function loadPlugins() {
-                    var pluginNames = JSON.parse(PluginConfig).plugins,
-                            PLUGIN_PATH_ROOT = "js/plugins/",
-                            PLUGIN_FILE = "/plugin";
-                    return self.requireModule(PLUGIN_PATH_ROOT, pluginNames, PLUGIN_FILE);
+                    return pluginLoader.loadPlugins();
                 };
                 App.prototype.parseTemplate = function parseTemplate(html, attributes) {
                     return _.template(html)(attributes || {});

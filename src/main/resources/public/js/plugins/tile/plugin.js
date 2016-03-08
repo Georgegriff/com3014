@@ -1,5 +1,5 @@
 /* global define: true, document: true */
-define(['underscore', 'jquery', 'text!js/plugins/tile/template/template.html'],
+define(['underscore', 'jquery', 'text!js/plugins/tile/template/template.htm'],
         function (_, $, Template) {
             "use strict";
             return {
@@ -27,7 +27,7 @@ define(['underscore', 'jquery', 'text!js/plugins/tile/template/template.html'],
                         };
                     }
 
-                    app.Tile = Tile;
+                    return Tile;
                 }
             };
         });

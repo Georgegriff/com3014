@@ -1,5 +1,5 @@
 /* global define: true, document: true */
-define(['underscore', 'jquery', 'jquery.ui', 'text!js/plugins/sidemenu/template/template.html', 'js/models/user'],
+define(['underscore', 'jquery', 'jquery.ui', 'text!js/plugins/sidemenu/template/template.htm', 'js/models/user'],
         function (_, $, $UI, Template, User) {
             "use strict";
             return {
