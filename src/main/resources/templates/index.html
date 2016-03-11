@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="css/main.css"/>
 
     </head>
-    <body>
+    <body>    
         <header id="site-header">
             <ul id="header-cont">
                 <li class="flex-left flex-center-row"><span class="site-logo"><a href="/">ProMatch</a></span></li>
@@ -30,7 +30,13 @@
             </ul>
         </header>
         <article id="container"><section id="content"></section></article>
-        <footer></footer>
+        <footer>
+            <div style="display:none;" id="logout-form">
+                <form th:action="@{/logout}" method="post">
+                    <input class="core-button" type="submit" value="Sign Out"/>
+                </form>
+            </div>
+        </footer>
 
     </body>
 </html>

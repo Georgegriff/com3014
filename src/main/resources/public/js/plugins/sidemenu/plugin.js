@@ -4,9 +4,10 @@ define(['underscore', 'jquery', 'jquery.ui', 'text!js/plugins/sidemenu/template/
             "use strict";
             return {
                 init: function (app) {
+
                     var menu = new Menu();
                     app.banner.attachMenu(menu);
-
+                    appendLoginButton();
                     menu.addItem({
                         text: app.currentUser.name + " " + app.currentUser.surname,
                         href: User.getProfile(app.currentUser.userId)
@@ -22,6 +23,12 @@ define(['underscore', 'jquery', 'jquery.ui', 'text!js/plugins/sidemenu/template/
                         }
                     });
 
+                    function appendLoginButton() {
+                        var $logoutForm = $('#logout-form');
+                        $('#logout-area').append($logoutForm);
+                        $logoutForm.show();
+
+                    }
 
                     function Menu() {
                         var html = app.parseTemplate(Template),
@@ -80,7 +87,7 @@ define(['underscore', 'jquery', 'jquery.ui', 'text!js/plugins/sidemenu/template/
                                 if (_.isFunction(item.onClick)) {
                                     $item.click(item.onClick);
                                 }
-                                $item.click(function(){
+                                $item.click(function () {
                                     hide();
                                 });
                             }

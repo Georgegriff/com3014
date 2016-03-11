@@ -29,12 +29,12 @@ define(['underscore',
                         self.currentUser = user;
                     });
 
-                }
+                };
                 App.prototype.initModels = function initModels() {
                     self.models = {};
                     self.models.user = UserModel;
                     self.models.project = ProjectModel;
-                }
+                };
                 function initRouteHandler() {
                     $('a').on('click', function (event) {
                         return self.routeHandler($(this).attr("href"), event);
