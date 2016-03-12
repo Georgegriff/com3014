@@ -10,7 +10,14 @@ require.config({
     }
 
 });
-
+require.onError = function (err) {
+    if (err.requireType === 'timeout') {
+        alert("error: "+err);
+    } 
+    else {
+        throw err;
+    }   
+};    
 require(['jquery', 'js/app'], function ($, app) {
     "use strict";
 

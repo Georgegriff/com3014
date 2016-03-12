@@ -7,6 +7,7 @@ package com.com3014.group1.projectmatching.rest;
 
 import com.com3014.group1.projectmatching.core.services.UserService;
 import com.com3014.group1.projectmatching.model.User;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,8 +31,7 @@ public class RestUserService {
     }
 
     @RequestMapping(value = "/userinfo", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
-    public User getCurrentUser() {
-        //TODO:: hard coded to user 1 at the momentT
-        return userService.getUser(1);
+    public User getCurrentUser(HttpSession session) {
+    return (User) session.getAttribute("currentUser");
     }
 }

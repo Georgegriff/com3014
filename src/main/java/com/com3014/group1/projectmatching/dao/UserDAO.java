@@ -20,18 +20,24 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class UserDAO {
-    
-    private Map<Integer, User> users;
-    
-    public UserDAO(){
-        this.users = getAllUsers();
+
+    private Map<String, User> usernameMap;
+
+    private Map<Integer, User> userIdMap;
+
+    public UserDAO() {
+        getAllUsers();
     }
-    
-      public User findUserById(int id){
-       return this.users.get(id);
+
+    public User findUserById(int id) {
+        return this.userIdMap.get(id);
     }
-    
-    private Map<Integer, User> getAllUsers() {
+
+    public User findUserByUsername(String userName) {
+        return this.usernameMap.get(userName);
+    }
+
+    private void getAllUsers() {
 
         List<Skill> skills = new ArrayList<Skill>();
         skills.add(new Skill("Java", 12));
@@ -73,11 +79,14 @@ public class UserDAO {
         user2.setQualifications(qualifications2);
         user2.setInterests(new ArrayList<String>(Arrays.asList(new String[]{"Web Design", "Networking"})));
 
-        Map<Integer, User> userMap = new HashMap<Integer, User>();
-        userMap.put(user1.getUserId(), user1);
-        userMap.put(user2.getUserId(), user2);
+        this.usernameMap = new HashMap<String, User>();
+        this.usernameMap.put(user1.getUsername(), user1);
+        this.usernameMap.put(user2.getUsername(), user2);
 
-        return userMap;
+        this.userIdMap = new HashMap<Integer, User>();
+        this.userIdMap.put(user1.getUserId(), user1);
+        this.userIdMap.put(user2.getUserId(), user2);
+
     }
 
 }

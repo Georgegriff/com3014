@@ -23,6 +23,10 @@ public class UserService {
     public User getUser(int id){
         return userDAO.findUserById(id);
     }
+
+public User getUserByUsername(String userName) {
+         return userDAO.findUserByUsername(userName);
+    }
    
 
 }

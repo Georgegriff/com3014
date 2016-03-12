@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package com.com3014.group1.projectmatching.model;
-
 import java.util.List;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +25,7 @@ public class User {
     private List<Skill> skills;
     private List<Qualification> qualifications;
     private List<String> interests;
+    private AccountType accountType = AccountType.INTERNAL;
 
     /**
      * Empty constructor so fields can be filled with
@@ -34,7 +34,7 @@ public class User {
     }
 
     public User(int userId, String username, String name, String surname, String email,
-            float averageRating, Location location, List<Skill> skills, List<Qualification> qualifications, List<String> interests) {
+            float averageRating, Location location, List<Skill> skills, List<Qualification> qualifications, List<String> interests, AccountType accountType) {
         this.userId = userId;
         this.username = username;
         this.name = name;
@@ -45,6 +45,12 @@ public class User {
         this.skills = skills;
         this.qualifications = qualifications;
         this.interests = interests;
+        this.accountType = accountType;
+    }
+
+    public User(int userId, String username, String name, String surname, String email,
+            float averageRating, Location location, List<Skill> skills, List<Qualification> qualifications, List<String> interests) {
+       this(userId,username, name, surname, email, averageRating, location, skills, qualifications, interests, AccountType.INTERNAL);
     }
 
     public int getUserId() {
@@ -127,4 +133,11 @@ public class User {
         this.interests = interests;
     }
 
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType type) {
+        this.accountType = type;
+    }
 }
