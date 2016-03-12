@@ -7,6 +7,7 @@ package com.com3014.group1.projectmatching.core.services;
 
 import com.com3014.group1.projectmatching.dao.UserDAO;
 import com.com3014.group1.projectmatching.model.User;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,10 +24,13 @@ public class UserService {
     public User getUser(int id){
         return userDAO.findUserById(id);
     }
-
-public User getUserByUsername(String userName) {
+    
+    public Map<Integer, User> getAllUsers() {
+        return userDAO.getUserIdMap();
+    }
+    
+    public User getUserByUsername(String userName) {
          return userDAO.findUserByUsername(userName);
     }
    
-
 }

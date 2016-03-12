@@ -29,6 +29,10 @@ public class UserDAO {
         getAllUsers();
     }
 
+    public Map<Integer, User> getUserIdMap() {
+        return this.userIdMap;
+    }
+    
     public User findUserById(int id) {
         return this.userIdMap.get(id);
     }
