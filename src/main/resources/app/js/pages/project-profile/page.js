@@ -4,6 +4,7 @@ define(['underscore', 'jquery', 'text!js/pages/project-profile/template/template
             "use strict";
             return {
                 init: function (app, pageName) {
+
                     function Page() {
                         var $page = null;
 

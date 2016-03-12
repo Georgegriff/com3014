@@ -106,6 +106,54 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>0.0.22</version>
+                <configuration>
+                    <workingDirectory>src/main/resources</workingDirectory>
+                    <nodeVersion>v0.12.12</nodeVersion>
+                    <npmVersion>2.14.9</npmVersion>
+                    <installDirectory>src/main/resources</installDirectory>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>install node and npm</id>
+                        <goals>
+                            <goal>install-node-and-npm</goal>
+                        </goals>
+                  
+                        <phase>generate-resources</phase>
+                    </execution>
+                    <execution>
+                        <id>npm install</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>install</arguments>
+                            <installDirectory>src</installDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>gulp build</id>
+                        <goals>
+                            <goal>gulp</goal>
+                        </goals>
+
+                        <!--                         optional: the default phase is "generate-resources" -->
+                        <phase>generate-resources</phase>
+
+                        <configuration>   
+                            <arguments>build</arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+             
+            </plugin>
+
+
         </plugins>
     </build>
 
