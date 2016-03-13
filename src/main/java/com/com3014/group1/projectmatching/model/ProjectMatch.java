@@ -1,5 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
+ * To change this license header, choose License Headers in ProjectEntity Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -35,7 +35,7 @@ public class ProjectMatch implements Serializable {
     @NotNull
     @ManyToOne
     @JoinColumn(name ="project_id")
-    private Project project;
+    private ProjectEntity project;
     
     @NotNull
     @Column (name = "cache_expire")
@@ -56,7 +56,7 @@ public class ProjectMatch implements Serializable {
         this.setId = setId;
     }
 
-    public void setProject(Project project) {
+    public void setProject(ProjectEntity project) {
         this.project = project;
     }
 
@@ -76,7 +76,7 @@ public class ProjectMatch implements Serializable {
         this.statusControl = statusControl;
     }   
 
-    public Project getProject() {
+    public ProjectEntity getProject() {
         return project;
     }
 }

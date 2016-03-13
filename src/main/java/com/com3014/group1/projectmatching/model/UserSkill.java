@@ -28,7 +28,7 @@ public class UserSkill implements Serializable {
     @Id
     @ManyToOne
     @JoinColumn(name ="user_id")
-    private User user;
+    private UserEntity user;
     
     @Id
     @ManyToOne
@@ -39,7 +39,7 @@ public class UserSkill implements Serializable {
     @Column(name = "months_of_experience")
     private int monthsOfExperience;
     
-    public void setUser(User user) {
+    public void setUser(UserEntity user) {
         this.user = user;
     }
     

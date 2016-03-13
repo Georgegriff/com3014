@@ -32,7 +32,7 @@ public class ProjectSet implements Serializable {
     @Id
     @OneToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserEntity user;
   
     public ProjectSet() {
     }
@@ -41,11 +41,11 @@ public class ProjectSet implements Serializable {
         this.set = set;
     }
 
-    public User getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserEntity user) {
         this.user = user;
     }
 

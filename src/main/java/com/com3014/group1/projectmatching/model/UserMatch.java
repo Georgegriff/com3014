@@ -35,7 +35,7 @@ public class UserMatch implements Serializable {
     @NotNull
     @ManyToOne
     @JoinColumn(name ="user_id")
-    private User user;
+    private UserEntity user;
     
     @NotNull
     @Column (name = "cache_expire")
@@ -56,7 +56,7 @@ public class UserMatch implements Serializable {
         this.setId = setId;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserEntity user) {
         this.user = user;
     }
 
@@ -76,7 +76,7 @@ public class UserMatch implements Serializable {
         this.statusControl = statusControl;
     }
 
-    public User getUser() {
+    public UserEntity getUser() {
         return user;
     }
 }

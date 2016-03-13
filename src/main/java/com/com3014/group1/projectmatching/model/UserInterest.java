@@ -32,7 +32,7 @@ public class UserInterest implements Serializable {
    
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserEntity user;
     
     @NotNull
     @Column (name="interest")
@@ -57,11 +57,7 @@ public class UserInterest implements Serializable {
         this.interestId = interestId;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserEntity user) {
         this.user = user;
-    }
-
-    public User getUser() {
-        return user;
     }
 }

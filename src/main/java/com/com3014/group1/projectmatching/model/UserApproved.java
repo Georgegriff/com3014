@@ -1,5 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
+ * To change this license header, choose License Headers in ProjectEntity Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -26,29 +26,29 @@ public class UserApproved implements Serializable {
     @Id
     @ManyToOne
     @JoinColumn(name ="user_id")
-    private User user;
+    private UserEntity user;
     
     @Id
     @ManyToOne
     @JoinColumn(name ="project_id")
-    private Project project;
+    private ProjectEntity project;
     
     public UserApproved() {
     }
     
-    public void setUser(User user) {
+    public void setUser(UserEntity user) {
         this.user = user;
     }
 
-    public Project getProject() {
+    public ProjectEntity getProject() {
         return project;
     }
 
-    public void setProject(Project project) {
+    public void setProject(ProjectEntity project) {
         this.project = project;
     }   
 
-    public User getUser() {
+    public UserEntity getUser() {
         return user;
     }
     

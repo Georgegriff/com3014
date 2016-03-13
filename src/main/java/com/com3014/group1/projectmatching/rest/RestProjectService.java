@@ -1,7 +1,7 @@
 package com.com3014.group1.projectmatching.rest;
 
 import com.com3014.group1.projectmatching.core.services.ProjectService;
-import com.com3014.group1.projectmatching.model.Project;
+import com.com3014.group1.projectmatching.dto.Project;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -17,7 +17,6 @@ public class RestProjectService {
 
     @Autowired
     private ProjectService projectService;
-    
     
     @RequestMapping(value = "/project/{id}", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
     public Project getProject(@PathVariable String id) {

@@ -24,7 +24,7 @@ import org.hibernate.annotations.Type;
  */
 @Entity
 @Table(name = "roles")
-public class Role implements Serializable {
+public class RoleEntity implements Serializable {
 
     @Id
     @Column(name = "role_id")
@@ -43,7 +43,7 @@ public class Role implements Serializable {
     )
     private Payment payment;
 
-    public Role() {
+    public RoleEntity() {
     }
     
     public int getRoleId() {

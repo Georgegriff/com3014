@@ -27,7 +27,7 @@ public class RoleQualification implements Serializable {
     @Id
     @ManyToOne
     @JoinColumn(name ="role_id")
-    private Role role;
+    private RoleEntity role;
     
     @Id
     @ManyToOne
@@ -43,7 +43,7 @@ public class RoleQualification implements Serializable {
     public RoleQualification() {
     }
 
-    public void setRole(Role role) {
+    public void setRole(RoleEntity role) {
         this.role = role;
     }
 
@@ -69,10 +69,6 @@ public class RoleQualification implements Serializable {
 
     public void setRequired(boolean required) {
         this.required = required;
-    }
-
-    public Role getRole() {
-        return role;
     }
     
     public static class RoleQualificationPK implements Serializable {

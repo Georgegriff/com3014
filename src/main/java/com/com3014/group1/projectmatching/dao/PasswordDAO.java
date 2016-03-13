@@ -3,17 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.com3014.group1.projectmatching.repositories;
+package com.com3014.group1.projectmatching.dao;
 
-import com.com3014.group1.projectmatching.model.User;
+import com.com3014.group1.projectmatching.model.Password;
+import com.com3014.group1.projectmatching.model.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author Daniel
  */
-@Repository
-public interface UserRepository extends JpaRepository<User, Integer>{
-    
+public interface PasswordDAO extends JpaRepository<Password, Integer> {
 }

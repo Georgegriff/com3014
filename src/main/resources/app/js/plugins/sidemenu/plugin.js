@@ -9,7 +9,7 @@ define(['underscore', 'jquery', 'jquery.ui', 'text!js/plugins/sidemenu/template/
                     app.banner.attachMenu(menu);
                     appendLoginButton();
                     menu.addItem({
-                        text: app.currentUser.name + " " + app.currentUser.surname,
+                        text: app.currentUser.name,
                         href: User.getProfile(app.currentUser.userId)
                     });
                     menu.addItem({

@@ -1,5 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
+ * To change this license header, choose License Headers in ProjectEntity Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -27,7 +27,7 @@ import org.hibernate.annotations.Type;
  */
 @Entity
 @Table(name = "projects")
-public class Project implements Serializable {
+public class ProjectEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -58,7 +58,7 @@ public class Project implements Serializable {
     )
     private Location location;
 
-    public Project() {
+    public ProjectEntity() {
     }
 
     public int getProjectId() {

@@ -29,7 +29,7 @@ public class UserQualification implements Serializable {
     @Id
     @ManyToOne
     @JoinColumn(name ="user_id")
-    private User user;
+    private UserEntity user;
     
     @Id
     @ManyToOne
@@ -43,7 +43,7 @@ public class UserQualification implements Serializable {
     public UserQualification() {
     }
 
-    public void setUser(User user) {
+    public void setUser(UserEntity user) {
         this.user = user;
     }
 
@@ -61,10 +61,6 @@ public class UserQualification implements Serializable {
 
     public void setSubject(String subject) {
         this.subject = subject;
-    }
-
-    public User getUser() {
-        return user;
     }
     
     public static class UserQualificationPK implements Serializable {

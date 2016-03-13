@@ -15,18 +15,18 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
- * The definition of a User
+ * The definition of a UserEntity
  *
  * @author Sam Waters
  * @author Dan Ashworth
  */
 @Entity
 @Table(name = "users")
-public class User implements Serializable {
+public class UserEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    //@Column(name="user_id")
+    @Column(name="user_id")
     private Integer userId;
     
     @Column(name="username")
@@ -47,7 +47,7 @@ public class User implements Serializable {
     @Column(name="average_rating", nullable = true)
     private Float averageRating;
 
-    public User() {
+    public UserEntity() {
     }
     
     public Integer getUserId() {
@@ -121,7 +121,7 @@ public class User implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final User other = (User) obj;
+        final UserEntity other = (UserEntity) obj;
         if (!Objects.equals(this.username, other.username)) {
             return false;
         }

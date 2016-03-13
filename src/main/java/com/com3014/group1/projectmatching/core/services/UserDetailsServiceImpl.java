@@ -5,8 +5,7 @@
  */
 package com.com3014.group1.projectmatching.core.services;
 
-
-import com.com3014.group1.projectmatching.model.User;
+import com.com3014.group1.projectmatching.dto.User;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +37,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
       
     }
     private List<GrantedAuthority> buildAuthUser(User user){
-         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-          authorities.add(new SimpleGrantedAuthority("USER"));
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        authorities.add(new SimpleGrantedAuthority("USER"));
         return authorities;
 
     }

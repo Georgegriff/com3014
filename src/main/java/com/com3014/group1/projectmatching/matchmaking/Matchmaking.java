@@ -6,12 +6,9 @@
 package com.com3014.group1.projectmatching.matchmaking;
 
 
-import com.com3014.group1.projectmatching.model.Location;
-import com.com3014.group1.projectmatching.model.UserQualification;
-
 import com.com3014.group1.projectmatching.model.Skill;
-import com.com3014.group1.projectmatching.model.User;
-import com.com3014.group1.projectmatching.model.Role;
+import com.com3014.group1.projectmatching.dto.User;
+import com.com3014.group1.projectmatching.dto.Role;
 
 import com.com3014.group1.projectmatching.core.services.*;
 
@@ -39,7 +36,6 @@ public class Matchmaking {
     public Matchmaking(){
     }
     
-    
     // generate random number between min and max
     public static double randDouble(double min, double max) {
         Random rand = new Random();
@@ -51,7 +47,7 @@ public class Matchmaking {
     // Calculate the fitness score for a particular user to a role
     public double calculateUserScore(User user, Role role) {
         // a list of skills desired but not required for this role
-        List<Skill> skillsPreferedForRole = role.getSkills(); // <- PLACEHOLDER!
+        List<Skill> skillsPreferedForRole = role.getSkillsList(); // <- PLACEHOLDER!
 
         // get the last login date of the user from the users array
         Date lastLogin = new Date(); // <- PLACEHOLDER!
@@ -71,7 +67,7 @@ public class Matchmaking {
         int numberDesiredSkillsUserHas = 0;
         
         for (Skill Preferedskill : skillsPreferedForRole) {
-            if(user.getSkills().contains(Preferedskill)) {
+            if(user.getSkillsList().contains(Preferedskill)) {
                 numberDesiredSkillsUserHas+= 1;
             }
         }
@@ -91,7 +87,7 @@ public class Matchmaking {
     // Returns an array of user id's, ordered by matchmaking score
     List<User> findUsersForRole(Role role) {
         // a list of skills required for this role
-        List<Skill> skillsRequiredForRole = role.getSkills();
+        List<Skill> skillsRequiredForRole = role.getSkillsList();
         // a map of all users
         Map<Integer, User> allUsersMap = userService.getAllUsers();
         // a map of users already accepted or rejected
@@ -106,7 +102,7 @@ public class Matchmaking {
             // check if the user has not already been swiped
             if(false == alreadySwiped.contains(userID)) {
                                 
-                List<Skill> usersSkills = user.getSkills();
+                List<Skill> usersSkills = user.getSkillsList();
                 
                 if(true == usersSkills.containsAll(skillsRequiredForRole)) {
                     double userScore = calculateUserScore(user, role);
@@ -126,11 +122,8 @@ public class Matchmaking {
 
         return usersOrdered;
     }
-    
-    
+
     // returns an array of role id's, ordered by score
     public void findRolesForUser() {
-    
-    
     }    
 }
