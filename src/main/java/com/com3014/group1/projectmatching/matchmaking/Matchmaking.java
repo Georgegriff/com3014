@@ -5,8 +5,10 @@
  */
 package com.com3014.group1.projectmatching.matchmaking;
 
+
 import com.com3014.group1.projectmatching.model.Location;
 import com.com3014.group1.projectmatching.model.UserQualification;
+
 import com.com3014.group1.projectmatching.model.Skill;
 import com.com3014.group1.projectmatching.model.User;
 import com.com3014.group1.projectmatching.model.Role;
@@ -21,23 +23,28 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.Map;
 import java.util.HashMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Elliot
  */
+@Component
 public class Matchmaking {
     
+    @Autowired
+    private UserService userService;
     
     public Matchmaking(){
     }
-    /*
+    
     
     // generate random number between min and max
     public static double randDouble(double min, double max) {
         Random rand = new Random();
-        double random_number = min + (max - min) * rand.nextDouble();
-        return random_number;
+        double randomNumber = min + (max - min) * rand.nextDouble();
+        return randomNumber;
     }
     
     
@@ -47,18 +54,18 @@ public class Matchmaking {
         List<Skill> skillsPreferedForRole = role.getSkills(); // <- PLACEHOLDER!
 
         // get the last login date of the user from the users array
-        Date last_login = new Date(); // <- PLACEHOLDER!
-        int number_days_since_last_login = (int)((new Date().getTime() - last_login.getTime()) / (1000 * 60 * 60 * 24) );
-        double login_time_weighting = 10.0;
+        Date lastLogin = new Date(); // <- PLACEHOLDER!
+        int numberDaysSinceLastLogin = (int)((new Date().getTime() - lastLogin.getTime()) / (1000 * 60 * 60 * 24) );
+        double loginTimeWeighting = 10.0;
 
         // calculate the weighting from the dates of last login
-        if(number_days_since_last_login > 10.0) {
-            if(number_days_since_last_login > 300) {
-                login_time_weighting = 0.0;
+        if(numberDaysSinceLastLogin > 10.0) {
+            if(numberDaysSinceLastLogin > 300) {
+                loginTimeWeighting = 0.0;
             }
         }
         else {
-            login_time_weighting = 10.0 - ((number_days_since_last_login / 300.0) * 10.0);
+            loginTimeWeighting = 10.0 - ((numberDaysSinceLastLogin / 300.0) * 10.0);
         } 
 
         int numberDesiredSkillsUserHas = 0;
@@ -70,13 +77,13 @@ public class Matchmaking {
         }
         
         // calculate the weighting from the users skills
-        double skills_weighting = ((numberDesiredSkillsUserHas/skillsPreferedForRole.size()) * 10.0);
+        double skillsWeighting = ((numberDesiredSkillsUserHas/skillsPreferedForRole.size()) * 10.0);
 
         // generate a random weighting
-        double random_weighting = randDouble(0.0, 5.0);
+        double randomWeighting = randDouble(0.0, 5.0);
 
         // calculate the users matchmaking score 
-        double userScore = login_time_weighting + skills_weighting + random_weighting;                  
+        double userScore = loginTimeWeighting + skillsWeighting + randomWeighting;                  
         return userScore;
     }
     
@@ -85,10 +92,8 @@ public class Matchmaking {
     List<User> findUsersForRole(Role role) {
         // a list of skills required for this role
         List<Skill> skillsRequiredForRole = role.getSkills();
-        // the user service
-        UserService service = new UserService();
         // a map of all users
-        Map<Integer, User> allUsersMap = service.getAllUsers();
+        Map<Integer, User> allUsersMap = userService.getAllUsers();
         // a map of users already accepted or rejected
         Map<Integer, User> alreadySwipedMap = new HashMap<>(); // <- PLACEHOLDER!
         
@@ -124,10 +129,8 @@ public class Matchmaking {
     
     
     // returns an array of role id's, ordered by score
-    void find_roles_for_user() {
+    public void findRolesForUser() {
     
     
-    }
-    */
-    
+    }    
 }

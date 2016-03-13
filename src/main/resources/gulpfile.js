@@ -1,12 +1,17 @@
-var TARGET_DIR = "../../../target/classes/",
-        gulp = require('gulp'),
+var directories = {
+    SRC_DIR: "./",
+    TARGET_DIR: "../../../target/classes/"
+},
+gulp = require('gulp'),
         amdOptimize = require("amd-optimize"),
         uglify = require("gulp-uglify"),
-        concat = require("gulp-concat");
-gulp.task('scripts', function () {
-    return gulp.src("public/js/**/*.js")
+        concat = require("gulp-concat"),
+        concatCss = require('gulp-concat-css'),
+        autoprefixer = require('gulp-autoprefixer');
+gulp.task('optimise-scripts', function () {
+    return gulp.src("app/js/**/*.js")
             .pipe(amdOptimize("js/main", {
-                baseUrl: 'public/',
+                baseUrl: 'app/',
                 paths: {
                     jquery: 'js/vendor/jquery.min',
                     'jquery.ui': 'js/vendor/jquery-ui.min',
@@ -16,35 +21,79 @@ gulp.task('scripts', function () {
             }))
             .pipe(concat("main.js"))
             .pipe(uglify())
-            .pipe(gulp.dest('public/dist/js'))
+            .pipe(gulp.dest('public/js'));
+});
+gulp.task('copy-deps-js', function(){
+      return gulp.src('app/js/vendor/{require,text}.js')
+            .pipe(gulp.dest('public/js/vendor'));
 });
 gulp.task('copyjson', function () {
-    return gulp.src('public/js/**/*.{json}')
-            .pipe(gulp.dest('public/dist/js'));
+    return gulp.src('app/js/**/**/*.json')
+            .pipe(gulp.dest('public/js'));
+});
+
+
+gulp.task('copy-plugins', function () {
+    return gulp.src("app/js/plugins/**/*.*")
+            .pipe(gulp.dest("public/js/plugins"));
+});
+gulp.task('copy-pages', function () {
+    return gulp.src("app/js/pages/**/*.*")
+            .pipe(gulp.dest("public/js/pages"));
+});
+gulp.task('copy-css', function () {
+    return gulp.src("app/css/**/*.css")
+            .pipe(autoprefixer({
+                browsers: ['last 2 versions'],
+                cascade: false
+            }))
+            .pipe(gulp.dest('public/css'));
+});
+gulp.task('copy-img', function () {
+    return gulp.src("app/img/**/*.*")
+            .pipe(gulp.dest(directories.SRC_DIR + "public/img"));
+});
+gulp.task('copy-templates', function () {
+    return gulp.src("templates/*.html")
+            .pipe(gulp.dest(directories.SRC_DIR + "templates"));
 });
 gulp.task('build', [
-    'scripts'
+    'copy-deps-js',
+    'optimise-scripts',
+    'copy-css',
+    'copy-img',
+    'copy-templates',
+    'copyjson',
+    'copy-pages',
+    'copy-plugins'
 ]);
+
+
+
 gulp.task('watch', function () {
-    gulp.watch('public/js/**/*.*').on('change', function () {
-         console.log("JavaScript Changed");
-          return gulp.src("public/js/**/*.*")
-                .pipe(gulp.dest(TARGET_DIR + "public/js"));
+    gulp.watch('app/js/**/**/*.*').on('change', function () {
+        console.log("Building JavaScript..");
+        return gulp.src("app/js/**/*.*")
+                .pipe(gulp.dest(directories.TARGET_DIR + "public/js"));
     });
-    gulp.watch('public/css/**/*.*').on('change', function () {
-         console.log("CSS Changed");
-          return gulp.src("public/css/**/*.*")
-                .pipe(gulp.dest(TARGET_DIR + "public/css"));
+    gulp.watch('app/css/**/*.*').on('change', function () {
+        console.log("Building CSS..");
+        return gulp.src("app/css/**/*.*")
+                .pipe(concatCss("main.css"))
+                .pipe(autoprefixer({
+                    browsers: ['last 2 versions'],
+                    cascade: false
+                })).pipe(gulp.dest(directories.TARGET_DIR + 'public/css'));
     });
-    gulp.watch('public/img/**/*.*').on('change', function () {
-         console.log("(IMG Changed");
-          return gulp.src("public/img/**/*.*")
-                .pipe(gulp.dest(TARGET_DIR + "public/img"));
+    gulp.watch('app/img/**/*.*').on('change', function () {
+        console.log("(Building Images..");
+        return gulp.src("app/img/**/*.*")
+                .pipe(gulp.dest(directories.TARGET_DIR + "public/img"));
     });
     gulp.watch('templates/*.html').on('change', function () {
-        console.log("Template Changed");
+        console.log("Building Templates...");
         return gulp.src("templates/*.html")
-                .pipe(gulp.dest(TARGET_DIR + "templates"));
+                .pipe(gulp.dest(directories.TARGET_DIR + "templates"));
 
     });
 });
