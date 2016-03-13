@@ -36,6 +36,7 @@ CREATE TABLE match_making.passwords(
 , password VARCHAR(45) 
 , salt VARCHAR(45) UNIQUE
 , jwt_token VARCHAR(45)
+, refresh_token VARCHAR(100)
 , PRIMARY KEY(user_id)
 , FOREIGN KEY (user_id) REFERENCES match_making.users(user_id)
 );
@@ -75,6 +76,7 @@ CREATE TABLE match_making.roles(
   role_id INT NOT NULL AUTO_INCREMENT
 , name VARCHAR(45) NOT NULL UNIQUE
 , payment DECIMAL(6,2) NOT NULL
+, payment_type VARCHAR(30) NOT NULL
 , PRIMARY KEY (role_id)
 );
 
@@ -108,7 +110,8 @@ CREATE TABLE match_making.projects(
 , description LONGTEXT NOT NULL
 , project_start DATETIME
 , estimated_end DATETIME
-, location VARCHAR(45)
+, location_lat DECIMAL(12, 8)
+, location_lon DECIMAL(12,8)
 , PRIMARY KEY (project_id)
 );
 

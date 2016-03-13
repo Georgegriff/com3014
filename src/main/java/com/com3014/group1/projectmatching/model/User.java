@@ -4,60 +4,57 @@
  * and open the template in the editor.
  */
 package com.com3014.group1.projectmatching.model;
-import java.util.List;
-import org.springframework.stereotype.Component;
+import java.io.Serializable;
+import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  * The definition of a User
  *
  * @author Sam Waters
+ * @author Dan Ashworth
  */
-@Component
-public class User {
+@Entity
+@Table(name = "users")
+public class User implements Serializable {
 
-    private int userId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@Column(name="user_id")
+    private Integer userId;
+    
+    @Column(name="username")
     private String username;
+    
+    @NotNull
+    @Column(name="name")
     private String name;
+    
+    @NotNull
+    @Column(name="surname")
     private String surname;
+    
+    @NotNull
+    @Column(name="email")
     private String email;
-    private float averageRating;
-    private Location location;
-    private List<Skill> skills;
-    private List<Qualification> qualifications;
-    private List<String> interests;
-    private AccountType accountType = AccountType.INTERNAL;
+    
+    @Column(name="average_rating", nullable = true)
+    private Float averageRating;
 
-    /**
-     * Empty constructor so fields can be filled with
-     */
     public User() {
     }
-
-    public User(int userId, String username, String name, String surname, String email,
-            float averageRating, Location location, List<Skill> skills, List<Qualification> qualifications, List<String> interests, AccountType accountType) {
-        this.userId = userId;
-        this.username = username;
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.averageRating = averageRating;
-        this.location = location;
-        this.skills = skills;
-        this.qualifications = qualifications;
-        this.interests = interests;
-        this.accountType = accountType;
-    }
-
-    public User(int userId, String username, String name, String surname, String email,
-            float averageRating, Location location, List<Skill> skills, List<Qualification> qualifications, List<String> interests) {
-       this(userId,username, name, surname, email, averageRating, location, skills, qualifications, interests, AccountType.INTERNAL);
-    }
-
-    public int getUserId() {
+    
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -93,51 +90,58 @@ public class User {
         this.email = email;
     }
 
-    public float getAverageRating() {
+    public Float getAverageRating() {
         return averageRating;
     }
 
-    public void setAverageRating(float averageRating) {
+    public void setAverageRating(Float averageRating) {
         this.averageRating = averageRating;
     }
-
-    public Location getLocation() {
-        return location;
+   
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.userId);
+        hash = 67 * hash + Objects.hashCode(this.username);
+        hash = 67 * hash + Objects.hashCode(this.name);
+        hash = 67 * hash + Objects.hashCode(this.surname);
+        hash = 67 * hash + Objects.hashCode(this.email);
+        hash = 67 * hash + Objects.hashCode(this.averageRating);
+        return hash;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        if (!Objects.equals(this.username, other.username)) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.surname, other.surname)) {
+            return false;
+        }
+        if (!Objects.equals(this.email, other.email)) {
+            return false;
+        }
+        if (!Objects.equals(this.userId, other.userId)) {
+            return false;
+        }
+        if (!Objects.equals(this.averageRating, other.averageRating)) {
+            return false;
+        }
+        return true;
     }
-
-    public List<Skill> getSkills() {
-        return skills;
-    }
-
-    public void setSkills(List<Skill> skills) {
-        this.skills = skills;
-    }
-
-    public List<Qualification> getQualifications() {
-        return qualifications;
-    }
-
-    public void setQualifications(List<Qualification> qualifications) {
-        this.qualifications = qualifications;
-    }
-
-    public List<String> getInterests() {
-        return interests;
-    }
-
-    public void setInterests(List<String> interests) {
-        this.interests = interests;
-    }
-
-    public AccountType getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(AccountType type) {
-        this.accountType = type;
-    }
+    
+    
 }

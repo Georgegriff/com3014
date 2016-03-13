@@ -14,37 +14,37 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Sam Waters
- * @author Dan Ashworth
+ * @author Daniel
  */
 @Entity
-@Table(name="user_qualifications")
-@IdClass(UserQualification.UserQualificationPK.class)
-public class UserQualification implements Serializable {
-
+@Table(name="role_qualifications")
+@IdClass(RoleQualification.RoleQualificationPK.class)
+public class RoleQualification implements Serializable {
+    
     @Id
     @ManyToOne
-    @JoinColumn(name ="user_id")
-    private User user;
+    @JoinColumn(name ="role_id")
+    private Role role;
     
     @Id
     @ManyToOne
     @JoinColumn(name = "qualification_level_id")
     private QualificationLevel qualificationLevel;
     
-    @NotNull
-    @Column(name = "subject")
+    @Column (name = "subject")
     private String subject;
-
-    public UserQualification() {
+    
+    @Column (name = "required")
+    private boolean required;
+    
+    public RoleQualification() {
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public QualificationLevel getQualificationLevel() {
@@ -63,24 +63,32 @@ public class UserQualification implements Serializable {
         this.subject = subject;
     }
 
-    public User getUser() {
-        return user;
+    public boolean isRequired() {
+        return required;
+    }
+
+    public void setRequired(boolean required) {
+        this.required = required;
+    }
+
+    public Role getRole() {
+        return role;
     }
     
-    public static class UserQualificationPK implements Serializable {
+    public static class RoleQualificationPK implements Serializable {
         
-        private Integer user;
+        private Integer role;
         private Integer qualificationLevel;
         
-        public UserQualificationPK() {
+        public RoleQualificationPK() {
         }
 
-        public Integer getUser() {
-            return user;
+        public Integer getRole() {
+            return role;
         }
 
-        public void setUser(Integer user) {
-            this.user = user;
+        public void setRole(Integer role) {
+            this.role = role;
         }
 
         public Integer getQualificationLevel() {
@@ -93,8 +101,8 @@ public class UserQualification implements Serializable {
 
         @Override
         public int hashCode() {
-            int hash = 5;
-            hash = 23 * hash + Objects.hashCode(this.user);
+            int hash = 7;
+            hash = 23 * hash + Objects.hashCode(this.role);
             hash = 23 * hash + Objects.hashCode(this.qualificationLevel);
             return hash;
         }
@@ -110,8 +118,8 @@ public class UserQualification implements Serializable {
             if (getClass() != obj.getClass()) {
                 return false;
             }
-            final UserQualificationPK other = (UserQualificationPK) obj;
-            if (!Objects.equals(this.user, other.user)) {
+            final RoleQualificationPK other = (RoleQualificationPK) obj;
+            if (!Objects.equals(this.role, other.role)) {
                 return false;
             }
             if (!Objects.equals(this.qualificationLevel, other.qualificationLevel)) {
@@ -122,5 +130,5 @@ public class UserQualification implements Serializable {
         
         
     }
-
+    
 }

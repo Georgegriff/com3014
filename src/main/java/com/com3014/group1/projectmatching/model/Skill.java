@@ -5,23 +5,46 @@
  */
 package com.com3014.group1.projectmatching.model;
 
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  *
  * @author Sam Waters
+ * @author Dan Ashworth
  */
-public class Skill {
+@Entity
+@Table(name = "skills")
+public class Skill implements Serializable {
 
+    @Id
+    @Column(name="skill_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer skillId;
+    
+    @Column(name="skill")
     private String name;
-    private int monthsOfExperience;
-
+    
     public Skill() {
     }
 
-    public Skill(String name, int monthsOfExperience) {
+    public Skill(String name) {
         this.name = name;
-        this.monthsOfExperience = monthsOfExperience;
     }
 
+    public Integer getSkillId() {
+        return skillId;
+    }
+    
+    public void setSkillId(Integer skillId) {
+        this.skillId = skillId;
+    }
+    
     public String getName() {
         return name;
     }
@@ -29,13 +52,4 @@ public class Skill {
     public void setName(String name) {
         this.name = name;
     }
-
-    public int getMonthsOfExperience() {
-        return monthsOfExperience;
-    }
-
-    public void setMonthsOfExperience(int monthsOfExperience) {
-        this.monthsOfExperience = monthsOfExperience;
-    }
-
 }

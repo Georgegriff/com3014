@@ -6,12 +6,13 @@
 package com.com3014.group1.projectmatching.model;
 
 import com.com3014.group1.projectmatching.core.enums.PaymentEnum;
+import java.io.Serializable;
 
 /**
  *
  * @author Sam Waters
  */
-public class Payment {
+public class Payment implements Serializable {
 
     private PaymentEnum paymentType;
     private float amount;

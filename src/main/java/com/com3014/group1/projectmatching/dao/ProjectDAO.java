@@ -7,7 +7,7 @@ import com.com3014.group1.projectmatching.core.enums.PaymentEnum;
 import com.com3014.group1.projectmatching.model.Location;
 import com.com3014.group1.projectmatching.model.Payment;
 import com.com3014.group1.projectmatching.model.Project;
-import com.com3014.group1.projectmatching.model.Qualification;
+import com.com3014.group1.projectmatching.model.UserQualification;
 import com.com3014.group1.projectmatching.model.Role;
 import com.com3014.group1.projectmatching.model.Skill;
 import java.util.ArrayList;
@@ -38,13 +38,14 @@ public class ProjectDAO {
     
     private Map<Integer, Project> getAllProjects() {
 
+        /*
         List<Skill> skills1 = new ArrayList<Skill>();
         skills1.add(new Skill("Java", 12));
         skills1.add(new Skill("Android Development", 12));
-
+        
         List<Qualification> qualifications1 = new ArrayList<Qualification>();
-        qualifications1.add(new Qualification("Computer Sceince", "Degree"));
-        qualifications1.add(new Qualification("Maths", "A Level"));
+        qualifications1.add(new UserQualification("Computer Sceince", "Degree"));
+        qualifications1.add(new UserQualification("Maths", "A Level"));
 
         Role role1 = new Role(1, "Developer1", new Payment(PaymentEnum.TBC, 0), skills1, qualifications1);
         Role role2 = new Role(2, "Developer2", new Payment(PaymentEnum.TBC, 0), skills1, qualifications1);
@@ -68,7 +69,7 @@ public class ProjectDAO {
         skills2.add(new Skill("Web Development", 36));
 
         List<Qualification> qualifications2 = new ArrayList<Qualification>();
-        qualifications1.add(new Qualification("Computer Sceince", "Degree"));
+        qualifications1.add(new UserQualification("Computer Sceince", "Degree"));
 
         Role role3 = new Role(1, "Developer1", new Payment(PaymentEnum.HOURLY, 20), skills2, qualifications2);
         Role role4 = new Role(2, "Developer2", new Payment(PaymentEnum.HOURLY, 20), skills2, qualifications2);
@@ -90,7 +91,7 @@ public class ProjectDAO {
         Map<Integer, Project> projects = new HashMap<Integer,Project>();
         projects.put(project1.getProjectId(), project1);
         projects.put(project2.getProjectId(), project2);
-
+        */
         return projects;
     }
 

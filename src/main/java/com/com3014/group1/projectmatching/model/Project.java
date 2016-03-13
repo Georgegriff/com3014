@@ -5,40 +5,60 @@
  */
 package com.com3014.group1.projectmatching.model;
 
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import org.springframework.stereotype.Component;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Columns;
+import org.hibernate.annotations.Type;
 
 /**
  * The definition of a project
  *
  * @author Sam Waters
+ * @author Dan Ashworth
  */
-@Component
-public class Project {
+@Entity
+@Table(name = "projects")
+public class Project implements Serializable {
 
-    private int projectId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="project_id")
+    private Integer projectId;
+    
+    @NotNull
+    @Column (name = "name")
     private String name;
+    
+    @NotNull
+    @Column (name = "description")
     private String description;
+    
+    @Temporal(TemporalType.DATE)
+    @Column (name = "project_start")
     private Date projectStart;
+    
+    @Temporal(TemporalType.DATE)
+    @Column (name = "estimated_end")
     private Date estimatedEnd;
+    
+    @Type (type="com.com3014.group1.projectmatching.model.LocationType")
+    @Columns(columns = {
+        @Column(name="location_lat"),
+        @Column(name="location_lon")
+        }
+    )
     private Location location;
-    private List<Role> roles;
-    private List<String> interests;
 
     public Project() {
-    }
-
-    public Project(int projectId, String name, String description, Date projectStart,
-            Date estimatedEnd, Location location, List<Role> roles, List<String> interests) {
-        this.projectId = projectId;
-        this.name = name;
-        this.description = description;
-        this.projectStart = projectStart;
-        this.estimatedEnd = estimatedEnd;
-        this.location = location;
-        this.roles = roles;
-        this.interests = interests;
     }
 
     public int getProjectId() {
@@ -88,21 +108,4 @@ public class Project {
     public void setLocation(Location location) {
         this.location = location;
     }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-
-    public List<String> getInterests() {
-        return interests;
-    }
-
-    public void setInterests(List<String> interests) {
-        this.interests = interests;
-    }
-
 }

@@ -5,32 +5,47 @@
  */
 package com.com3014.group1.projectmatching.model;
 
-import java.util.List;
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Columns;
+import org.hibernate.annotations.Type;
 
 /**
  * A @Project role
  *
  * @author Sam Waters
+ * @author Daniel Ashworth
  */
-public class Role {
+@Entity
+@Table(name = "roles")
+public class Role implements Serializable {
 
-    private int roleId;
+    @Id
+    @Column(name = "role_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer roleId;
+    
+    @NotNull
+    @Column (name = "name")
     private String name;
+    
+    @Type (type="com.com3014.group1.projectmatching.model.PaymentType")
+    @Columns(columns = {
+        @Column(name="payment"),
+        @Column(name="payment_type")
+        }
+    )
     private Payment payment;
-    private List<Skill> skills;
-    private List<Qualification> qualifications;
 
     public Role() {
     }
-
-    public Role(int roleId, String name, Payment payment, List<Skill> skills, List<Qualification> qualifications) {
-        this.roleId = roleId;
-        this.name = name;
-        this.payment = payment;
-        this.skills = skills;
-        this.qualifications = qualifications;
-    }
-
+    
     public int getRoleId() {
         return roleId;
     }
@@ -54,21 +69,4 @@ public class Role {
     public void setPayment(Payment payment) {
         this.payment = payment;
     }
-
-    public List<Skill> getSkills() {
-        return skills;
-    }
-
-    public void setSkills(List<Skill> skills) {
-        this.skills = skills;
-    }
-
-    public List<Qualification> getQualifications() {
-        return qualifications;
-    }
-
-    public void setQualifications(List<Qualification> qualifications) {
-        this.qualifications = qualifications;
-    }
-
 }

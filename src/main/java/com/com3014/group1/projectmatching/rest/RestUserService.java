@@ -24,7 +24,7 @@ public class RestUserService {
 
     @Autowired
     private UserService userService;
-
+   
     @RequestMapping(value = "/user/{id}", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
     public User getUser(@PathVariable String id) {
         return userService.getUser(Integer.parseInt(id));
@@ -32,6 +32,6 @@ public class RestUserService {
 
     @RequestMapping(value = "/userinfo", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
     public User getCurrentUser(HttpSession session) {
-    return (User) session.getAttribute("currentUser");
+        return (User) session.getAttribute("currentUser");
     }
 }

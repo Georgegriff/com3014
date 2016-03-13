@@ -6,7 +6,7 @@
 package com.com3014.group1.projectmatching.matchmaking;
 
 import com.com3014.group1.projectmatching.model.Location;
-import com.com3014.group1.projectmatching.model.Qualification;
+import com.com3014.group1.projectmatching.model.UserQualification;
 import com.com3014.group1.projectmatching.model.Skill;
 import com.com3014.group1.projectmatching.model.User;
 import com.com3014.group1.projectmatching.model.Role;
@@ -31,7 +31,7 @@ public class Matchmaking {
     
     public Matchmaking(){
     }
-    
+    /*
     
     // generate random number between min and max
     public static double randDouble(double min, double max) {
@@ -128,6 +128,6 @@ public class Matchmaking {
     
     
     }
-    
+    */
     
 }
