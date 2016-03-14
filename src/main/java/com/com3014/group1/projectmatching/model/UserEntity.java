@@ -48,6 +48,7 @@ public class UserEntity implements Serializable {
     @Column(name="average_rating", nullable = true)
     private Float averageRating;
 
+    @Column(name="last_login", nullable = false)
     private Date lastLogin;
     
     public UserEntity() {
