@@ -14,6 +14,7 @@ import org.springframework.security.authentication.dao.AbstractUserDetailsAuthen
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component()
@@ -34,7 +35,12 @@ public class AuthProvider extends AbstractUserDetailsAuthenticationProvider  {
     protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken upat) throws AuthenticationException {
           boolean thirdPartyAuthentication = false;   
         if (username !=null && upat != null) {
-            return detailsService.loadUserByUsername(username);    
+            try {
+                 return detailsService.loadUserByUsername(username);     
+            }catch(UsernameNotFoundException e) {
+                  throw new AuthenticationException("Unable to authenticate") {};
+            }
+          
         }else {
               throw new AuthenticationException("Unable to authenticate") {};
         }

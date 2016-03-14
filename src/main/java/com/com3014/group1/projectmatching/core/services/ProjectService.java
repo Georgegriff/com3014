@@ -88,16 +88,20 @@ public class ProjectService {
     
     private Project convertEntityToProject(ProjectEntity entity) throws ObjectNotFoundException {
         // Get the list attributes of a project
+        if(entity != null){
         List<ProjectRole> projectRoles = projectRoleDAO.findByProject(entity);
         List<Role> roleList = convertEntitiesToRoles(projectRoles);
         List<ProjectInterest> projectInterest = projectInterestDAO.findByProject(entity);
         // Create Project DTO Object
         return new Project(entity, roleList, projectInterest);
+        }else {
+             throw new ObjectNotFoundException(entity, "Project Not Found");
+        }
     }
     
     private List<Role> convertEntitiesToRoles(List<ProjectRole> entityList) throws ObjectNotFoundException {
         List<Role> roleList = new ArrayList<>();
-        
+        if(entityList != null){
         for(int i = 0; i < entityList.size(); i++) {
             RoleEntity entity = entityList.get(i).getRole();
             List<Skill> skillList = roleSkillDAO.findByRole(entity);
@@ -106,6 +110,9 @@ public class ProjectService {
             roleList.add(role);
         }
         return roleList;
+        }else {
+            throw new ObjectNotFoundException(ProjectRole.class, "Project Roles Not Found");
+        }
     }
 
 }
