@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class Matchmaking {
-    
+        
     @Autowired
     private UserService userService;
     
@@ -50,7 +50,7 @@ public class Matchmaking {
         List<Skill> skillsPreferedForRole = role.getSkillsList(); // <- PLACEHOLDER!
 
         // get the last login date of the user from the users array
-        Date lastLogin = new Date(); // <- PLACEHOLDER!
+        Date lastLogin = user.getLastLogin();
         int numberDaysSinceLastLogin = (int)((new Date().getTime() - lastLogin.getTime()) / (1000 * 60 * 60 * 24) );
         double loginTimeWeighting = 10.0;
 
