@@ -37,7 +37,7 @@ public class Matchmaking {
     }
     
     // generate random number between min and max
-    public static double randDouble(double min, double max) {
+    private static double randDouble(double min, double max) {
         Random rand = new Random();
         double randomNumber = min + (max - min) * rand.nextDouble();
         return randomNumber;
@@ -45,7 +45,7 @@ public class Matchmaking {
     
     
     // Calculate the fitness score for a particular user to a role
-    public double calculateUserScore(User user, Role role) {
+    private double calculateUserScore(User user, Role role) {
         // a list of skills desired but not required for this role
         List<Skill> skillsPreferedForRole = role.getSkillsList(); // <- PLACEHOLDER!
 
@@ -85,7 +85,7 @@ public class Matchmaking {
     
     
     // Returns an array of user id's, ordered by matchmaking score
-    List<User> findUsersForRole(Role role) {
+    public List<User> findUsersForRole(Role role) {
         // a list of skills required for this role
         List<Skill> skillsRequiredForRole = role.getSkillsList();
         // a map of all users

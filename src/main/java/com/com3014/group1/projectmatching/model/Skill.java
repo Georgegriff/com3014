@@ -6,6 +6,7 @@
 package com.com3014.group1.projectmatching.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -52,4 +53,27 @@ public class Skill implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {      
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Skill other = (Skill) obj;
+        if(skillId.intValue() == other.getSkillId().intValue()) {
+            return true;
+        }
+        return false;
+    }
+    
+    
 }
