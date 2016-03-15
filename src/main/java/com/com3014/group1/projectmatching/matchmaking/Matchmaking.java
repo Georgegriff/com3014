@@ -104,7 +104,7 @@ public class Matchmaking {
                                 
                 List<Skill> usersSkills = user.getSkillsList();
                 
-                if(true == usersSkills.containsAll(skillsRequiredForRole)) {
+                if(usersSkills.containsAll(skillsRequiredForRole)) {
                     double userScore = calculateUserScore(user, role);
                     usersAndScores.put(userScore, user);
                 }

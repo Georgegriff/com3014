@@ -14,7 +14,9 @@ import com.com3014.group1.projectmatching.dao.RoleSkillDAO;
 import com.com3014.group1.projectmatching.dto.Role;
 import com.com3014.group1.projectmatching.model.RoleEntity;
 import com.com3014.group1.projectmatching.model.RoleQualification;
+import com.com3014.group1.projectmatching.model.RoleSkill;
 import com.com3014.group1.projectmatching.model.Skill;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +41,13 @@ public class ProjectRoleService {
     private Role convertEntitiesToRoles(RoleEntity entity) {
         Role role = null;
         if (entity != null) {
-            List<Skill> skillList = roleSkillDAO.findByRole(entity);
+            List<RoleSkill> skillList = roleSkillDAO.findByRole(entity);
+            List<Skill> skills = new ArrayList<Skill>();
+            for (RoleSkill skill : skillList) {
+                skills.add(skill.getSkill());
+            }
             List<RoleQualification> qualificationList = roleQualificationDAO.findByRole(entity);
-            role = new Role(entity, skillList, qualificationList);
+            role = new Role(entity, skills, qualificationList);
         }
         return role;
     }

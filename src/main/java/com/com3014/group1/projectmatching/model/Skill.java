@@ -57,7 +57,8 @@ public class Skill implements Serializable {
     @Override
     public int hashCode() {
         int hash = 5;
-        return hash;
+      hash = 59 * hash + (this.skillId.intValue() != 0 ? this.skillId.hashCode() : 0);
+      return hash;
     }
 
     @Override
@@ -69,10 +70,10 @@ public class Skill implements Serializable {
             return false;
         }
         final Skill other = (Skill) obj;
-        if(skillId.intValue() == other.getSkillId().intValue()) {
-            return true;
+        if(skillId.intValue() != other.getSkillId().intValue()) {
+            return false;
         }
-        return false;
+        return true;
     }
     
     

@@ -16,5 +16,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Daniel
  */
 public interface RoleSkillDAO extends JpaRepository<RoleSkill, Integer> {
-     public List<Skill> findByRole(RoleEntity role);
+     public List<RoleSkill> findByRole(RoleEntity role);
 }

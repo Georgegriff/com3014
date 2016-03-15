@@ -18,6 +18,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface UserSkillDAO extends JpaRepository<UserSkill, UserSkillPK>{
     
-    public List<Skill> findByUser(UserEntity user);
+    public List<UserSkill> findByUser(UserEntity user);
     
 }
