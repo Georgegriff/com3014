@@ -32,11 +32,9 @@ ul {
     background: #FFB300;
 }
 #header-cont {
-    display: -webkit-flex;
     display: flex;
     width:100%;
     max-height:100%;
-    -webkit-flex-direction: row;
     flex-direction: row;
 }
 .site-logo {
@@ -49,7 +47,7 @@ ul {
     z-index:100;
     height: 0;
     position:absolute;
-    right:5%;
+    right:6%;
     padding-bottom: 10%;
     width: 10%;
     overflow: hidden;
@@ -78,8 +76,12 @@ ul {
 #hamburger {
     cursor: pointer;
 }
-#hamburger:hover svg path {
-    stroke: #FFF59D;
+#hamburger i {
+    color: white;
+    font-size:2em;
+}
+#hamburger:hover i {
+    color: #FFF59D;
 }
 .flex-center-row {
     display: -webkit-flex;
@@ -204,6 +206,9 @@ ul {
     transition-duration: .5s;
     transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
 }
+.rotTfive {
+    transform: rotate(25deg);
+}
 .swiper {
     position: absolute;
     width:90%;
@@ -214,7 +219,7 @@ ul {
     right: 0;
 }
 .swipe-container {
-
+    overflow-x:hidden;
     background:#f5f5f5;
     transition: 1s;
     display:flex;
@@ -226,9 +231,10 @@ ul {
 }
 .profile-container {
     flex:6;
-    overflow-y:auto;
+    overflow-y:scroll;
     overflow-x: hidden;
     margin-top:1%;
+    width:105%;
 
 }
 .profile-images {
@@ -237,6 +243,11 @@ ul {
     margin:0 auto;
     border: solid 2px #f1f1f1;
     text-align: center;
+    overflow:hidden;
+    max-height:350px;
+}
+.swiper-img {
+    max-width:100%;
 }
 .profile-info {
     width:90%;
@@ -349,6 +360,9 @@ ul {
         height:150px;
         width: 150px;
     }
+    .profile-container {
+        max-height:550px;
+    }
 }
 /** Mobile */
 @media screen and (max-width: 894px)and (orientation : portrait) {
@@ -370,10 +384,25 @@ ul {
     .tile {
         margin: 0 auto;
     }
-     .tiles {
+    .tiles {
         justify-content: center;
     }
+    .profile-container {
+        max-height:500px;
+    }  
+    .profile-images {
+        max-height:190px;
+    } 
 
+}
+/** Mobile */
+@media screen and (max-width: 500px)and (orientation : portrait) { 
+    .profile-container {
+        max-height:300px;
+    }
+    .swiper {
+        height:85%;
+    }
 }
 @media screen and (max-width: 894px)and (orientation : landscape) {
     .profile-icon {
@@ -383,7 +412,7 @@ ul {
         padding-bottom:10%;
         right:7%;
     }
-   
+
 }
 /** Mobile Landscape */
 @media screen and (max-width: 600px) and (orientation : landscape){
@@ -409,7 +438,7 @@ ul {
     display: flex;
     -webkit-flex-direction: row;
     flex-direction: row;
-      flex-wrap: wrap;
+    flex-wrap: wrap;
 }
 .full-page {
     margin: 0 auto;
@@ -419,7 +448,7 @@ ul {
     width: 270px;
     margin: 0.5%;
     height: 280px;
-    background: white;
+    background: #f5f5f5;
     border: 2px solid transparent;
     outline: solid 1px #f1f1f1;
     transition: border 500ms ease-in;
@@ -439,27 +468,28 @@ ul {
     font-size:105%;
     font-weight:600;
     margin:3%;
+    color:black;
 }
 .tile-desc {
     margin:3%;
 }
 .tile-img {
     width:90%;
-    background:#f5f5f5;
+    background:white;
     height:60%;
     text-align:center;
     border: 1px solid #f1f1f1;
     margin: 0 auto;
     margin-top:2%;
-   
+
 }
 .tile-img, .tile-title {
-       transition: color 500ms ease-in;
+    transition: color 500ms ease-in;
     -moz-transition: color  300ms ease-in;
     -moz-transition: color  300ms ease-in;
     -webkit-transition: color  300ms ease-in;
     -webkit-transition: color 300ms ease-in;
-     transition: border 500ms ease-in;
+    transition: border 500ms ease-in;
     -moz-transition: border  300ms ease-in;
     -moz-transition: border  300ms ease-in;
     -webkit-transition: border  300ms ease-in;
@@ -467,7 +497,7 @@ ul {
     cursor: pointer;
 }
 .tile-img:hover {
-      border: 1px solid #5A6EC2; 
+    border: 1px solid #5A6EC2; 
 }
 .tile-title:hover {
     color: #5A6EC2;
@@ -481,7 +511,7 @@ ul {
 
 }
 .add .tile-img {
-     transition: color 500ms ease-in;
+    transition: color 500ms ease-in;
     -moz-transition: color  300ms ease-in;
     -moz-transition: color  300ms ease-in;
     -webkit-transition: color  300ms ease-in;
@@ -493,3 +523,86 @@ ul {
 .add .tile-img:hover {
     color: #ccc;
 }
+.tile-buttons a {
+    cursor: pointer;
+
+}
+.tile-buttons i {
+    vertical-align: middle;
+}
+.tile-buttons .edit {
+    color:#FFB300;
+    font-size:150%;
+
+}
+.tile-buttons .edit:hover, .tile-buttons .matcher:hover {
+    color:#666;
+}
+
+.tile-buttons .matcher {
+    color: #5A6EC2;
+    font-size:140%;
+
+}
+
+/* Project Swipers */
+.profile-title {
+    padding: 0;
+    margin: 0;
+    color: black;
+}
+/* Project Swipers */
+.profile-subtitle {
+    padding: 0;
+    margin : 0;
+    color: #666;
+    flex: 2;
+    font-size:90%;
+}
+/* Project Swipers */
+.profile-right-subtitle {
+    padding: 0;
+    margin : 0 0 5px 0;
+    color: #666;
+    font-weight:normal;
+    font-size:90%;
+    text-align:right;
+    flex:1;
+}
+.subs {
+    display:flex;
+}
+.profile-desc {
+    margin: 5px 0 5px 0;
+}
+h4.profile-list {
+    padding:0;
+    margin:0;
+    margin : 0 0 5px 0;
+}
+ul.profile-list {
+    list-style-type: disc;
+    margin-left:20px;
+}
+.no-matches {
+    display:none;
+    color: #666;
+    text-align: center;
+    justify-content: center;
+    flex-direction: column;
+    flex: 1;
+    margin: 0 auto;
+}
+.no-matches .no-match-msg {
+    
+}
+.no-matches i {
+    font-size:20em;
+}
+.no-matches .no-match-dir {
+    
+}
+.spin {
+     animation:spin 4s linear infinite;
+}
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }

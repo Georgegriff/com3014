@@ -33,6 +33,8 @@ define(['underscore', 'jquery', 'text!js/pages/projects/template/template.htm'],
                                     tile = new app.plugins.Tile(project.name, project.description);
                             tile.setLink(app.models.project.getProjectPath(project.projectId));
                             tile.attachTo($tiles);
+                            
+                            tile.setMatchLink(app.models.matches.getProjectMatcherPath(project.projectId));
                         }
                         function show() {
                             $page = $(app.parseTemplate(Template));

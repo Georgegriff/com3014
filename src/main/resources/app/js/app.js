@@ -6,8 +6,9 @@ define(['underscore',
     "js/routing",
     "js/pluginloader",
     "js/models/user",
-    "js/models/project"],
-        function (_, $, banner, container, Routing, PluginLoader, UserModel, ProjectModel) {
+    "js/models/project",
+    "js/models/matches"],
+        function (_, $, banner, container, Routing, PluginLoader, UserModel, ProjectModel, MatchesModel) {
             "use strict";
             function App() {
                 var self = this,
@@ -34,6 +35,7 @@ define(['underscore',
                     self.models = {};
                     self.models.user = UserModel;
                     self.models.project = ProjectModel;
+                    self.models.matches = MatchesModel;
                 };
                 function initRouteHandler() {
                     $('a').on('click', function (event) {

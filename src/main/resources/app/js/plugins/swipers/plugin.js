@@ -4,19 +4,34 @@ define(['underscore', 'jquery', 'js/plugins/swipers/swiper', 'text!js/plugins/sw
     return  {
         init: function (app) {
 
+            function createNoMatchMessage() {
+                var message = "No matches left...",
+                        direction = "Please check back later.",
+                        $element = $('<div class=no-matches>'),
+                        $msg = $('<h1 class="no-match-msg">' + message + '</h1>'),
+                        $direction = $('<i class="rotTfive fa fa-frown-o"></i><h2 class="no-match-dir">' + direction + '</h2>');
+
+                $element.append($msg);
+                $element.append($direction);
+                return $element;
+
+            }
+
             function Swipers() {
-                var self = this;
+                var self = this,
+                        $noMatchesMessage = createNoMatchMessage();
                 self.swipers = [];
                 self.$swipeCont = $('<article class="swipe-stack">');
 
                 self.SWIPE_PRELOADS = 3;
-
                 for (var i = 0; i < self.SWIPE_PRELOADS; i++) {
                     var template = app.parseTemplate(Template, {position: i});
                     self.swipers.push(new Swiper(i, template, onRemove));
                 }
                 function attachTo($parent) {
+                    self.$swipeCont.hide();
                     $parent.append(self.$swipeCont);
+                    $('#content').append($noMatchesMessage);
                 }
                 function onRemove() {
                     self.swipers.shift();
@@ -31,29 +46,68 @@ define(['underscore', 'jquery', 'js/plugins/swipers/swiper', 'text!js/plugins/sw
                     });
                     self.swipers.push(swiper);
                     self.$swipeCont.prepend($swiper);
-                    swiper.init();
+                    self.loadAction(swiper);
 
                 }
                 function showSwipers() {
                     var $swiper;
+                    $noMatchesMessage.fadeOut();
                     if (self.swipers && self.swipers.length) {
                         self.swipers.forEach(function attachSwiper(swiper) {
                             $swiper = swiper.render();
                             self.$swipeCont.prepend($swiper);
                             swiper.init();
+                            if (self.loadAction) {
+                                self.loadAction(swiper);
+                            }
                         }
                         );
                     }
-
-
                 }
-                function loadData() {
-                    // load the data into the swipers
+                function onAccept(action) {
+                    if (_.isFunction(action)) {
+                        self.onAccept = action;
+                    }
+                }
+                function onReject(action) {
+                    if (_.isFunction(action)) {
+                        self.onReject = action;
+                    }
+                }
+                function onDataLoad(action) {
+                    if (_.isFunction(action)) {
+                        self.loadAction = action;
+                    }
+                }
+                function hide() {
+                    $noMatchesMessage.css("display", "flex")
+                            .hide()
+                            .fadeIn();
+                    self.$swipeCont.fadeOut();
+                }
+                function show() {
+                    $noMatchesMessage
+                            .fadeOut();
+                    self.$swipeCont.fadeIn();
+                }
+                function pending() {
+                    var message = "Loading Matches...",
+                            $element = $('<div class="no-matches">'),
+                            $msg = $('<h1 class="no-match-msg">' + message + '</h1>'),
+                            $direction = $('<i class="spin fa fa-refresh"></i>');
+                    $element.append($msg);
+                    $element.append($direction);
+                    return $element;
                 }
                 return {
                     attachTo: attachTo,
                     showSwipers: showSwipers,
-                    loadData: loadData
+                    show: show,
+                    onDataLoad: onDataLoad,
+                    onAccept: onAccept,
+                    onReject: onReject,
+                    pending: pending,
+                    hide: hide
                 };
             }
 

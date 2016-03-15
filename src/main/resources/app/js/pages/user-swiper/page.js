@@ -13,7 +13,7 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                             if (swipers) {   
                                 swipers.attachTo($page);
                                 swipers.showSwipers();
-                                
+                                  app.plugins.swipers.show();
                             }
                         }
 

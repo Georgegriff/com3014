@@ -20,10 +20,25 @@ define(['underscore', 'jquery', 'text!js/plugins/tile/template/template.htm'],
                                 return app.routeHandler($(this).attr("href"), event);
                             });
                         }
-
+                        function setMatchLink(href) {
+                            var $links = $tile.find('.matcher-button');
+                            $links.prop("href", href);
+                            $links.on('click', function (event) {
+                                return app.routeHandler($(this).attr("href"), event);
+                            });
+                        }
+                        function setEditLink(href) {
+                            var $links = $tile.find('.edit-button');
+                            $links.prop("href", href);
+                            $links.on('click', function (event) {
+                                return app.routeHandler($(this).attr("href"), event);
+                            });
+                        }
                         return {
                             attachTo: attachTo,
-                            setLink: setLink
+                            setLink: setLink,
+                            setMatchLink: setMatchLink,
+                            setEditLink: setEditLink
                         };
                     }
 

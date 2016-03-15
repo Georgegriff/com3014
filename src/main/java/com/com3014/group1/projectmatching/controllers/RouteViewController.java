@@ -23,6 +23,7 @@ public class RouteViewController extends WebMvcConfigurerAdapter {
         registry.addViewController("/user/{id}").setViewName("index");
         registry.addViewController("/project/{id}").setViewName("index");
         registry.addViewController("user/{id}/projects").setViewName("index");
+        registry.addViewController("matches/project/{projectId}").setViewName("index");
 
     }
 }

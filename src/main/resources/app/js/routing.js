@@ -38,7 +38,11 @@ define(function () {
                             history.pushState(null, null, route);
                         }
                     }
-                    if (route.indexOf("/project/") > -1) {
+                    if (route.indexOf("/matches/") > -1) {
+                        if (route.indexOf("/project/") > -1) {
+                            route = app.models.matches.getProjectMatcherPath("id");
+                        }
+                    } else if (route.indexOf("/project/") > -1) {
                         route = app.models.project.getProjectPath("id");
                     }
                     switch (route) {
@@ -54,6 +58,9 @@ define(function () {
                             break;
                         case app.models.project.getProjectPath("id"):
                             showPage("project-profile", event);
+                            break;
+                        case app.models.matches.getProjectMatcherPath("id"):
+                            showPage("project-swiper", event);
                             break;
                         default:
                             return true;

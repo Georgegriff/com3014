@@ -32,7 +32,10 @@ gulp.task('copyjson', function () {
             .pipe(gulp.dest('public/js'));
 });
 
-
+gulp.task('copy-fonts', function () {
+    return gulp.src("app/css/fonts/**/*.*")
+            .pipe(gulp.dest("public/css/fonts"));
+});
 gulp.task('copy-plugins', function () {
     return gulp.src("app/js/plugins/**/*.*")
             .pipe(gulp.dest("public/js/plugins"));
@@ -59,6 +62,7 @@ gulp.task('copy-templates', function () {
 });
 gulp.task('build', [
     'copy-deps-js',
+    'copy-fonts',
     'optimise-scripts',
     'copy-css',
     'copy-img',
@@ -69,21 +73,25 @@ gulp.task('build', [
 ]);
 
 
-
+function error(err){
+     console.log(err.toString());
+    this.emit('end');
+}
 gulp.task('watch', function () {
     gulp.watch('app/js/**/**/*.*').on('change', function () {
         console.log("Building JavaScript..");
-        return gulp.src("app/js/**/*.*")
+        return gulp.src("app/js/**/**/*.*")
                 .pipe(gulp.dest(directories.TARGET_DIR + "public/js"));
     });
     gulp.watch('app/css/**/*.*').on('change', function () {
         console.log("Building CSS..");
-        return gulp.src("app/css/**/*.*")
-                .pipe(concatCss("main.css"))
+        return gulp.src("app/css/**/*.css")
                 .pipe(autoprefixer({
                     browsers: ['last 2 versions'],
                     cascade: false
-                })).pipe(gulp.dest(directories.TARGET_DIR + 'public/css'));
+                }))
+                   .on('error',error)
+                  .pipe(gulp.dest(directories.TARGET_DIR + 'public/css'));
     });
     gulp.watch('app/img/**/*.*').on('change', function () {
         console.log("(Building Images..");
