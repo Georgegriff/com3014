@@ -35,45 +35,43 @@ public class ProjectService {
 
     @Autowired
     private ProjectDAO projectDAO;
-    
+
     @Autowired
     private ProjectRoleDAO projectRoleDAO;
-    
+
     @Autowired
     private ProjectInterestDAO projectInterestDAO;
-    
+
     @Autowired
     private RoleSkillDAO roleSkillDAO;
-    
+
     @Autowired
     private RoleQualificationDAO roleQualificationDAO;
 
     public Project getProject(int id) {
-         //TODO:: need to ensure project owner and accepted people can view project
-         Project project;
-         try {
-             ProjectEntity entity = projectDAO.findOne(id);
-             project = convertEntityToProject(entity);
-         }
-         catch (ObjectNotFoundException onf) {
-             project = null;
-         }
+        //TODO:: need to ensure project owner and accepted people can view project
+        Project project;
+        try {
+            ProjectEntity entity = projectDAO.findOne(id);
+            project = convertEntityToProject(entity);
+        } catch (ObjectNotFoundException onf) {
+            project = null;
+        }
         return project;
     }
 
     public List<Project> getProjectsForUser(int userId) {
         // TODO: dummy implementation at the moment, returns all projects
         List<Project> userProjects = new ArrayList<>();
-        
+
         try {
             List<ProjectEntity> projects = projectDAO.findAll();
-            
-            for(int i = 0; i < projects.size(); i++){
+
+            for (int i = 0; i < projects.size(); i++) {
                 Project project = convertEntityToProject(projects.get(i));
                 userProjects.add(project);
             }
-        }
-        catch(ObjectNotFoundException onf) {
+        } catch (ObjectNotFoundException onf) {
             userProjects = null;
             onf.printStackTrace();
         }
@@ -85,34 +83,42 @@ public class ProjectService {
         //TODO::
         return null;
     }
-    
+
     private Project convertEntityToProject(ProjectEntity entity) throws ObjectNotFoundException {
         // Get the list attributes of a project
-        if(entity != null){
-        List<ProjectRole> projectRoles = projectRoleDAO.findByProject(entity);
-        List<Role> roleList = convertEntitiesToRoles(projectRoles);
-        List<ProjectInterest> projectInterest = projectInterestDAO.findByProject(entity);
-        // Create Project DTO Object
-        return new Project(entity, roleList, projectInterest);
-        }else {
-             throw new ObjectNotFoundException(entity, "Project Not Found");
-        }
-    }
-    
-    private List<Role> convertEntitiesToRoles(List<ProjectRole> entityList) throws ObjectNotFoundException {
-        List<Role> roleList = new ArrayList<>();
-        if(entityList != null){
-        for(int i = 0; i < entityList.size(); i++) {
-            RoleEntity entity = entityList.get(i).getRole();
-            List<RoleSkill> skillList = roleSkillDAO.findByRole(entity);
-            List<RoleQualification> qualificationList = roleQualificationDAO.findByRole(entity);
-            Role role = new Role(entity, skillList, qualificationList);
-            roleList.add(role);
-        }
-        return roleList;
-        }else {
-            throw new ObjectNotFoundException(ProjectRole.class, "Project Roles Not Found");
+        if (entity != null) {
+            List<ProjectRole> projectRoles = projectRoleDAO.findByProject(entity);
+            List<Role> roleList = convertEntitiesToRoles(projectRoles);
+            List<ProjectInterest> projectInterest = projectInterestDAO.findByProject(entity);
+            // Create Project DTO Object
+            return new Project(entity, roleList, projectInterest);
+        } else {
+            throw new ObjectNotFoundException(entity, "Project Not Found");
         }
     }
 
+    private List<Role> convertEntitiesToRoles(List<ProjectRole> entityList) throws ObjectNotFoundException {
+        List<Role> roleList = new ArrayList<>();
+        if (entityList != null) {
+            for (int i = 0; i < entityList.size(); i++) {
+                RoleEntity entity = entityList.get(i).getRole();
+                List<RoleSkill> skillList = roleSkillDAO.findByRole(entity);
+                List<RoleQualification> qualificationList = roleQualificationDAO.findByRole(entity);
+                Role role = new Role(entity, skillList, qualificationList);
+                roleList.add(role);
+            }
+            return roleList;
+        } else if (entityList != null) {
+            for (int i = 0; i < entityList.size(); i++) {
+                RoleEntity entity = entityList.get(i).getRole();
+                List<RoleSkill> roleSkills = roleSkillDAO.findByRole(entity);
+                List<RoleQualification> qualificationList = roleQualificationDAO.findByRole(entity);
+                Role role = new Role(entity, roleSkills, qualificationList);
+                roleList.add(role);
+            }
+            return roleList;
+        } else {
+            throw new ObjectNotFoundException(ProjectRole.class, "Project Roles Not Found");
+        }
+    }
 }

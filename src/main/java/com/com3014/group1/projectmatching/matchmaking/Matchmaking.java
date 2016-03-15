@@ -5,7 +5,6 @@
  */
 package com.com3014.group1.projectmatching.matchmaking;
 
-import com.com3014.group1.projectmatching.model.Skill;
 import com.com3014.group1.projectmatching.dto.User;
 import com.com3014.group1.projectmatching.dto.Role;
 

@@ -41,6 +41,7 @@ public class User {
         this.name = constructName(user);
         this.email = user.getEmail();
         this.averageRating = user.getAverageRating();
+
         this.skillsList = skillList;
         this.qualificationsList = qualificationList;
         this.interestsList = interests;
