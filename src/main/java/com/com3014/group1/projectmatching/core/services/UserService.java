@@ -94,12 +94,18 @@ public class UserService {
     
     /* Convert a UserEntity from the database to a User Object for the front end */
     private User convertEntityToUser(UserEntity entity) throws ObjectNotFoundException {
+        
+        if(entity != null){
         // Get the attributes of the user
         List<Skill> userSkills = userSkillDAO.findByUser(entity);
         List<UserQualification> userQualifications = userQualDAO.findByUser(entity);
         List<UserInterest> userInterets = userInterestDAO.findByUser(entity);
         // Convert the DAO UserEntity to the DTO User object
-        return new User(entity, userSkills, userQualifications, userInterets);
+        return new User(entity, userSkills, userQualifications, userInterets);     
+        }else {
+            throw new ObjectNotFoundException(entity, "User Not Found");
+        }
+       
     }
    
 }
