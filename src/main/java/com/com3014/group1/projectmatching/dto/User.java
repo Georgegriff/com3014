@@ -7,6 +7,7 @@ import com.com3014.group1.projectmatching.model.UserQualification;
 import com.com3014.group1.projectmatching.model.Skill;
 import com.com3014.group1.projectmatching.model.UserEntity;
 import com.com3014.group1.projectmatching.model.UserInterest;
+import com.com3014.group1.projectmatching.model.UserSkill;
 import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Repository;
@@ -24,7 +25,7 @@ public class User {
     private String name;
     private String email;
     private Float averageRating;
-    private List<Skill> skillsList;
+    private List<UserSkill> skillsList;
     private List<UserQualification> qualificationsList;
     private List<UserInterest> interestsList;
     private Date lastLogin;
@@ -32,7 +33,7 @@ public class User {
     public User() {
     }
     
-    public User(UserEntity user, List<Skill> skillList, List<UserQualification> qualificationList, List<UserInterest> interests) {
+    public User(UserEntity user, List<UserSkill> skillList, List<UserQualification> qualificationList, List<UserInterest> interests) {
         super();
         
         this.userId = user.getUserId();
@@ -86,11 +87,11 @@ public class User {
         this.averageRating = averageRating;
     }
 
-    public List<Skill> getSkillsList() {
+    public List<UserSkill> getSkillsList() {
         return skillsList;
     }
 
-    public void setSkillsList(List<Skill> skillsList) {
+    public void setSkillsList(List<UserSkill> skillsList) {
         this.skillsList = skillsList;
     }
 

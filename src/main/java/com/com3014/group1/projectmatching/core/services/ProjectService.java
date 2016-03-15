@@ -17,7 +17,7 @@ import com.com3014.group1.projectmatching.model.ProjectInterest;
 import com.com3014.group1.projectmatching.model.ProjectRole;
 import com.com3014.group1.projectmatching.model.RoleEntity;
 import com.com3014.group1.projectmatching.model.RoleQualification;
-import com.com3014.group1.projectmatching.model.Skill;
+import com.com3014.group1.projectmatching.model.RoleSkill;
 import java.util.ArrayList;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -104,7 +104,7 @@ public class ProjectService {
         if(entityList != null){
         for(int i = 0; i < entityList.size(); i++) {
             RoleEntity entity = entityList.get(i).getRole();
-            List<Skill> skillList = roleSkillDAO.findByRole(entity);
+            List<RoleSkill> skillList = roleSkillDAO.findByRole(entity);
             List<RoleQualification> qualificationList = roleQualificationDAO.findByRole(entity);
             Role role = new Role(entity, skillList, qualificationList);
             roleList.add(role);

@@ -14,6 +14,7 @@ import com.com3014.group1.projectmatching.model.Skill;
 import com.com3014.group1.projectmatching.model.UserEntity;
 import com.com3014.group1.projectmatching.model.UserInterest;
 import com.com3014.group1.projectmatching.model.UserQualification;
+import com.com3014.group1.projectmatching.model.UserSkill;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,7 +98,7 @@ public class UserService {
         
         if(entity != null){
         // Get the attributes of the user
-        List<Skill> userSkills = userSkillDAO.findByUser(entity);
+        List<UserSkill> userSkills = userSkillDAO.findByUser(entity);
         List<UserQualification> userQualifications = userQualDAO.findByUser(entity);
         List<UserInterest> userInterets = userInterestDAO.findByUser(entity);
         // Convert the DAO UserEntity to the DTO User object
