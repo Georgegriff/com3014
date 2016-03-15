@@ -14,6 +14,7 @@ import java.util.List;
 /**
  *
  * @author Daniel
+ * @author Sam Waters
  */
 public class Role {
     

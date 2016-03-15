@@ -7,6 +7,7 @@ package com.com3014.group1.projectmatching.auth;
 
 
 
+import com.com3014.group1.projectmatching.core.services.PasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +26,8 @@ public class AuthProvider extends AbstractUserDetailsAuthenticationProvider  {
     @Qualifier("detailsService")
     private UserDetailsService detailsService;
     
+    @Autowired
+    private PasswordService passwordService;
     
     @Override
     protected void additionalAuthenticationChecks(UserDetails ud, UsernamePasswordAuthenticationToken upat) throws AuthenticationException {
@@ -34,13 +37,12 @@ public class AuthProvider extends AbstractUserDetailsAuthenticationProvider  {
     @Override
     protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken upat) throws AuthenticationException {
           boolean thirdPartyAuthentication = false;   
-        if (username !=null && upat != null) {
+        if (username !=null && upat != null && passwordService.checkPassword(username, (String) upat.getCredentials())) {
             try {
                  return detailsService.loadUserByUsername(username);     
             }catch(UsernameNotFoundException e) {
                   throw new AuthenticationException("Unable to authenticate") {};
             }
-          
         }else {
               throw new AuthenticationException("Unable to authenticate") {};
         }
