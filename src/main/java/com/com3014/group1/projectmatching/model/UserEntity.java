@@ -5,6 +5,7 @@
  */
 package com.com3014.group1.projectmatching.model;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,6 +48,9 @@ public class UserEntity implements Serializable {
     @Column(name="average_rating", nullable = true)
     private Float averageRating;
 
+    @Column(name="last_login", nullable = false)
+    private Date lastLogin;
+    
     public UserEntity() {
     }
     
@@ -97,7 +101,15 @@ public class UserEntity implements Serializable {
     public void setAverageRating(Float averageRating) {
         this.averageRating = averageRating;
     }
-   
+
+    public Date getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(Date lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;
@@ -107,6 +119,7 @@ public class UserEntity implements Serializable {
         hash = 67 * hash + Objects.hashCode(this.surname);
         hash = 67 * hash + Objects.hashCode(this.email);
         hash = 67 * hash + Objects.hashCode(this.averageRating);
+        hash = 67 * hash + Objects.hashCode(this.lastLogin);
         return hash;
     }
 
@@ -138,6 +151,9 @@ public class UserEntity implements Serializable {
             return false;
         }
         if (!Objects.equals(this.averageRating, other.averageRating)) {
+            return false;
+        }
+        if (!Objects.equals(this.lastLogin, other.lastLogin)) {
             return false;
         }
         return true;

@@ -7,6 +7,7 @@ import com.com3014.group1.projectmatching.model.UserQualification;
 import com.com3014.group1.projectmatching.model.Skill;
 import com.com3014.group1.projectmatching.model.UserEntity;
 import com.com3014.group1.projectmatching.model.UserInterest;
+import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 
@@ -26,6 +27,7 @@ public class User {
     private List<Skill> skillsList;
     private List<UserQualification> qualificationsList;
     private List<UserInterest> interestsList;
+    private Date lastLogin;
 
     public User() {
     }
@@ -41,6 +43,7 @@ public class User {
         this.skillsList = skillList;
         this.qualificationsList = qualificationList;
         this.interestsList = interests;
+        this.lastLogin = user.getLastLogin();
     }
     
     public Integer getUserId() {
@@ -106,7 +109,15 @@ public class User {
     public void setInterestsList(List<UserInterest> interestsList) {
         this.interestsList = interestsList;
     }
-    
+
+    public Date getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(Date lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+       
     private String constructName(UserEntity user) {
         return user.getName() + ' ' + user.getSurname();
     }
