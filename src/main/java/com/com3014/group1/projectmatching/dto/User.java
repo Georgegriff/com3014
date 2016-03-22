@@ -4,7 +4,6 @@
 package com.com3014.group1.projectmatching.dto;
 
 import com.com3014.group1.projectmatching.model.UserQualification;
-import com.com3014.group1.projectmatching.model.Skill;
 import com.com3014.group1.projectmatching.model.UserEntity;
 import com.com3014.group1.projectmatching.model.UserInterest;
 import com.com3014.group1.projectmatching.model.UserSkill;
@@ -31,6 +30,7 @@ public class User {
     private Date lastLogin;
 
     public User() {
+        super();
     }
     
     public User(UserEntity user, List<UserSkill> skillList, List<UserQualification> qualificationList, List<UserInterest> interests) {
@@ -41,7 +41,6 @@ public class User {
         this.name = constructName(user);
         this.email = user.getEmail();
         this.averageRating = user.getAverageRating();
-
         this.skillsList = skillList;
         this.qualificationsList = qualificationList;
         this.interestsList = interests;

@@ -7,7 +7,6 @@ package com.com3014.group1.projectmatching.rest;
 
 import com.com3014.group1.projectmatching.core.services.UserService;
 import com.com3014.group1.projectmatching.dto.User;
-import com.com3014.group1.projectmatching.model.UserEntity;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

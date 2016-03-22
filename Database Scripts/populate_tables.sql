@@ -81,11 +81,11 @@ INSERT INTO match_making.user_skills(user_id, skill_id) VALUES
 
 # Populate some dummy projects
 INSERT INTO match_making.projects(name, description, project_start, estimated_end, location_lat, location_lon) VALUES
-  ('Project 1', 'The first project in our system', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 7 MONTH), 51.23622,-0.570409)
-, ('Project 2', 'The second project in our system', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 17 WEEK), 51.23622,-0.570409)
-, ('Project 3', 'The third project in our system', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 5 MONTH), 51.23622,-0.570409)
-, ('Project 4', 'The fourth project in our system', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 57 DAY), 51.23622,-0.570409)
-, ('Project 5', 'The fifth project in our system', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 YEAR), 51.23622,-0.570409);
+  ('Project 1', 'The first project in our system', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 7 MONTH), 51.23622,-0.570409, 1)
+, ('Project 2', 'The second project in our system', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 17 WEEK), 51.23622,-0.570409, 2)
+, ('Project 3', 'The third project in our system', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 5 MONTH), 51.23622,-0.570409, 2)
+, ('Project 4', 'The fourth project in our system', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 57 DAY), 51.23622,-0.570409, 4)
+, ('Project 5', 'The fifth project in our system', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 YEAR), 51.23622,-0.570409, 5);
 
 # Populate Project Roles
 INSERT INTO match_making.project_role(project_id, role_id) VALUES

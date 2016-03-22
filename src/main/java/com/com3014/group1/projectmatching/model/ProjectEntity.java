@@ -7,11 +7,14 @@ package com.com3014.group1.projectmatching.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -57,6 +60,10 @@ public class ProjectEntity implements Serializable {
         }
     )
     private Location location;
+    
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "project_owner")
+    private UserEntity projectOwner;
 
     public ProjectEntity() {
     }
@@ -107,5 +114,13 @@ public class ProjectEntity implements Serializable {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+    
+    public UserEntity getProjectOwner() {
+        return projectOwner;
+    }
+    
+    public void setProjectOwner(UserEntity projectOwner) {
+        this.projectOwner = projectOwner;
     }
 }

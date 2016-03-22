@@ -27,6 +27,7 @@ CREATE TABLE match_making.users(
 , surname VARCHAR(45) NOT NULL
 , email VARCHAR(45) NOT NULL UNIQUE
 , average_rating FLOAT 
+, last_login DATE
 , PRIMARY KEY(user_id)
 );
 
@@ -112,7 +113,9 @@ CREATE TABLE match_making.projects(
 , estimated_end DATETIME
 , location_lat DECIMAL(12, 8)
 , location_lon DECIMAL(12,8)
+, project_owner INT NOT NULL
 , PRIMARY KEY (project_id)
+, FOREIGN KEY (project_owner) REFERENCES match_making.users(user_id)
 );
 
 #Project Interests Table

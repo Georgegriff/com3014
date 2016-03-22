@@ -9,7 +9,6 @@ import com.com3014.group1.projectmatching.model.Payment;
 import com.com3014.group1.projectmatching.model.RoleEntity;
 import com.com3014.group1.projectmatching.model.RoleQualification;
 import com.com3014.group1.projectmatching.model.RoleSkill;
-import com.com3014.group1.projectmatching.model.Skill;
 import java.util.List;
 
 /**
@@ -24,7 +23,11 @@ public class Role {
     private Payment payment;
     private List<RoleSkill> skillsList;   
     private List<RoleQualification> qualificationList;
-       
+    
+    public Role() {
+        super();
+    }
+    
     public Role(RoleEntity entity, List<RoleSkill> skills, List<RoleQualification> qualifications) {
         super();
         this.roleId = entity.getRoleId();

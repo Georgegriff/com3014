@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -18,15 +19,23 @@ public class RestProjectService {
     @Autowired
     private ProjectService projectService;
     
-    @RequestMapping(value = "/project/{id}", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
-    public Project getProject(@PathVariable String id) {
-        return projectService.getProject(Integer.parseInt(id));
+    /* Map for project id with params to decide if role and interets should be pulled */
+    @RequestMapping(value = "/project/{id}", params = {"roleInfo", "interestInfo"}, headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
+    public Project getProject(@PathVariable String id, @RequestParam("roleInfo") boolean roles, @RequestParam("interestInfo") boolean interest) {
+        return projectService.getProject(Integer.parseInt(id), roles, interest);
     }
 
-    @RequestMapping(value = "/user/{userId}/projects", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
-    public List<Project> getProjectsForUser(@PathVariable String userId) {
-        return projectService.getProjectsForUser(Integer.parseInt(userId));
+    /* Default project map that will pull in both interest and roles as well as project info */
+    @RequestMapping(value = "/project/{id}", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
+    public Project getProject(@PathVariable String id) {
+        return projectService.getProject(Integer.parseInt(id), true, true);
     }
+    
+    @RequestMapping(value = "/user/{userId}/projects", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
+    public List<Project> getProjectsUserOwns(@PathVariable String userId) {
+        return projectService.getProjectsUserOwns(Integer.parseInt(userId));
+    }
+    
      @RequestMapping(method=RequestMethod.POST, value = "/user/{userId}/projects/create", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
     public void createProject(@PathVariable String userId, @RequestBody final Project project) {
         projectService.createProject(Integer.parseInt(userId), project);

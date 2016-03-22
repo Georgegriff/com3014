@@ -5,8 +5,20 @@ define(['jquery', 'js/models/requests'],
             function getUserProjectsPath(userId) {
                 return "/user/" + userId + "/projects";
             }
-            function getProjectPath(projectId) {
-                return "/project/" + projectId;
+            function getProjectPath(projectId, urlParams) {
+                var request = "/project/" + projectId;
+                var qryParams = "";
+                
+                for(var key in urlParams) {
+                    if(qryParams === "") {
+                        qryParams += "?";
+                    }
+                    else {
+                        qryParams += "&";
+                    }
+                    qryParams += key + "=" + encodeURIComponent(urlParams[key]);
+                }
+                return request + qryParams; 
             }
             return {
                 getUserProjectsPath: getUserProjectsPath,
@@ -14,9 +26,8 @@ define(['jquery', 'js/models/requests'],
                     return Requests.getJSON(getUserProjectsPath(id));
                 },
                 getProjectPath: getProjectPath,
-                getProject: function (projectId) {
-                    return Requests.getJSON(getProjectPath(projectId));
+                getProject: function (projectId, urlParams) {
+                    return Requests.getJSON(getProjectPath(projectId, urlParams));
                 }
-
             };
         });

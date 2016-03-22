@@ -63,7 +63,8 @@ define(['underscore', 'jquery', 'text!js/pages/project-swiper/template/template.
                             var path = window.location.pathname,
                                     splitPath = path.split("/"),
                                     id = splitPath[splitPath.length - 1];
-                            return app.models.project.getProject(id);
+                            var urlParams = {roleInfo: "true", interestInfo: "true"};
+                            return app.models.project.getProject(id, urlParams);
                         }
                         function prepareProjectData(data) {
                             project = data;

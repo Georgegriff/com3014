@@ -14,7 +14,6 @@ import com.com3014.group1.projectmatching.model.UserEntity;
 import com.com3014.group1.projectmatching.model.UserInterest;
 import com.com3014.group1.projectmatching.model.UserQualification;
 import com.com3014.group1.projectmatching.model.UserSkill;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,15 +95,10 @@ public class UserService {
         if (entity != null) {
             // Get the attributes of the user
             List<UserSkill> userSkills = userSkillDAO.findByUser(entity);
-
-            List<UserSkill> skills = new ArrayList<UserSkill>();
-            for (UserSkill skill : userSkills) {
-                skills.add(skill);
-            }
             List<UserQualification> userQualifications = userQualDAO.findByUser(entity);
             List<UserInterest> userInterets = userInterestDAO.findByUser(entity);
             // Convert the DAO UserEntity to the DTO User object
-            return new User(entity, skills, userQualifications, userInterets);
+            return new User(entity, userSkills, userQualifications, userInterets);
         } else {
             throw new ObjectNotFoundException(entity, "User Not Found");
         }

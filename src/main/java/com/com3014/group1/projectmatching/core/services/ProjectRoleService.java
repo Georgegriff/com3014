@@ -12,8 +12,6 @@ import com.com3014.group1.projectmatching.dto.Role;
 import com.com3014.group1.projectmatching.model.RoleEntity;
 import com.com3014.group1.projectmatching.model.RoleQualification;
 import com.com3014.group1.projectmatching.model.RoleSkill;
-import com.com3014.group1.projectmatching.model.Skill;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

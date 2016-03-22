@@ -10,6 +10,7 @@ import com.com3014.group1.projectmatching.dao.ProjectInterestDAO;
 import com.com3014.group1.projectmatching.dao.ProjectRoleDAO;
 import com.com3014.group1.projectmatching.dao.RoleQualificationDAO;
 import com.com3014.group1.projectmatching.dao.RoleSkillDAO;
+import com.com3014.group1.projectmatching.dao.UserDAO;
 import com.com3014.group1.projectmatching.dto.Project;
 import com.com3014.group1.projectmatching.dto.Role;
 import com.com3014.group1.projectmatching.model.ProjectEntity;
@@ -18,6 +19,7 @@ import com.com3014.group1.projectmatching.model.ProjectRole;
 import com.com3014.group1.projectmatching.model.RoleEntity;
 import com.com3014.group1.projectmatching.model.RoleQualification;
 import com.com3014.group1.projectmatching.model.RoleSkill;
+import com.com3014.group1.projectmatching.model.UserEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -34,6 +36,9 @@ import org.springframework.stereotype.Service;
 public class ProjectService {
 
     @Autowired
+    private UserDAO userDAO;
+    
+    @Autowired
     private ProjectDAO projectDAO;
 
     @Autowired
@@ -48,24 +53,39 @@ public class ProjectService {
     @Autowired
     private RoleQualificationDAO roleQualificationDAO;
 
-    public Project getProject(int id) {
+    public Project getProject(int id, boolean roles, boolean interests) {
         //TODO:: need to ensure project owner and accepted people can view project
-        Project project;
+        Project project = null;
         try {
             ProjectEntity entity = projectDAO.findOne(id);
             project = convertEntityToProject(entity);
+            
+            // If param set and the role list is currently null, retrieve data
+            if(roles && (project.getRolesList() == null)) {
+                project.setRolesList(getProjectRoles(entity));
+            }
+            // If param set and the interest list is currently null, retrieve data
+            if(interests && (project.getInterestsList() == null)) {
+                project.setInterestsList(getProjectInterests(entity));
+            }
+            
         } catch (ObjectNotFoundException onf) {
             project = null;
+        } catch (NullPointerException npe) {
+            // TODO: Need to consider what we do in this scenario
+            project.setRolesList(new ArrayList<Role>());
+            project.setInterestsList(new ArrayList<ProjectInterest>());
         }
         return project;
     }
 
-    public List<Project> getProjectsForUser(int userId) {
-        // TODO: dummy implementation at the moment, returns all projects
+    public List<Project> getProjectsUserOwns(int userId) {
+        
         List<Project> userProjects = new ArrayList<>();
 
         try {
-            List<ProjectEntity> projects = projectDAO.findAll();
+            UserEntity user = userDAO.findOne(userId);
+            List<ProjectEntity> projects = projectDAO.findByProjectOwner(user);
 
             for (int i = 0; i < projects.size(); i++) {
                 Project project = convertEntityToProject(projects.get(i));
@@ -87,13 +107,30 @@ public class ProjectService {
     private Project convertEntityToProject(ProjectEntity entity) throws ObjectNotFoundException {
         // Get the list attributes of a project
         if (entity != null) {
-            List<ProjectRole> projectRoles = projectRoleDAO.findByProject(entity);
-            List<Role> roleList = convertEntitiesToRoles(projectRoles);
-            List<ProjectInterest> projectInterest = projectInterestDAO.findByProject(entity);
-            // Create Project DTO Object
-            return new Project(entity, roleList, projectInterest);
+            // Create Project DTO Object with project information only
+            return new Project(entity);
         } else {
             throw new ObjectNotFoundException(entity, "Project Not Found");
+        }
+    }
+    
+    private List<Role> getProjectRoles(ProjectEntity entity) throws NullPointerException {
+        // Get the roles and interest associated with a project
+        if (entity != null) {           
+            // Get the project roles
+            List<ProjectRole> projectRoles = projectRoleDAO.findByProject(entity);
+            return convertEntitiesToRoles(projectRoles);
+        } else {
+            throw new NullPointerException("Project entity cannot be null");
+        }
+    }
+    
+    private List<ProjectInterest> getProjectInterests(ProjectEntity entity) throws NullPointerException {
+        if(entity != null) {
+            // Get the project interests
+            return projectInterestDAO.findByProject(entity); 
+        } else {
+            throw new NullPointerException("Project entity cannot be null");
         }
     }
 
@@ -105,15 +142,6 @@ public class ProjectService {
                 List<RoleSkill> skillList = roleSkillDAO.findByRole(entity);
                 List<RoleQualification> qualificationList = roleQualificationDAO.findByRole(entity);
                 Role role = new Role(entity, skillList, qualificationList);
-                roleList.add(role);
-            }
-            return roleList;
-        } else if (entityList != null) {
-            for (int i = 0; i < entityList.size(); i++) {
-                RoleEntity entity = entityList.get(i).getRole();
-                List<RoleSkill> roleSkills = roleSkillDAO.findByRole(entity);
-                List<RoleQualification> qualificationList = roleQualificationDAO.findByRole(entity);
-                Role role = new Role(entity, roleSkills, qualificationList);
                 roleList.add(role);
             }
             return roleList;

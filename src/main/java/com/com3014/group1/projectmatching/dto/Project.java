@@ -24,14 +24,15 @@ public class Project {
     private Date projectStart;
     private Date estimatedEnd;
     private Location location;
+    private int projectOwner;
     private List<Role> rolesList;
     private List<ProjectInterest> interestsList;
-        
-    public Project(){
+    
+    public Project() {
         super();
     }
-    
-    public Project(ProjectEntity entity, List<Role> roles, List<ProjectInterest> interests) {
+        
+    public Project(ProjectEntity entity){
         super();
         this.projectId = entity.getProjectId();
         this.name = entity.getName();
@@ -39,8 +40,7 @@ public class Project {
         this.projectStart = entity.getProjectStart();
         this.estimatedEnd = entity.getEstimatedEnd();
         this.location = entity.getLocation();
-        this.rolesList = roles;
-        this.interestsList = interests;
+        this.projectOwner = entity.getProjectOwner().getUserId();
     }
 
     public Integer getProjectId() {
@@ -106,5 +106,12 @@ public class Project {
     public void setInterestsList(List<ProjectInterest> interestsList) {
         this.interestsList = interestsList;
     }
-    
+
+    public int getProjectOwner() {
+        return projectOwner;
+    }
+
+    public void setProjectOwner(int projectOwner) {
+        this.projectOwner = projectOwner;
+    }   
 }

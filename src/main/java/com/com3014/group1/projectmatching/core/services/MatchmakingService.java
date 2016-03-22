@@ -5,8 +5,6 @@
  */
 package com.com3014.group1.projectmatching.core.services;
 
-import com.com3014.group1.projectmatching.dao.ProjectDAO;
-import com.com3014.group1.projectmatching.dao.RoleDAO;
 import com.com3014.group1.projectmatching.dto.Role;
 import com.com3014.group1.projectmatching.dto.User;
 import com.com3014.group1.projectmatching.matchmaking.Matchmaking;
