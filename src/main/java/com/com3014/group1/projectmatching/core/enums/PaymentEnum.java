@@ -18,7 +18,7 @@ public enum PaymentEnum {
     
     private String value = null;
     
-    PaymentEnum(String value) {
+    private PaymentEnum(String value) {
         this.value = value;
     }
     
