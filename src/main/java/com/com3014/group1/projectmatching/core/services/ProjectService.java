@@ -13,6 +13,7 @@ import com.com3014.group1.projectmatching.dao.RoleSkillDAO;
 import com.com3014.group1.projectmatching.dao.UserDAO;
 import com.com3014.group1.projectmatching.dto.Project;
 import com.com3014.group1.projectmatching.dto.Role;
+import com.com3014.group1.projectmatching.dto.User;
 import com.com3014.group1.projectmatching.model.ProjectEntity;
 import com.com3014.group1.projectmatching.model.ProjectInterest;
 import com.com3014.group1.projectmatching.model.ProjectRole;
@@ -21,7 +22,9 @@ import com.com3014.group1.projectmatching.model.RoleQualification;
 import com.com3014.group1.projectmatching.model.RoleSkill;
 import com.com3014.group1.projectmatching.model.UserEntity;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.transaction.Transactional;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,7 +100,23 @@ public class ProjectService {
         }
         return userProjects;
     }
-
+     
+    public List<Project> getAllProjects() {
+        List<Project> projects = new ArrayList<Project>();
+        try {
+            // Find all the users
+            List<ProjectEntity> allProjects = projectDAO.findAll();
+            for (int i = 0; i < allProjects.size(); i++) {
+                Project project = convertEntityToProject(allProjects.get(i));
+                projects.add(project);
+            }
+        } catch (ObjectNotFoundException onf) {
+            projects = null;
+            onf.printStackTrace();
+        }
+        return projects;
+    }
+    
     @Transactional
     public List<ProjectEntity> createProject(int userId, Project projectData) {
         //TODO::
