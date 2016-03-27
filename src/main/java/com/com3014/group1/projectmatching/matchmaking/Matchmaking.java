@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.Map;
@@ -37,7 +38,7 @@ public class Matchmaking {
 
     @Autowired
     private ProjectService projectService;
-    
+
     public Matchmaking() {
     }
 
@@ -148,26 +149,29 @@ public class Matchmaking {
         return numberOfRequiredSkills == numberOfRequiredSkillsUserHas;
     }
 
-    // returns an array of role id's, ordered by score
-    public List<Role> findRolesForUser(User user) { 
+    // returns an array of pjrects with matches roles, ordered by score
+    public List<Project> findRolesForUser(User user) {
         // a list of skills this user has
         List<UserSkill> userSkills = user.getSkillsList();
         // a list of all projects
         List<Project> allProjects = projectService.getAllProjects();
+
         // a map of users already accepted or rejected
-        List<Role> alreadySwiped = new ArrayList<Role>(); // <- PLACEHOLDER!
+        Map<Integer, Role> alreadySwipedMap = new HashMap<>(); // <- PLACEHOLDER!
+        List<Integer> alreadySwiped = new ArrayList<>(alreadySwipedMap.keySet());
 
+        Map<Role, Project> roleIdProjectData = new HashMap<>();
         Map<Double, Role> rolesAndScores = new HashMap<>();
-
+        int projectIndex = 0;
         for (Project project : allProjects) {
             int projectID = project.getProjectId();
-            
+
             // get the projects roles
             List<Role> allRoles = project.getRolesList();
-            
+
             for (Role role : allRoles) {
                 int roleID = role.getRoleId();
-            
+
                 // check the role has not already been swiped
                 if (!alreadySwiped.contains(roleID)) {
 
@@ -176,20 +180,23 @@ public class Matchmaking {
                     if (userHasRequiredSkills(userSkills, roleSkills)) {
                         double userScore = calculateUserScore(user, role);
                         rolesAndScores.put(userScore, role);
+                        roleIdProjectData.put(role, project);
                     }
                 }
             }
         }
 
         // order the users based on matchmaking score
-        List<Role> rolesOrdered = new ArrayList<>();
+        List<Project> projectRolesOrdered = new ArrayList<>();
 
         SortedSet<Double> scores = new TreeSet<>(rolesAndScores.keySet());
         for (Double score : scores) {
             Role role = rolesAndScores.get(score);
-            rolesOrdered.add(role);
+            Project project = roleIdProjectData.get(role);
+            project.setRolesList(new ArrayList<>(Arrays.asList(role)));
+            projectRolesOrdered.add(project);
         }
 
-        return rolesOrdered;
+        return projectRolesOrdered;
     }
 }

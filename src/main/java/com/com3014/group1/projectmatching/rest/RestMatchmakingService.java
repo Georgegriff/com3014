@@ -6,8 +6,10 @@
 package com.com3014.group1.projectmatching.rest;
 
 import com.com3014.group1.projectmatching.core.services.MatchmakingService;
+import com.com3014.group1.projectmatching.dto.Project;
 import com.com3014.group1.projectmatching.dto.User;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,10 +26,16 @@ public class RestMatchmakingService {
 
     @Autowired
     private MatchmakingService matchmakingService;
-    
+
     @RequestMapping(value = "/role/{roleId}", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
-    public List<User> matchUserToRole(@PathVariable String roleId) {
+    public List<User> matchRoleToUsers(@PathVariable String roleId) {
         return matchmakingService.matchUserToRole(Integer.parseInt(roleId));
+    }
+
+    @RequestMapping(value = "/user/roles", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
+    public List<Project> matchUserToRoles(HttpSession session) {
+        User currentUser = (User) session.getAttribute("currentUser");
+        return matchmakingService.matchUserToProjectRoles(currentUser);
     }
 
 }

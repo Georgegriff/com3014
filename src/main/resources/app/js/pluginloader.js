@@ -9,10 +9,16 @@ define([
         function loadPlugins() {
             var promise = $.Deferred();
             SideMenu.init(app);
-            app.plugins.swipers = Swipers.init(app);
+            loadSwipers();
+            app.reloadSwipers = loadSwipers;
             app.plugins.Tile = Tile.init(app);
             return promise.resolve();
         }
+        
+        function loadSwipers(){
+            app.plugins.swipers = Swipers.init(app);
+        }
+        
         return {
             loadPlugins: loadPlugins
         };

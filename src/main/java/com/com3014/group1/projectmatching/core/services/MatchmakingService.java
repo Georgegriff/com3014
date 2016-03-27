@@ -5,6 +5,7 @@
  */
 package com.com3014.group1.projectmatching.core.services;
 
+import com.com3014.group1.projectmatching.dto.Project;
 import com.com3014.group1.projectmatching.dto.Role;
 import com.com3014.group1.projectmatching.dto.User;
 import com.com3014.group1.projectmatching.matchmaking.Matchmaking;
@@ -38,5 +39,9 @@ public class MatchmakingService {
         }else {
             return new ArrayList<User>();
         }
+    }
+
+    public List<Project> matchUserToProjectRoles(User user) {
+      return matching.findRolesForUser(user);
     }
 }

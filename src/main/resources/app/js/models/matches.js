@@ -9,8 +9,14 @@ define(['jquery', 'js/models/requests'],
             function getMatchesForRole(roleId) {
                 return Requests.getJSON(MATCHES + "/role/" + roleId);
             }
+            
+              function getMatchesForUser() {
+                return Requests.getJSON(MATCHES + "/user/roles");
+            }
+            
             return {
                 getProjectMatcherPath: getProjectMatcherPath,
-                getMatchesForRole: getMatchesForRole
+                getMatchesForRole: getMatchesForRole,
+                getMatchesForUser : getMatchesForUser
             };
         });

@@ -1,5 +1,5 @@
 /* global define: true, document: true */
-define(['underscore', 'jquery', 'text!js/pages/project-swiper/template/template.htm'],
+define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm'],
         function (_, $, Template) {
             "use strict";
             return {
@@ -10,6 +10,7 @@ define(['underscore', 'jquery', 'text!js/pages/project-swiper/template/template.
                                 roleMatches = [],
                                 project = {},
                                 roles = [];
+
                         function onDataLoad(swiper) {
                             if (roleMatches.length) {
                                 app.plugins.swipers.show();
@@ -18,7 +19,7 @@ define(['underscore', 'jquery', 'text!js/pages/project-swiper/template/template.
                                     var user = roleMatches[swiper.getPosition()],
                                             role = null;
                                     if (user) {
-                                          role = user.matchedRole;
+                                        role = user.matchedRole;
                                         swiper.init({
                                             onAccept: onAccept(),
                                             onReject: onReject()
@@ -83,21 +84,37 @@ define(['underscore', 'jquery', 'text!js/pages/project-swiper/template/template.
                                             return $.Deferred().resolve(firstRole, data);
                                         }).fail(function (err) {
                                     console.error(err);
+
                                 });
                             }
                             return null;
                         }
-                        function loadDone(role, data) {
-                            $pending.fadeOut(1000, function(){
+                        function hidePending(action) {
+                            $pending.fadeOut(500, function () {
                                 $pending.remove();
+                                if (_.isFunction(action)) {
+                                    action();
+                                }
                             });
+                        }
+                        function loadDone(role, data) {
+                            var promise = $.Deferred(),
+                                    index = 0;
                             if (_.isArray(data)) {
-                                _.each(data, function(item){
-                                   if(item){
-                                       item.matchedRole = role;
-                                   } 
+                                _.each(data, function (item) {
+                                    if (item) {
+                                        item.matchedRole = role;
+                                    }
+                                    index++;
+                                    if (index >= data.length) {
+                                        roleMatches = data;
+                                        return promise.resolve();
+                                    }
+
                                 });
-                                roleMatches = data;
+
+                            } else {
+                                return promise.reject();
                             }
                         }
                         function loadNewData() {
@@ -114,11 +131,17 @@ define(['underscore', 'jquery', 'text!js/pages/project-swiper/template/template.
                                         .then(getMatchesForRole)
                                         .then(loadDone)
                                         .then(function () {
-                                            swipers.onDataLoad(onDataLoad);
-                                            swipers.showSwipers();
+                                            hidePending(function () {
+                                                swipers.onDataLoad(onDataLoad);
+                                                swipers.showSwipers();
+                                            })
                                         })
                                         .fail(function (err) {
-                                            console.error(err);
+                                            hidePending(function () {
+                                                console.error(err);
+                                                swipers.hide();
+                                            });
+
                                         });
 
                                 //TODO populate data for remaning roles
@@ -126,6 +149,7 @@ define(['underscore', 'jquery', 'text!js/pages/project-swiper/template/template.
                         }
 
                         function show() {
+                            app.reloadSwipers();
                             app.container.showContent($page);
                             render();
                         }

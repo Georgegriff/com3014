@@ -40,7 +40,7 @@ public class ProjectService {
 
     @Autowired
     private UserDAO userDAO;
-    
+
     @Autowired
     private ProjectDAO projectDAO;
 
@@ -62,28 +62,16 @@ public class ProjectService {
         try {
             ProjectEntity entity = projectDAO.findOne(id);
             project = convertEntityToProject(entity);
-            
-            // If param set and the role list is currently null, retrieve data
-            if(roles && (project.getRolesList() == null)) {
-                project.setRolesList(getProjectRoles(entity));
-            }
-            // If param set and the interest list is currently null, retrieve data
-            if(interests && (project.getInterestsList() == null)) {
-                project.setInterestsList(getProjectInterests(entity));
-            }
-            
+            retrieveProjectData(entity, project, roles, interests);
+
         } catch (ObjectNotFoundException onf) {
             project = null;
-        } catch (NullPointerException npe) {
-            // TODO: Need to consider what we do in this scenario
-            project.setRolesList(new ArrayList<Role>());
-            project.setInterestsList(new ArrayList<ProjectInterest>());
         }
         return project;
     }
 
     public List<Project> getProjectsUserOwns(int userId) {
-        
+
         List<Project> userProjects = new ArrayList<>();
 
         try {
@@ -100,23 +88,25 @@ public class ProjectService {
         }
         return userProjects;
     }
-     
+
     public List<Project> getAllProjects() {
         List<Project> projects = new ArrayList<Project>();
         try {
             // Find all the users
             List<ProjectEntity> allProjects = projectDAO.findAll();
-            for (int i = 0; i < allProjects.size(); i++) {
-                Project project = convertEntityToProject(allProjects.get(i));
+            for (ProjectEntity entity : allProjects) {
+                Project project = convertEntityToProject(entity);
+                retrieveProjectData(entity, project, true, true);
                 projects.add(project);
             }
+
         } catch (ObjectNotFoundException onf) {
             projects = null;
             onf.printStackTrace();
         }
         return projects;
     }
-    
+
     @Transactional
     public List<ProjectEntity> createProject(int userId, Project projectData) {
         //TODO::
@@ -132,24 +122,35 @@ public class ProjectService {
             throw new ObjectNotFoundException(entity, "Project Not Found");
         }
     }
-    
-    private List<Role> getProjectRoles(ProjectEntity entity) throws NullPointerException {
-        // Get the roles and interest associated with a project
-        if (entity != null) {           
-            // Get the project roles
+
+    private List<Role> getProjectRoles(ProjectEntity entity) {
+        // Get the project roles
+        if (entity != null) {
             List<ProjectRole> projectRoles = projectRoleDAO.findByProject(entity);
             return convertEntitiesToRoles(projectRoles);
         } else {
-            throw new NullPointerException("Project entity cannot be null");
+            return new ArrayList<>();
+        }
+
+    }
+
+    private List<ProjectInterest> getProjectInterests(ProjectEntity entity) {
+        // Get the project interests
+        if (entity != null) {
+            return projectInterestDAO.findByProject(entity);
+        } else {
+            return new ArrayList<>();
         }
     }
-    
-    private List<ProjectInterest> getProjectInterests(ProjectEntity entity) throws NullPointerException {
-        if(entity != null) {
-            // Get the project interests
-            return projectInterestDAO.findByProject(entity); 
-        } else {
-            throw new NullPointerException("Project entity cannot be null");
+
+    private void retrieveProjectData(ProjectEntity projectEntity, Project project, boolean roles, boolean interests) {
+        // If param set and the role list is currently null, retrieve data
+        if (roles && (project.getRolesList() == null)) {
+            project.setRolesList(getProjectRoles(projectEntity));
+        }
+        // If param set and the interest list is currently null, retrieve data
+        if (interests && (project.getInterestsList() == null)) {
+            project.setInterestsList(getProjectInterests(projectEntity));
         }
     }
 

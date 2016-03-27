@@ -20,6 +20,7 @@ define(['underscore', 'jquery', 'js/plugins/swipers/swiper', 'text!js/plugins/sw
             function Swipers() {
                 var self = this,
                         $noMatchesMessage = createNoMatchMessage();
+
                 self.swipers = [];
                 self.$swipeCont = $('<article class="swipe-stack">');
 
@@ -30,6 +31,7 @@ define(['underscore', 'jquery', 'js/plugins/swipers/swiper', 'text!js/plugins/sw
                 }
                 function attachTo($parent) {
                     self.$swipeCont.hide();
+                    $noMatchesMessage.hide();
                     $parent.append(self.$swipeCont);
                     $('#content').append($noMatchesMessage);
                 }
