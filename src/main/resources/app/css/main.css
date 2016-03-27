@@ -234,7 +234,6 @@ ul {
     overflow-y:scroll;
     overflow-x: hidden;
     margin-top:1%;
-    width:105%;
 
 }
 .profile-images {
@@ -342,6 +341,11 @@ ul {
 
         min-height:700px;
         height: auto;
+
+    }
+    .profile-container {
+
+        width:105%;
 
     }
     .swiper {
@@ -556,18 +560,18 @@ ul {
     padding: 0;
     margin : 0;
     color: #666;
-    flex: 2;
+    flex: 5;
     font-size:90%;
 }
 /* Project Swipers */
 .profile-right-subtitle {
     padding: 0;
-    margin : 0 0 5px 0;
+    margin : 0 1% 5px 0;
     color: #666;
     font-weight:normal;
     font-size:90%;
     text-align:right;
-    flex:1;
+    flex:4;
 }
 .subs {
     display:flex;
@@ -596,15 +600,15 @@ ul.profile-list {
     overflow:hidden;
 }
 .no-matches .no-match-msg {
-    
+
 }
 .no-matches i {
     font-size:20em;
 }
 .no-matches .no-match-dir {
-    
+
 }
 .spin {
-     animation:spin 4s linear infinite;
+    animation:spin 4s linear infinite;
 }
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
