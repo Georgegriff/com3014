@@ -1,0 +1,118 @@
+body,html {
+    height:100%;
+    min-height: 100%;
+    width: 100%;
+    margin: 0;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.login {
+    width:90%;
+    max-width:500px;
+    background: #f5f5f5;
+    min-height:250px; 
+    -webkit-box-shadow: 0px 0px 7px 0px rgba(102,102,102,1);
+    -moz-box-shadow: 0px 0px 7px 0px rgba(102,102,102,1);
+    box-shadow: 0px 0px 7px 0px rgba(102,102,102,1);
+        border-radius:1%;
+        overflow:hidden;
+}
+.login-form {
+    width:90%;
+    flex-direction: column;
+
+}
+.rotTfive {
+    transform: rotate(25deg);
+}
+.flex-center {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.form-title {
+    display:flex;
+    margin:0;
+    padding:3%;
+    border-bottom:solid 1px white;
+    color:white;
+    background: #FFB300;
+}
+.login-container {
+    margin-top:0;
+    padding:10%;
+    display:flex;
+    flex-direction: column;
+    border: 2px solid #f1f1f1;
+}
+.form-item {
+    text-align: right;
+    margin: 1% 0 1% 0;
+    display:flex;
+    flex-direction: row;
+}
+.form-item i {
+    color: #666;
+    flex:1;
+    padding:1%;
+    margin:5px;
+    display:flex;
+    align-items: center;
+}
+.form-item input {
+    padding:5% 0 5% 1%;
+    flex:8;
+    border: solid 1px #666;
+}
+.form-item.btn {
+    width:100%;
+    margin-top:2%;
+
+}
+.form-btn {
+    width:100%;
+
+}
+.form-btn, .form-item {
+    max-width: 250px;
+    min-width:100px;
+}
+.core-button {
+    -moz-box-shadow:inset 0px 1px 0px 0px #5A6EC2;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #5A6EC2;
+    box-shadow:inset 0px 1px 0px 0px #5972a7;
+    background-color:#5A6EC2;
+    border:1px solid #091C6A;
+    border-radius:2px;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-size:13px;
+    font-weight:bold;
+    padding:12px 19px;
+    text-decoration:none;
+    width:100%;
+    opacity:1;
+}
+.core-button:hover {
+    background-color:#5972a7;
+}
+.core-button:active {
+    position:relative;
+    top:1px;
+}
+.core-button[disabled="disabled"]{
+    opacity: 0.5;
+}
+.form-cont {
+    display:flex;
+    flex-direction: column;
+}
+.message {
+    text-align: center;
+}
+.error {
+    color:red;
+}

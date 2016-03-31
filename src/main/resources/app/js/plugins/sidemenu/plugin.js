@@ -54,7 +54,10 @@ define(['underscore', 'jquery', 'jquery.ui', 'text!js/plugins/sidemenu/template/
                             });
                         }
                         function show() {
+                            var $container = $('#container');
                             $('.slideable').addClass('animate-cont');
+                            $container.addClass("sidemenu-active");
+                            $sideMenu.css({"top" : $container.scrollTop()});
                             $sideMenu.toggle("slide", {direction: "right"});
 
 
@@ -62,7 +65,7 @@ define(['underscore', 'jquery', 'jquery.ui', 'text!js/plugins/sidemenu/template/
                         }
                         function hide() {
                             if (visible) {
-
+                                $('#container').removeClass("sidemenu-active");
                                 $sideMenu.toggle("slide", {direction: "right"}, 600);
                                 $('.slideable').removeClass('animate-cont');
                                 visible = false;

@@ -2,28 +2,38 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
     <head>      
-        <title>Project Matchmaking - Login</title>
+        <title>ProMatch- Login</title>
         <base href="/"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> <!--320-->
+        <meta name="application-name" content="ProMatch"/>
+        <meta name="description" content=""/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta name="mobile-web-app-capable" content="yes"/>
+        <script src="js/vendor/require.js" data-main="js/login.js"></script>
+        <link rel="stylesheet" href="css/vendor/normalize.css"/>
+        <link rel="stylesheet" href="css/vendor/font-awesome.min.css"/>
+        <link rel="stylesheet" href="css/vendor/jquery-ui.css"/>
+        <link rel="stylesheet" href="css/login.css"/>
     </head>
     <body>
-        <article id="login-page">
-            <section>
-                Login
-
-                <div th:if="${param.error}">
-                    Invalid username and password.
-                </div>
-                <div th:if="${param.logout}">
-                    You have been logged out.
-                </div>
-                <form th:action="@{/login}" method="post">
-                    <div><label> User Name : <input type="text" name="username"/> </label></div>
-                    <div><label> Password: <input type="password" name="password"/> </label></div>
-                    <div><input type="submit" value="Sign In"/></div>
-                </form>
-            </section>
-        </article>
+        <div id="login-page" class="login">
+            <h1 class="form-title">ProMatch<i class="rotTfive fa fa-lightbulb-o"></i></h1>
+            <article class="login-container" >
+                <section class="form-cont flex-center">      
+                    <form class="login-form flex-center" th:action="@{/login}" method="post">
+                        <div class="form-item username"><i class="fa fa-user"></i><input id="username" placeholder="User Name" type="text" name="username"/></div>
+                        <div class="form-item password"><i class="fa fa-lock"></i><input id="password" placeholder="Password" type="password" name="password"/></div>
+                        <div class="form-item btn"><button id="login-btn" disabled="disabled" class="core-button form-btn" type="submit">Login</button></div>
+                    </form>
+                    <div class="message error" th:if="${param.error}">
+                        Invalid username or password.
+                    </div>
+                    <div class="message" th:if="${param.logout}">
+                        You have been logged out.
+                    </div>
+                </section>
+            </article>
+        </div>
     </body>
 </html>
