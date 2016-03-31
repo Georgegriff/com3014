@@ -21,15 +21,20 @@ define(['underscore',
                     pluginLoader = new PluginLoader(self);
                     self.initialiseUser()
                             .then(self.loadPlugins)
+                            .then(self.linkUserProfile)
                             .then(initRouteHandler);
                     self.pages = {};
 
                 };
                 App.prototype.initialiseUser = function initUser() {
-                    return UserModel.getCurrentUser().then(function (user) {
+                    return self.models.user.getCurrentUser().then(function (user) {
                         self.currentUser = user;
                     });
 
+                };
+                App.prototype.linkUserProfile = function linkUserProfile(){
+                    var uri = self.models.user.getProfile(self.currentUser.userId);
+                    $('#profile-icon').find('a').prop("href", uri);
                 };
                 App.prototype.initModels = function initModels() {
                     self.models = {};

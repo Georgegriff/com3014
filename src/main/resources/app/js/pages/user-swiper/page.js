@@ -10,7 +10,7 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                                 roleMatches = [],
                                 project = {},
                                 roles = [],
-                                MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+                                MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
                         function onDataLoad(swiper) {
                             if (roleMatches.length) {
                                 app.plugins.swipers.show();

@@ -80,7 +80,7 @@ function error(err){
 gulp.task('watch', function () {
     gulp.watch('app/js/**/**/*.*').on('change', function () {
         console.log("Building JavaScript..");
-        return gulp.src("app/js/**/**/*.*")
+        return gulp.src("app/js/**")
                 .pipe(gulp.dest(directories.TARGET_DIR + "public/js"));
     });
     gulp.watch('app/css/**/*.*').on('change', function () {

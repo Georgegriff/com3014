@@ -29,12 +29,16 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                                         swiper.setSubtitle(role.name);
                                         swiper.setRightSubtitle("Last Active " + lastActive(user.lastLogin) + " Days Ago");
                                         //swiper.addDescription("About");
+                                        swiper.addList("Interests", user.interestsList, function (interest) {
+                                            return interest.interest;
+                                        });
                                         swiper.addList("Skills", user.skillsList, function (skill) {
                                             return skill.skill.name + ", " + skill.monthsOfExperience + " Months Experience.";
                                         });
                                         swiper.addList("Qualifications", user.qualificationsList, function (qualification) {
                                             return qualification.subject + ": " + qualification.qualificationLevel.qualificationLevel;
                                         });
+
                                     }
                                 }
                             } else {
