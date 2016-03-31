@@ -5,7 +5,6 @@
  */
 package com.com3014.group1.projectmatching.dao;
 
-import com.com3014.group1.projectmatching.model.Skill;
 import com.com3014.group1.projectmatching.model.UserEntity;
 import com.com3014.group1.projectmatching.model.UserSkill;
 import com.com3014.group1.projectmatching.model.UserSkill.UserSkillPK;

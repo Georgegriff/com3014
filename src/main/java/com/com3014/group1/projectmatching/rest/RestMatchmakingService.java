@@ -27,9 +27,9 @@ public class RestMatchmakingService {
     @Autowired
     private MatchmakingService matchmakingService;
 
-    @RequestMapping(value = "/role/{roleId}", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
-    public List<User> matchRoleToUsers(@PathVariable String roleId) {
-        return matchmakingService.matchUserToRole(Integer.parseInt(roleId));
+    @RequestMapping(value = "/project/{projectId}/role/{roleId}", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
+    public List<User> matchRoleToUsers(@PathVariable String projectId, @PathVariable String roleId) {
+        return matchmakingService.matchUserToRole(Integer.parseInt(projectId), Integer.parseInt(roleId));
     }
 
     @RequestMapping(value = "/user/roles", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
@@ -37,5 +37,20 @@ public class RestMatchmakingService {
         User currentUser = (User) session.getAttribute("currentUser");
         return matchmakingService.matchUserToProjectRoles(currentUser);
     }
-
+    
+    // TODO, change this to a PUT request. Need to see how that is implemented from the js stuff
+    @RequestMapping(value = "/project/{projectId}/save/{accepted}/{rejected}", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
+    public void saveSwipedUsers(@PathVariable String projectId, @PathVariable String accepted, @PathVariable String rejected) {
+        if(projectId != null) {
+            this.matchmakingService.saveUserSwipePreferences(Integer.parseInt(projectId), accepted, rejected);
+        }
+    }
+    
+    // TODO, change this to a PUT request. Need to see how that is implemented from the js stuff
+    @RequestMapping(value = "/user/{userId}/save/{accepted}/{rejected}", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
+    public void saveSwipedProjects(@PathVariable String userId, @PathVariable String accepted, @PathVariable String rejected) {
+        if(userId != null) {
+            this.matchmakingService.saveProjectSwipePreferences(Integer.parseInt(userId), accepted, rejected);
+        }
+    }
 }

@@ -21,8 +21,8 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                                     if (project) {
                                         role = project.rolesList[0];
                                         swiper.init({
-                                            onAccept: onAccept(),
-                                            onReject: onReject()
+                                            onAccept: onAccept(project.projectId, role.roleId),
+                                            onReject: onReject(project.projectId, role.roleId)
                                         });
 
                                         swiper.setImage("img/default-project.svg");
@@ -55,14 +55,18 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                             return MONTHS[start.getMonth()] + " " + start.getFullYear() + " - " + MONTHS[end.getMonth()] + " " + end.getFullYear();
                         }
 
-                        function onAccept(userId, roleId) {
+                        function onAccept(projectId, roleId) {
                             return function () {
+                                 // save to accepted array
+                                app.models.matches.addToProjectsAccepted(projectId);
                                 // remove current entry from array
                                 roleMatches.shift();
                             };
                         }
-                        function onReject(userId, roleId) {
+                        function onReject(projectId, roleId) {
                             return function () {
+                                 // save to rejected array
+                                app.models.matches.addToProjectsRejected(projectId);
                                 // remove current entry from array
                                 roleMatches.shift();
                             };

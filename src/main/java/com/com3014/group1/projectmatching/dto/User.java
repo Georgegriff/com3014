@@ -22,6 +22,8 @@ public class User {
     private Integer userId;
     private String username;
     private String name;
+    private String forename;
+    private String surname;
     private String email;
     private Float averageRating;
     private List<UserSkill> skillsList;
@@ -39,6 +41,8 @@ public class User {
         this.userId = user.getUserId();
         this.username = user.getUsername();
         this.name = constructName(user);
+        this.forename = user.getName();
+        this.surname = user.getSurname();
         this.email = user.getEmail();
         this.averageRating = user.getAverageRating();
         this.skillsList = skillList;
@@ -69,6 +73,22 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getForename() {
+        return forename;
+    }
+
+    public void setForename(String forename) {
+        this.forename = forename;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getEmail() {

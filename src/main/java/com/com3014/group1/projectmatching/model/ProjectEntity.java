@@ -7,7 +7,6 @@ package com.com3014.group1.projectmatching.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -61,7 +60,7 @@ public class ProjectEntity implements Serializable {
     )
     private Location location;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "project_owner")
     private UserEntity projectOwner;
 
@@ -72,7 +71,10 @@ public class ProjectEntity implements Serializable {
         return projectId;
     }
 
-    public void setProjectId(int projectId) {
+    public void setProjectId(Integer projectId) {
+        if(projectId.equals(this.projectId)) {
+            return;
+        }
         this.projectId = projectId;
     }
 
@@ -81,6 +83,9 @@ public class ProjectEntity implements Serializable {
     }
 
     public void setName(String name) {
+        if(name.equals(this.name)) {
+            return;
+        }
         this.name = name;
     }
 
@@ -89,6 +94,9 @@ public class ProjectEntity implements Serializable {
     }
 
     public void setDescription(String description) {
+        if(description.equals(this.description)) {
+            return;
+        }
         this.description = description;
     }
 
@@ -97,6 +105,9 @@ public class ProjectEntity implements Serializable {
     }
 
     public void setProjectStart(Date projectStart) {
+        if(projectStart.equals(this.projectStart)) {
+            return;
+        }
         this.projectStart = projectStart;
     }
 
@@ -105,6 +116,9 @@ public class ProjectEntity implements Serializable {
     }
 
     public void setEstimatedEnd(Date estimatedEnd) {
+        if(estimatedEnd.equals(this.estimatedEnd)) {
+            return;
+        }
         this.estimatedEnd = estimatedEnd;
     }
 
@@ -113,6 +127,9 @@ public class ProjectEntity implements Serializable {
     }
 
     public void setLocation(Location location) {
+        if(location.equals(this.location)) {
+            return;
+        }
         this.location = location;
     }
     
@@ -121,6 +138,9 @@ public class ProjectEntity implements Serializable {
     }
     
     public void setProjectOwner(UserEntity projectOwner) {
+        if(projectOwner.equals(this.projectOwner)) {
+            return;
+        }
         this.projectOwner = projectOwner;
     }
 }

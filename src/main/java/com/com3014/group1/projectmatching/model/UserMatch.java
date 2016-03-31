@@ -53,10 +53,16 @@ public class UserMatch implements Serializable {
     }
 
     public void setSetId(Integer setId) {
+        if(setId.equals(this.setId)) {
+            return;
+        }
         this.setId = setId;
     }
 
     public void setUser(UserEntity user) {
+        if(user.equals(this.user)) {
+            return;
+        }
         this.user = user;
     }
 
@@ -65,6 +71,9 @@ public class UserMatch implements Serializable {
     }
 
     public void setCacheExpire(Date cacheExpire) {
+        if(cacheExpire.equals(this.cacheExpire)) {
+            return;
+        }        
         this.cacheExpire = cacheExpire;
     }
 
@@ -73,6 +82,9 @@ public class UserMatch implements Serializable {
     }
 
     public void setStatusControl(String statusControl) {
+        if(statusControl.equals(this.statusControl)) {
+            return;
+        }
         this.statusControl = statusControl;
     }
 

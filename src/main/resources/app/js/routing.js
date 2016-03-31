@@ -31,7 +31,7 @@ define(function () {
             return $.Deferred().resolve(app.pages[name]);
         }
         return {
-            routeHandler: function (route, event) {
+            routeHandler: function (route, event) {                
                 if (typeof (route) !== 'undefined' && route) {
                     if (historyAPI()) {
                         if (route !== window.location.pathname) {
@@ -39,21 +39,30 @@ define(function () {
                         }
                     }
                     if (route.indexOf("/matches/") > -1) {
+                        
                         if (route.indexOf("/project/") > -1) {
                             route = app.models.matches.getProjectMatcherPath("id");
                         }
                     } else if (route.indexOf("/project/") > -1) {
                         route = app.models.project.getProjectPath("id");
                     }
+                    
+                    var projectId = app.models.matches.getProjectId();
+                    
                     switch (route) {
-
                         case ROOT:
                             showPage("user-swiper", event);
                             break;
                         case app.models.user.getProfile():
+                            // Save any swipes made before navigating to new screen
+                            //app.models.matches.saveSwipedUsers(projectId);
+                            //app.models.matches.saveSwipedProjects(app.currentUser.userId);
                             showPage("user-profile", event);
                             break;
                         case app.models.project.getUserProjectsPath(app.currentUser.userId):
+                            // Save any swipes made before navigating to new screen
+                            //app.models.matches.saveSwipedUsers(projectId);
+                            //app.models.matches.saveSwipedProjects(app.currentUser.userId);
                             showPage("projects", event);
                             break;
                         case app.models.project.getProjectPath("id"):

@@ -14,6 +14,7 @@ import com.com3014.group1.projectmatching.model.UserEntity;
 import com.com3014.group1.projectmatching.model.UserInterest;
 import com.com3014.group1.projectmatching.model.UserQualification;
 import com.com3014.group1.projectmatching.model.UserSkill;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -102,7 +103,42 @@ public class UserService {
         } else {
             throw new ObjectNotFoundException(entity, "User Not Found");
         }
-
+    }
+    
+    public UserEntity convertUserToEntity(User user) {
+        // See if the user already exists in the datbase, get persisted
+        UserEntity entity = userDAO.findOne(user.getUserId());
+        
+        // If not create a new user object
+        if(entity == null) {
+            entity = new UserEntity();
+        }
+        
+        entity.setUsername(user.getUsername());
+        entity.setName(user.getForename());
+        entity.setSurname(user.getSurname());
+        entity.setEmail(user.getEmail());
+        entity.setAverageRating(user.getAverageRating());
+        entity.setLastLogin(user.getLastLogin());
+        return entity;
     }
 
+    public List<User> convertEntityListToUserList(List<UserEntity> entities) {
+        List<User> users = new ArrayList<>();
+        for(UserEntity entity : entities) {
+            try {
+                User user = convertEntityToUser(entity);
+                users.add(user);
+            }
+            catch(ObjectNotFoundException onf) {
+                users = null;
+                break;
+            }
+        }
+        return users;
+    }
+    
+    public UserEntity findEntityById(int id) {
+        return this.userDAO.findOne(id);
+    }
 }

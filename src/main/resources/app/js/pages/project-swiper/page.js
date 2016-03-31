@@ -9,6 +9,7 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                                 $pending,
                                 roleMatches = [],
                                 project = {},
+                                projectId = null,
                                 roles = [];
 
                         function onDataLoad(swiper) {
@@ -21,8 +22,8 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                                     if (user) {
                                         role = user.matchedRole;
                                         swiper.init({
-                                            onAccept: onAccept(),
-                                            onReject: onReject()
+                                            onAccept: onAccept(user.userId, role.roleId),
+                                            onReject: onReject(user.userId, role.roleId)
                                         });
                                         swiper.setImage("img/default-profile.svg");
                                         swiper.setTitle(user.name);
@@ -54,12 +55,16 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         }
                         function onAccept(userId, roleId) {
                             return function () {
+                                // save to accepted array
+                                app.models.matches.addToUsersAccepted(userId);
                                 // remove current entry from array
                                 roleMatches.shift();
                             };
                         }
                         function onReject(userId, roleId) {
                             return function () {
+                                // save to rejected array
+                                app.models.matches.addToUsersRejected(userId);
                                 // remove current entry from array
                                 roleMatches.shift();
                             };
@@ -73,6 +78,8 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         }
                         function prepareProjectData(data) {
                             project = data;
+                            projectId = project.projectId;
+                            app.models.matches.setProjectId(projectId);
                             roles = project.rolesList;
                             return roles;
                         }

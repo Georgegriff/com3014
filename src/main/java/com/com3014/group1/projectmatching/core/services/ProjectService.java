@@ -13,7 +13,6 @@ import com.com3014.group1.projectmatching.dao.RoleSkillDAO;
 import com.com3014.group1.projectmatching.dao.UserDAO;
 import com.com3014.group1.projectmatching.dto.Project;
 import com.com3014.group1.projectmatching.dto.Role;
-import com.com3014.group1.projectmatching.dto.User;
 import com.com3014.group1.projectmatching.model.ProjectEntity;
 import com.com3014.group1.projectmatching.model.ProjectInterest;
 import com.com3014.group1.projectmatching.model.ProjectRole;
@@ -22,9 +21,7 @@ import com.com3014.group1.projectmatching.model.RoleQualification;
 import com.com3014.group1.projectmatching.model.RoleSkill;
 import com.com3014.group1.projectmatching.model.UserEntity;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.transaction.Transactional;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,13 +81,12 @@ public class ProjectService {
             }
         } catch (ObjectNotFoundException onf) {
             userProjects = null;
-            onf.printStackTrace();
         }
         return userProjects;
     }
 
     public List<Project> getAllProjects() {
-        List<Project> projects = new ArrayList<Project>();
+        List<Project> projects = new ArrayList<>();
         try {
             // Find all the users
             List<ProjectEntity> allProjects = projectDAO.findAll();
@@ -102,7 +98,6 @@ public class ProjectService {
 
         } catch (ObjectNotFoundException onf) {
             projects = null;
-            onf.printStackTrace();
         }
         return projects;
     }
@@ -121,6 +116,22 @@ public class ProjectService {
         } else {
             throw new ObjectNotFoundException(entity, "Project Not Found");
         }
+    }
+    
+    public List<Project> convertEntityListToProjectList(List<ProjectEntity> entities) {
+        List<Project> projects = new ArrayList<>();
+        for(ProjectEntity entity : entities) {
+            try {
+                Project project = convertEntityToProject(entity);
+                retrieveProjectData(entity, project, true, true);
+                projects.add(project);
+            }
+            catch(ObjectNotFoundException onf) {
+                projects = null;
+                break;
+            }
+        }
+        return projects;
     }
 
     private List<Role> getProjectRoles(ProjectEntity entity) {
@@ -168,5 +179,26 @@ public class ProjectService {
         } else {
             throw new ObjectNotFoundException(ProjectRole.class, "Project Roles Not Found");
         }
+    }
+    
+    public ProjectEntity convertProjectToEntity(Project project) {
+        // Try and find a persisted object in the database
+        ProjectEntity entity = projectDAO.findOne(project.getProjectId());;
+              
+        if(entity == null) {
+            entity = new ProjectEntity();
+        }
+        
+        entity.setName(project.getName());
+        entity.setDescription(project.getDescription());
+        entity.setProjectStart(project.getProjectStart());
+        entity.setEstimatedEnd(project.getEstimatedEnd());
+        entity.setLocation(project.getLocation());
+        entity.setProjectOwner(userDAO.findOne(project.getProjectOwner()));
+        return entity;
+    }
+    
+    public ProjectEntity findProjectById(int projectId) {
+        return this.projectDAO.findOne(projectId);
     }
 }

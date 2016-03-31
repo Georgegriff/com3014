@@ -19,7 +19,7 @@ import javax.persistence.Table;
  * @author Daniel
  */
 @Entity
-@Table(name = "users_approved")
+@Table(name = "projects_approved")
 @IdClass(ProjectApproved.ProjectApprovedPK.class)
 public class ProjectApproved implements Serializable {
    

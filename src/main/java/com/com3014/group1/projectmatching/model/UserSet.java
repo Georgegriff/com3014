@@ -8,12 +8,15 @@ package com.com3014.group1.projectmatching.model;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.hibernate.Hibernate;
+import org.hibernate.annotations.Fetch;
 
 /**
  *
@@ -30,7 +33,7 @@ public class UserSet implements Serializable {
     UserMatch set;
     
     @Id
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "project_id")
     private ProjectEntity project;
     
@@ -47,8 +50,8 @@ public class UserSet implements Serializable {
 
     public void setProject(ProjectEntity project) {
         this.project = project;
-    } 
-
+    }
+    
     public UserMatch getSet() {
         return set;
     }

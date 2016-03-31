@@ -21,5 +21,5 @@ public interface UserMatchDAO extends JpaRepository<UserMatch, Integer>{
         nativeQuery = true
     )
     public UserMatch findByUser(UserEntity user);
-    
+       
 }
