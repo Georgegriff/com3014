@@ -17,7 +17,7 @@ define(['jquery', 'js/models/requests'],
                 return Requests.getJSON(MATCHES + "/project/" + projectId + "/role/" + roleId);
             }
             
-              function getMatchesForUser() {
+            function getMatchesForUser() {
                 return Requests.getJSON(MATCHES + "/user/roles");
             }
             

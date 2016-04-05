@@ -56,7 +56,12 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         function onAccept(userId, roleId) {
                             return function () {
                                 // save to accepted array
-                                app.models.matches.addToUsersAccepted(userId);
+                                app.models.matches.addToUsersAccepted(userId)
+                                        .then(function(returnData) {
+                                            
+                                                    
+                                });
+                                
                                 // remove current entry from array
                                 roleMatches.shift();
                             };

@@ -6,6 +6,7 @@
 package com.com3014.group1.projectmatching.rest;
 
 import com.com3014.group1.projectmatching.core.services.MatchmakingService;
+import com.com3014.group1.projectmatching.matchmaking.Matches;
 import com.com3014.group1.projectmatching.dto.Project;
 import com.com3014.group1.projectmatching.dto.User;
 import java.util.List;
@@ -27,6 +28,9 @@ public class RestMatchmakingService {
     @Autowired
     private MatchmakingService matchmakingService;
 
+    @Autowired
+    private Matches matches;
+    
     @RequestMapping(value = "/project/{projectId}/role/{roleId}", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
     public List<User> matchRoleToUsers(@PathVariable String projectId, @PathVariable String roleId) {
         return matchmakingService.matchUserToRole(Integer.parseInt(projectId), Integer.parseInt(roleId));
@@ -43,6 +47,8 @@ public class RestMatchmakingService {
     public void saveSwipedUsers(@PathVariable String projectId, @PathVariable String accepted, @PathVariable String rejected) {
         if(projectId != null) {
             this.matchmakingService.saveUserSwipePreferences(Integer.parseInt(projectId), accepted, rejected);
+            
+            // return matches.searchForMatchUser(Integer.parseInt(projectId));
         }
     }
     

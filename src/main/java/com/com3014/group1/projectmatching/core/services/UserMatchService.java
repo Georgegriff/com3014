@@ -96,6 +96,10 @@ public class UserMatchService {
         return this.userMatchDAO.findByUser(entity);
     }
     
+    public List<UserEntity> getUsersMatchedToProject(ProjectEntity project) {
+        return projectApprovedDAO.findByProject(project);
+    }
+    
     private Date setCacheExpireTime() {
         Date date = new Date();
         Calendar c = Calendar.getInstance(); 
