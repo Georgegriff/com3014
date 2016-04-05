@@ -23,8 +23,23 @@ gulp.task('optimise-scripts', function () {
             .pipe(uglify())
             .pipe(gulp.dest('public/js'));
 });
-gulp.task('copy-deps-js', function(){
-      return gulp.src('app/js/vendor/{require,text}.js')
+gulp.task('build-login-scripts', function () {
+    return gulp.src("app/js/**/*.js")
+            .pipe(amdOptimize("js/login", {
+                baseUrl: 'app/',
+                paths: {
+                    jquery: 'js/vendor/jquery.min',
+                    'jquery.ui': 'js/vendor/jquery-ui.min',
+                    "underscore": 'js/vendor/underscore-min',
+                    text: 'js/vendor/text'
+                }
+            }))
+            .pipe(concat("login.js"))
+            .pipe(uglify())
+            .pipe(gulp.dest('public/js'));
+})
+gulp.task('copy-deps-js', function () {
+    return gulp.src('app/js/vendor/{require,text}.js')
             .pipe(gulp.dest('public/js/vendor'));
 });
 gulp.task('copyjson', function () {
@@ -64,6 +79,7 @@ gulp.task('build', [
     'copy-deps-js',
     'copy-fonts',
     'optimise-scripts',
+    'build-login-scripts',
     'copy-css',
     'copy-img',
     'copy-templates',
@@ -73,8 +89,8 @@ gulp.task('build', [
 ]);
 
 
-function error(err){
-     console.log(err.toString());
+function error(err) {
+    console.log(err.toString());
     this.emit('end');
 }
 gulp.task('watch', function () {
@@ -90,8 +106,8 @@ gulp.task('watch', function () {
                     browsers: ['last 2 versions'],
                     cascade: false
                 }))
-                   .on('error',error)
-                  .pipe(gulp.dest(directories.TARGET_DIR + 'public/css'));
+                .on('error', error)
+                .pipe(gulp.dest(directories.TARGET_DIR + 'public/css'));
     });
     gulp.watch('app/img/**/*.*').on('change', function () {
         console.log("(Building Images..");
