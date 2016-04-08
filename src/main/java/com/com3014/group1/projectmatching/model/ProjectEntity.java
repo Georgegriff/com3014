@@ -7,6 +7,7 @@ package com.com3014.group1.projectmatching.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -143,4 +144,55 @@ public class ProjectEntity implements Serializable {
         }
         this.projectOwner = projectOwner;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 71 * hash + Objects.hashCode(this.projectId);
+        hash = 71 * hash + Objects.hashCode(this.name);
+        hash = 71 * hash + Objects.hashCode(this.description);
+        hash = 71 * hash + Objects.hashCode(this.projectStart);
+        hash = 71 * hash + Objects.hashCode(this.estimatedEnd);
+        hash = 71 * hash + Objects.hashCode(this.location);
+        hash = 71 * hash + Objects.hashCode(this.projectOwner);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ProjectEntity other = (ProjectEntity) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.description, other.description)) {
+            return false;
+        }
+        if (!Objects.equals(this.projectId, other.projectId)) {
+            return false;
+        }
+        if (!Objects.equals(this.projectStart, other.projectStart)) {
+            return false;
+        }
+        if (!Objects.equals(this.estimatedEnd, other.estimatedEnd)) {
+            return false;
+        }
+        if (!Objects.equals(this.location, other.location)) {
+            return false;
+        }
+        if (!Objects.equals(this.projectOwner, other.projectOwner)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

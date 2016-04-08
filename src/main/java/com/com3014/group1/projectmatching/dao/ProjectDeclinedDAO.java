@@ -17,4 +17,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface ProjectDeclinedDAO extends JpaRepository<ProjectDeclined, ProjectDeclined.ProjectDeclinedPK>{
     public List<UserEntity> findByProject(ProjectEntity project);
+    public List<ProjectDeclined> findByUser_UserId(int userId);
 }

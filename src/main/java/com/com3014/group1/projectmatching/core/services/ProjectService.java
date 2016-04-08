@@ -21,7 +21,9 @@ import com.com3014.group1.projectmatching.model.RoleQualification;
 import com.com3014.group1.projectmatching.model.RoleSkill;
 import com.com3014.group1.projectmatching.model.UserEntity;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.transaction.Transactional;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +48,9 @@ public class ProjectService {
 
     @Autowired
     private ProjectInterestDAO projectInterestDAO;
+    
+    @Autowired
+    private UserMatchService userMatchService;
 
     @Autowired
     private RoleSkillDAO roleSkillDAO;
@@ -100,6 +105,20 @@ public class ProjectService {
             projects = null;
         }
         return projects;
+    }
+    
+    public Map<Integer, Project> getAlreadySwipedProjects(int userId) {
+        HashMap<Integer, Project> alreadySwiped = new HashMap<>();
+        try {
+            List<ProjectEntity> entities = this.userMatchService.getAlreadySwipedProjects(userId);
+            
+            for(ProjectEntity project : entities) {
+                alreadySwiped.put(project.getProjectId(), convertEntityToProject(project));
+            }
+        } catch (Exception e) {
+            alreadySwiped = null;
+        }
+        return alreadySwiped;
     }
 
     @Transactional

@@ -17,4 +17,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface ProjectApprovedDAO extends JpaRepository<ProjectApproved, ProjectApproved.ProjectApprovedPK>{
     public List<UserEntity> findByProject(ProjectEntity project);
+    public List<ProjectApproved> findByUser_UserId(int userId);
 }

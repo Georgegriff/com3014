@@ -95,13 +95,13 @@ public class Matchmaking {
     }
 
     // Returns an array of user id's, ordered by matchmaking score
-    public List<User> findUsersForRole(Role role) {
+    public List<User> findUsersForRole(Role role, int projectId) {
         // a list of skills required for this role
         List<RoleSkill> roleSkills = role.getSkillsList();
         // a map of all users
         Map<Integer, User> allUsersMap = userService.getAllUsers();
         // a map of users already accepted or rejected
-        Map<Integer, User> alreadySwipedMap = new HashMap<>(); // <- PLACEHOLDER!
+        Map<Integer, User> alreadySwipedMap = userService.getAlreadySwipedUsers(projectId);
 
         List<User> allUsers = new ArrayList<>(allUsersMap.values());
         List<Integer> alreadySwiped = new ArrayList<>(alreadySwipedMap.keySet());

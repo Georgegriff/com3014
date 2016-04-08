@@ -55,14 +55,16 @@ define(function () {
                             break;
                         case app.models.user.getProfile():
                             // Save any swipes made before navigating to new screen
-                            //app.models.matches.saveSwipedUsers(projectId);
-                            //app.models.matches.saveSwipedProjects(app.currentUser.userId);
+                            app.models.matches.saveSwipedUsers(projectId);
+                            app.models.matches.saveSwipedProjects(app.currentUser.userId);
+                            
                             showPage("user-profile", event);
                             break;
                         case app.models.project.getUserProjectsPath(app.currentUser.userId):
                             // Save any swipes made before navigating to new screen
-                            //app.models.matches.saveSwipedUsers(projectId);
-                            //app.models.matches.saveSwipedProjects(app.currentUser.userId);
+                            app.models.matches.saveSwipedUsers(projectId);
+                            app.models.matches.saveSwipedProjects(app.currentUser.userId);
+                            
                             showPage("projects", event);
                             break;
                         case app.models.project.getProjectPath("id"):

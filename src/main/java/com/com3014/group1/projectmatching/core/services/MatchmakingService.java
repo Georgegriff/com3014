@@ -62,12 +62,13 @@ public class MatchmakingService {
         // If we dont have a current match entry and we have a valid role
         // or if the match set cache has expired then rerun the algorithm
         else if((projectMatch == null) || (projectMatch.getCacheExpire().before(new Date()))) {
-            users = matching.findUsersForRole(role);
+            users = matching.findUsersForRole(role, projectId);
+            
             this.projectMatchService.saveMatchesForProject(projectEntity, users);
         } 
         // Else, retrieve cached set
         else {
-            users = this.projectMatchService.retrieveCachedMatches(projectMatch);
+            users = this.projectMatchService.retrieveCachedMatches(projectMatch, projectId);
         }
         
         return users;
@@ -85,43 +86,37 @@ public class MatchmakingService {
         }
         // Else, retrieve the cached set
         else {
-            projects = this.userMatchService.retrieveCachedMatches(userMatch);
+            projects = this.userMatchService.retrieveCachedMatches(userMatch, user.getUserId());
         }
         return projects;
     }    
     
     public void saveProjectSwipePreferences(Integer userId, String accepted, String declined) {
-        List<String> acceptedList = new ArrayList<>();
-        List<String> rejectedList = new ArrayList<>();
         
         if(!accepted.equals("[]")) {
             // Temp measure to strip off array [] to form a CSV, think of better solution DA
             accepted = accepted.substring(1, accepted.length()-1);
-            acceptedList = Arrays.asList(accepted.split(","));
+            List<String> acceptedList = Arrays.asList(accepted.split(","));
+            this.userMatchService.saveAcceptedProjects(userId, acceptedList);
         }
-        else if(!declined.equals("[]")) {
+        if(!declined.equals("[]")) {
             declined = declined.substring(1, declined.length()-1);
-            rejectedList = Arrays.asList(declined.split(","));
+            List<String> rejectedList = Arrays.asList(declined.split(","));
+            this.userMatchService.saveRejectedProjects(userId, rejectedList);
         }            
-        this.userMatchService.saveAcceptedProjects(userId, acceptedList);
-        this.userMatchService.saveRejectedProjects(userId, rejectedList);
     }
     
     public void saveUserSwipePreferences(Integer projectId, String acceptedJSON, String declinedJSON) {
-        List<String> acceptedList = new ArrayList<>();
-        List<String> rejectedList = new ArrayList<>();
-        
         if(!acceptedJSON.equals("[]")) {
             // Temp measure to strip off array [] to form a CSV, think of better solution DA
             acceptedJSON = acceptedJSON.substring(1, acceptedJSON.length()-1);
-            acceptedList = Arrays.asList(acceptedJSON.split(","));
+            List<String> acceptedList = Arrays.asList(acceptedJSON.split(","));
+            this.projectMatchService.saveAcceptedUsers(projectId, acceptedList);
         }
-        else if(!declinedJSON.equals("[]")) {
+        if(!declinedJSON.equals("[]")) {
             declinedJSON = declinedJSON.substring(1, declinedJSON.length()-1);          
-            rejectedList = Arrays.asList(declinedJSON.split(","));
+            List<String> rejectedList = Arrays.asList(declinedJSON.split(","));
+            this.projectMatchService.saveRejectedUsers(projectId, rejectedList);
         }  
-        
-        this.projectMatchService.saveAcceptedUsers(projectId, acceptedList);
-        this.projectMatchService.saveRejectedUsers(projectId, rejectedList);
     }
 }

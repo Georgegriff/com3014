@@ -45,7 +45,7 @@ public class RestMatchmakingService {
     // TODO, change this to a PUT request. Need to see how that is implemented from the js stuff
     @RequestMapping(value = "/project/{projectId}/save/{accepted}/{rejected}", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
     public void saveSwipedUsers(@PathVariable String projectId, @PathVariable String accepted, @PathVariable String rejected) {
-        if(projectId != null) {
+        if(!projectId.equals("null")) {
             this.matchmakingService.saveUserSwipePreferences(Integer.parseInt(projectId), accepted, rejected);
             
             // return matches.searchForMatchUser(Integer.parseInt(projectId));
@@ -55,7 +55,7 @@ public class RestMatchmakingService {
     // TODO, change this to a PUT request. Need to see how that is implemented from the js stuff
     @RequestMapping(value = "/user/{userId}/save/{accepted}/{rejected}", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
     public void saveSwipedProjects(@PathVariable String userId, @PathVariable String accepted, @PathVariable String rejected) {
-        if(userId != null) {
+        if(!userId.equals("null")) {
             this.matchmakingService.saveProjectSwipePreferences(Integer.parseInt(userId), accepted, rejected);
         }
     }

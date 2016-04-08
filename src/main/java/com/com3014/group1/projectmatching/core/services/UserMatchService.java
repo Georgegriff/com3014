@@ -82,14 +82,35 @@ public class UserMatchService {
         }
     }
     
-    public List<Project> retrieveCachedMatches(UserMatch userMatch){
+    public List<Project> retrieveCachedMatches(UserMatch userMatch, int userId){
         List<UserSet> matches = this.userSetDAO.findBySet(userMatch);
         List<ProjectEntity> projects = new ArrayList<>();
         
         for(UserSet match : matches) {
             projects.add(match.getProject());
         }
+        
+        // Get the accepted and rejected users for this project
+        List<ProjectEntity> swiped = getAlreadySwipedProjects(userId);
+        // Remove all users from the users list that are also in the swiped list
+        projects.removeAll(swiped);
+               
         return this.projectService.convertEntityListToProjectList(projects);
+    }
+    
+    protected List<ProjectEntity> getAlreadySwipedProjects(int userId) {
+        List<ProjectApproved> approved = this.projectApprovedDAO.findByUser_UserId(userId);
+        List<ProjectDeclined> declined = this.projectDeclinedDAO.findByUser_UserId(userId);
+        
+        List<ProjectEntity> combined = new ArrayList<>();
+        
+        for(ProjectApproved project : approved) {
+            combined.add(project.getProject());
+        }
+        for(ProjectDeclined project : declined) {
+            combined.add(project.getProject());
+        }
+        return combined;
     }
     
     public UserMatch findMatchForUser(UserEntity entity) {

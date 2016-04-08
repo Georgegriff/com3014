@@ -41,6 +41,8 @@ public class UserService {
 
     @Autowired
     private UserInterestDAO userInterestDAO;
+    
+    @Autowired ProjectMatchService projectMatchService;
 
     public User getUser(int id) {
         User user;
@@ -62,7 +64,7 @@ public class UserService {
      * if you want to just return the list of users here and map in the matchmaking?
      */
     public Map<Integer, User> getAllUsers() {
-        Map<Integer, User> usersMap = new HashMap<Integer, User>();
+        Map<Integer, User> usersMap = new HashMap<>();
         try {
             // Find all the users
             List<UserEntity> allUsers = userDAO.findAll();
@@ -72,9 +74,22 @@ public class UserService {
             }
         } catch (ObjectNotFoundException onf) {
             usersMap = null;
-            onf.printStackTrace();
         }
         return usersMap;
+    }
+    
+    public Map<Integer, User> getAlreadySwipedUsers(int projectId) {
+        HashMap<Integer, User> alreadySwiped = new HashMap<>();
+        try {
+            List<UserEntity> entities = this.projectMatchService.getAlreadySwipedUsers(projectId);
+
+            for(UserEntity user : entities) {
+                alreadySwiped.put(user.getUserId(), convertEntityToUser(user));
+            }
+        } catch (ObjectNotFoundException onf) {
+            alreadySwiped = null;
+        }
+        return alreadySwiped;
     }
 
     public User getUserByUsername(String userName) {

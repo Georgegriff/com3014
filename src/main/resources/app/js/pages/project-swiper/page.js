@@ -10,7 +10,13 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                                 roleMatches = [],
                                 project = {},
                                 projectId = null,
-                                roles = [];
+                                roles = [],
+                                swipes = 0;
+                        
+                        // Triggers a save if the user navigates away from the application
+                        $(window).bind('unload', function() {
+                            app.models.matches.saveSwipedUsers(projectId);
+                        });
 
                         function onDataLoad(swiper) {
                             if (roleMatches.length) {
@@ -56,12 +62,17 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         function onAccept(userId, roleId) {
                             return function () {
                                 // save to accepted array
+                                app.models.matches.addToUsersAccepted(userId);
+                                swipes++;
+                                console.log(swipes);
+                                checkSwipeThreshold();
+                                //Not sure why the below was added only here but it was causing strange
+                                //matching behaviour so I have removed it
+                                /*
                                 app.models.matches.addToUsersAccepted(userId)
-                                        .then(function(returnData) {
-                                            
-                                                    
+                                        .then(function(returnData) {                  
                                 });
-                                
+                                */
                                 // remove current entry from array
                                 roleMatches.shift();
                             };
@@ -70,9 +81,19 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                             return function () {
                                 // save to rejected array
                                 app.models.matches.addToUsersRejected(userId);
+                                swipes++;
+                                console.log(swipes);
+                                checkSwipeThreshold();
                                 // remove current entry from array
                                 roleMatches.shift();
                             };
+                        }
+                        function checkSwipeThreshold() {
+                            if(swipes > 5) {
+                                app.models.matches.saveSwipedUsers(projectId);
+                                swipes = 0;
+                            }
+                            return;
                         }
                         function getProject() {
                             var path = window.location.pathname,
@@ -95,7 +116,7 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         function getMatchesForRole(roles) {
                             if (roles.length > 0) {
                                 var firstRole = roles[0];
-                                return app.models.matches.getMatchesForRole(firstRole.roleId)
+                                return app.models.matches.getMatchesForRole(projectId, firstRole.roleId)
                                         .then(function (data) {
                                             return $.Deferred().resolve(firstRole, data);
                                         }).fail(function (err) {

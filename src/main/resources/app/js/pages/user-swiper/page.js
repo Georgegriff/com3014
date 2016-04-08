@@ -10,7 +10,14 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                                 roleMatches = [],
                                 project = {},
                                 roles = [],
+                                swipes = 0,
                                 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                        
+                        // Triggers a save if the use navigates away from the application
+                        $(window).bind('unload', function() {
+                            app.models.matches.saveSwipedProjects(app.currentUser.userId);
+                        });
+                                               
                         function onDataLoad(swiper) {
                             if (roleMatches.length) {
                                 app.plugins.swipers.show();
@@ -59,6 +66,8 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                             return function () {
                                  // save to accepted array
                                 app.models.matches.addToProjectsAccepted(projectId);
+                                swipes++;
+                                checkSwipeThreshold();
                                 // remove current entry from array
                                 roleMatches.shift();
                             };
@@ -67,9 +76,18 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                             return function () {
                                  // save to rejected array
                                 app.models.matches.addToProjectsRejected(projectId);
+                                swipes++;
+                                checkSwipeThreshold();
                                 // remove current entry from array
                                 roleMatches.shift();
                             };
+                        }
+                        function checkSwipeThreshold() {
+                            if(swipes > 5) {
+                                app.models.matches.saveSwipedProjects(app.currentUser.userId);
+                                swipes = 0;
+                            }
+                            return;
                         }
                         function getMatches() {
                             return app.models.matches.getMatchesForUser();

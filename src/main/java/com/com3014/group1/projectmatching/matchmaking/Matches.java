@@ -11,11 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.com3014.group1.projectmatching.model.ProjectEntity;
 import com.com3014.group1.projectmatching.model.UserEntity;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Elliot
  */
+@Service
 public class Matches {
     
     @Autowired

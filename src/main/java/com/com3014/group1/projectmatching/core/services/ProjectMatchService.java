@@ -5,7 +5,6 @@
  */
 package com.com3014.group1.projectmatching.core.services;
 
-import com.com3014.group1.projectmatching.dao.ProjectDAO;
 import com.com3014.group1.projectmatching.dao.ProjectMatchDAO;
 import com.com3014.group1.projectmatching.dao.ProjectSetDAO;
 import com.com3014.group1.projectmatching.dao.UserApprovedDAO;
@@ -81,15 +80,35 @@ public class ProjectMatchService {
         }   
     }
     
-    public List<User> retrieveCachedMatches(ProjectMatch projectMatch){
+    public List<User> retrieveCachedMatches(ProjectMatch projectMatch, int projectId){
         List<ProjectSet> matches = this.projectSetDAO.findBySet(projectMatch);
         List<UserEntity> users = new ArrayList<>();
         
         for(ProjectSet match : matches) {
             users.add(match.getUser());
         }
+        // Get the accepted and rejected users for this project
+        List<UserEntity> swiped = getAlreadySwipedUsers(projectId);
+        // Remove all users from the users list that are also in the swiped list
+        users.removeAll(swiped);
+        
         return this.userService.convertEntityListToUserList(users);
-    }    
+    }
+
+    protected List<UserEntity> getAlreadySwipedUsers(int projectId) {
+        List<UserApproved> approved = this.userApprovedDAO.findByProject_ProjectId(projectId);
+        List<UserDeclined> declined = this.userDeclinedDAO.findByProject_ProjectId(projectId);
+        List<UserEntity> combined = new ArrayList<>();
+        
+        for(UserApproved user : approved) {
+            combined.add(user.getUser());
+        }
+        for(UserDeclined user : declined) {
+            combined.add(user.getUser());
+        }
+        
+        return combined;
+    }
     
     public List<ProjectEntity> getProjectsMatchedToUser(UserEntity user) {
         return userApprovedDAO.findByUser(user);
