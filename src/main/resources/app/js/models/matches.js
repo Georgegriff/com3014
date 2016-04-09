@@ -22,21 +22,24 @@ define(['jquery', 'js/models/requests'],
             }
             
             function saveSwipedUsers(projectId) {
-                // Clear the arrays
-                var accepted = JSON.stringify(usersAccepted);
-                var rejected = JSON.stringify(usersRejected);
+                var acceptedJSON = JSON.stringify({accepted : usersAccepted});
+                var rejectedJSON = JSON.stringify({rejected : usersRejected});
+                // Clear arrays
                 clearSwipedUsers();
-                console.log("GETTING HERE");
-                return Requests.getJSON(MATCHES + "/project/" + projectId + "/save/" + accepted + "/" + rejected);
+                return Requests.getJSON(MATCHES + "/project/" + projectId + "/save/" + acceptedJSON + "/" + rejectedJSON);
+                //Stub below for PUT request change
+                //return Requests.putJSON(MATCHES + "/project/" + projectId + "/save, acceptedJSON, rejectedJSON);
             }
             
             function saveSwipedProjects(userId) {
+                var acceptedJSON = JSON.stringify({accepted : projectsAccepted});
+                var rejectedJSON = JSON.stringify({rejected : projectsRejected});
+                console.log(acceptedJSON);
                 // Clear the arrays
-                var accepted = JSON.stringify(projectsAccepted);
-                var rejected = JSON.stringify(projectsRejected);
                 clearSwipedProjects();
-                console.log("GETTING HERE");
-                return Requests.getJSON(MATCHES + "/user/" + userId + "/save/" + accepted + "/" + rejected);
+                return Requests.getJSON(MATCHES + "/user/" + userId + "/save/" + acceptedJSON + "/" + rejectedJSON);
+                //Stub below for put request change
+                //return Requests.putJSON(MATCHES + "/user/" + userId + "/save", acceptedJSON, rejectedJSON);
             }
             
             function clearSwipedUsers() {
@@ -49,20 +52,22 @@ define(['jquery', 'js/models/requests'],
                 projectsAccepted = [];
             }
             
-            function addToUsersAccepted(userId) {
-                return usersAccepted.push(userId);
+            function addToUsersAccepted(userRole) {
+                console.log("USER ACCEPTED");
+                return usersAccepted.push(userRole);
             }
             
-            function addToUsersRejected(userId) {
-                return usersRejected.push(userId);
+            function addToUsersRejected(userRole) {
+                console.log("USER REJECTED");
+                return usersRejected.push(userRole);
             }
             
-            function addToProjectsAccepted(projectId) {
-                return projectsAccepted.push(projectId);
+            function addToProjectsAccepted(projectRole) {
+                return projectsAccepted.push(projectRole);
             }
             
-            function addToProjectsRejected(projectId) {
-                return projectsRejected.push(projectId);
+            function addToProjectsRejected(projectRole) {
+                return projectsRejected.push(projectRole);
             }
             
             function setProjectId(id) {

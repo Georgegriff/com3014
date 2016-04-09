@@ -6,6 +6,7 @@
 package com.com3014.group1.projectmatching.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -69,4 +70,39 @@ public class RoleEntity implements Serializable {
     public void setPayment(Payment payment) {
         this.payment = payment;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 61 * hash + Objects.hashCode(this.roleId);
+        hash = 61 * hash + Objects.hashCode(this.name);
+        hash = 61 * hash + Objects.hashCode(this.payment);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final RoleEntity other = (RoleEntity) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.roleId, other.roleId)) {
+            return false;
+        }
+        if (!Objects.equals(this.payment, other.payment)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

@@ -21,9 +21,7 @@ import com.com3014.group1.projectmatching.model.RoleQualification;
 import com.com3014.group1.projectmatching.model.RoleSkill;
 import com.com3014.group1.projectmatching.model.UserEntity;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.transaction.Transactional;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,34 +105,28 @@ public class ProjectService {
         return projects;
     }
     
-    public Map<Integer, Project> getAlreadySwipedProjects(int userId) {
-        HashMap<Integer, Project> alreadySwiped = new HashMap<>();
-        try {
-            List<ProjectEntity> entities = this.userMatchService.getAlreadySwipedProjects(userId);
-            
-            for(ProjectEntity project : entities) {
-                alreadySwiped.put(project.getProjectId(), convertEntityToProject(project));
-            }
-        } catch (Exception e) {
-            alreadySwiped = null;
-        }
-        return alreadySwiped;
-    }
-
     @Transactional
     public List<ProjectEntity> createProject(int userId, Project projectData) {
         //TODO::
         return null;
     }
 
-    private Project convertEntityToProject(ProjectEntity entity) throws ObjectNotFoundException {
-        // Get the list attributes of a project
+    public Project convertEntityToProject(ProjectEntity entity) throws ObjectNotFoundException {
         if (entity != null) {
             // Create Project DTO Object with project information only
             return new Project(entity);
         } else {
             throw new ObjectNotFoundException(entity, "Project Not Found");
         }
+    }
+    
+    public Project convertEntityToProjectAllData(ProjectEntity entity) {
+        if(entity != null) {
+            Project project = new Project(entity);
+            retrieveProjectData(entity, project, true, true);
+            return project;
+        }
+        return null;
     }
     
     public List<Project> convertEntityListToProjectList(List<ProjectEntity> entities) {
@@ -202,7 +194,7 @@ public class ProjectService {
     
     public ProjectEntity convertProjectToEntity(Project project) {
         // Try and find a persisted object in the database
-        ProjectEntity entity = projectDAO.findOne(project.getProjectId());;
+        ProjectEntity entity = projectDAO.findOne(project.getProjectId());
               
         if(entity == null) {
             entity = new ProjectEntity();

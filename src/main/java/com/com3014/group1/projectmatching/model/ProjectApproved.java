@@ -25,13 +25,18 @@ public class ProjectApproved implements Serializable {
    
     @Id
     @ManyToOne
-    @JoinColumn(name ="project_id")
+    @JoinColumn(name = "project_id")
     private ProjectEntity project;
     
     @Id
     @ManyToOne
-    @JoinColumn(name ="user_id")
+    @JoinColumn(name = "user_id")
     private UserEntity user;
+    
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private RoleEntity role;
        
     public ProjectApproved() {
     }
@@ -52,10 +57,19 @@ public class ProjectApproved implements Serializable {
         return project;
     }
     
+    public void setRole(RoleEntity role) {
+        this.role = role;
+    }
+    
+    public RoleEntity getRole() {
+        return this.role;
+    }
+    
     public static class ProjectApprovedPK implements Serializable {
                 
         private Integer project;
         private Integer user;
+        private Integer role;
         
         public ProjectApprovedPK() {
         }
@@ -75,12 +89,21 @@ public class ProjectApproved implements Serializable {
         public void setProject(Integer project) {
             this.project = project;
         }
+        
+        public void setRole(Integer role) {
+            this.role = role;
+        }
+        
+        public Integer getRole() {
+            return this.role;
+        }
 
         @Override
         public int hashCode() {
             int hash = 7;
             hash = 83 * hash + Objects.hashCode(this.user);
             hash = 83 * hash + Objects.hashCode(this.project);
+            hash = 83 * hash + Objects.hashCode(this.role);
             return hash;
         }
 
@@ -100,6 +123,9 @@ public class ProjectApproved implements Serializable {
                 return false;
             }
             if (!Objects.equals(this.project, other.project)) {
+                return false;
+            }
+            if (!Objects.equals(this.role, other.role)) {
                 return false;
             }
             return true;

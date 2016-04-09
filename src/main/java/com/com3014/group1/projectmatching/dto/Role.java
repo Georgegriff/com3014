@@ -10,6 +10,7 @@ import com.com3014.group1.projectmatching.model.RoleEntity;
 import com.com3014.group1.projectmatching.model.RoleQualification;
 import com.com3014.group1.projectmatching.model.RoleSkill;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -75,5 +76,48 @@ public class Role {
 
     public void setQualificationList(List<RoleQualification> qualificationList) {
         this.qualificationList = qualificationList;
-    }    
+    }   
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 23 * hash + Objects.hashCode(this.roleId);
+        hash = 23 * hash + Objects.hashCode(this.name);
+        hash = 23 * hash + Objects.hashCode(this.payment);
+        hash = 23 * hash + Objects.hashCode(this.skillsList);
+        hash = 23 * hash + Objects.hashCode(this.qualificationList);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Role other = (Role) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.roleId, other.roleId)) {
+            return false;
+        }
+        if (!Objects.equals(this.payment, other.payment)) {
+            return false;
+        }
+        if (!Objects.equals(this.skillsList, other.skillsList)) {
+            return false;
+        }
+        if (!Objects.equals(this.qualificationList, other.qualificationList)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

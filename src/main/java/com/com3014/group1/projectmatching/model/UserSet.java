@@ -15,8 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import org.hibernate.Hibernate;
-import org.hibernate.annotations.Fetch;
 
 /**
  *
@@ -37,6 +35,11 @@ public class UserSet implements Serializable {
     @JoinColumn(name = "project_id")
     private ProjectEntity project;
     
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private RoleEntity role;
+    
     public UserSet() {
     }
     
@@ -55,11 +58,20 @@ public class UserSet implements Serializable {
     public UserMatch getSet() {
         return set;
     }
-    
+
+    public RoleEntity getRole() {
+        return role;
+    }
+
+    public void setRole(RoleEntity role) {
+        this.role = role;
+    }
+        
     public static class UserSetPK implements Serializable {
         
         private Integer set;
         private Integer project;
+        private Integer role;
         
         public UserSetPK() {
         }
@@ -79,12 +91,13 @@ public class UserSet implements Serializable {
         public void setProject(Integer project) {
             this.project = project;
         }
-
+        
         @Override
         public int hashCode() {
             int hash = 7;
             hash = 41 * hash + Objects.hashCode(this.set);
             hash = 41 * hash + Objects.hashCode(this.project);
+            hash = 41 * hash + Objects.hashCode(this.role);
             return hash;
         }
 
@@ -104,6 +117,9 @@ public class UserSet implements Serializable {
                 return false;
             }
             if (!Objects.equals(this.project, other.project)) {
+                return false;
+            }
+            if (!Objects.equals(this.role, other.role)) {
                 return false;
             }
             return true;

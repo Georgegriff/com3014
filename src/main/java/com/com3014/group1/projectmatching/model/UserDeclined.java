@@ -33,6 +33,11 @@ public class UserDeclined implements Serializable {
     @JoinColumn(name ="project_id")
     private ProjectEntity project;
     
+    @Id
+    @ManyToOne
+    @JoinColumn(name ="role_id")
+    private RoleEntity role;
+    
     public UserDeclined() {
     }
     
@@ -51,11 +56,20 @@ public class UserDeclined implements Serializable {
     public UserEntity getUser() {
         return user;
     }
+
+    public RoleEntity getRole() {
+        return role;
+    }
+
+    public void setRole(RoleEntity role) {
+        this.role = role;
+    }
     
     public static class UserDeclinedPK implements Serializable {
         
         private Integer user;
         private Integer project;
+        private Integer role;
         
         public UserDeclinedPK() {
         }
@@ -76,11 +90,20 @@ public class UserDeclined implements Serializable {
             this.project = project;
         }
 
+        public Integer getRole() {
+            return role;
+        }
+
+        public void setRole(Integer role) {
+            this.role = role;
+        }
+        
         @Override
         public int hashCode() {
             int hash = 7;
             hash = 83 * hash + Objects.hashCode(this.user);
             hash = 83 * hash + Objects.hashCode(this.project);
+            hash = 83 * hash + Objects.hashCode(this.role);
             return hash;
         }
 
@@ -100,6 +123,9 @@ public class UserDeclined implements Serializable {
                 return false;
             }
             if (!Objects.equals(this.project, other.project)) {
+                return false;
+            }
+            if (!Objects.equals(this.role, other.role)) {
                 return false;
             }
             return true;

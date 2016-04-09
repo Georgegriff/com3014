@@ -32,7 +32,7 @@ public class ProjectRoleService {
     @Autowired
     private RoleQualificationDAO roleQualificationDAO;
 
-    private Role convertEntitiesToRoles(RoleEntity entity) {
+    public Role convertEntitiesToRoles(RoleEntity entity) {
         Role role = null;
         if (entity != null) {
             List<RoleSkill> roleSkills = roleSkillDAO.findByRole(entity);
@@ -40,6 +40,18 @@ public class ProjectRoleService {
             role = new Role(entity, roleSkills, qualificationList);
         }
         return role;
+    }
+    
+    public RoleEntity convertRoleToEntity(Role role) {
+        
+        RoleEntity entity = this.roleDAO.findOne(role.getRoleId());
+        
+        if(entity == null) {
+            entity = new RoleEntity();
+        }
+        entity.setName(role.getName());
+        entity.setPayment(role.getPayment());
+        return entity;
     }
 
     public Role findRoleById(int roleId) {

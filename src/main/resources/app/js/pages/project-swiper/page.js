@@ -62,9 +62,12 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         function onAccept(userId, roleId) {
                             return function () {
                                 // save to accepted array
-                                app.models.matches.addToUsersAccepted(userId);
+                                var obj = new Object();
+                                obj.user = userId;
+                                obj.role = roleId;
+                                app.models.matches.addToUsersAccepted(obj);
+                                
                                 swipes++;
-                                console.log(swipes);
                                 checkSwipeThreshold();
                                 //Not sure why the below was added only here but it was causing strange
                                 //matching behaviour so I have removed it
@@ -80,9 +83,12 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         function onReject(userId, roleId) {
                             return function () {
                                 // save to rejected array
-                                app.models.matches.addToUsersRejected(userId);
+                                var obj = new Object();
+                                obj.user = userId;
+                                obj.role = roleId;
+                                app.models.matches.addToUsersRejected(obj);
+                                
                                 swipes++;
-                                console.log(swipes);
                                 checkSwipeThreshold();
                                 // remove current entry from array
                                 roleMatches.shift();

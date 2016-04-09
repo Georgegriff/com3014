@@ -8,6 +8,7 @@ import com.com3014.group1.projectmatching.model.ProjectEntity;
 import com.com3014.group1.projectmatching.model.ProjectInterest;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -114,4 +115,63 @@ public class Project {
     public void setProjectOwner(int projectOwner) {
         this.projectOwner = projectOwner;
     }   
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.projectId);
+        hash = 79 * hash + Objects.hashCode(this.name);
+        hash = 79 * hash + Objects.hashCode(this.description);
+        hash = 79 * hash + Objects.hashCode(this.projectStart);
+        hash = 79 * hash + Objects.hashCode(this.estimatedEnd);
+        hash = 79 * hash + Objects.hashCode(this.location);
+        hash = 79 * hash + this.projectOwner;
+        hash = 79 * hash + Objects.hashCode(this.rolesList);
+        hash = 79 * hash + Objects.hashCode(this.interestsList);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Project other = (Project) obj;
+        if (this.projectOwner != other.projectOwner) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.description, other.description)) {
+            return false;
+        }
+        if (!Objects.equals(this.projectId, other.projectId)) {
+            return false;
+        }
+        if (!Objects.equals(this.projectStart, other.projectStart)) {
+            return false;
+        }
+        if (!Objects.equals(this.estimatedEnd, other.estimatedEnd)) {
+            return false;
+        }
+        if (!Objects.equals(this.location, other.location)) {
+            return false;
+        }
+        if (!Objects.equals(this.rolesList, other.rolesList)) {
+            return false;
+        }
+        if (!Objects.equals(this.interestsList, other.interestsList)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

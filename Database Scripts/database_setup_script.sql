@@ -150,9 +150,11 @@ CREATE TABLE match_making.project_matches(
 CREATE TABLE match_making.project_sets(
   set_id INT NOT NULL
 , user_id INT NOT NULL
-, PRIMARY KEY (set_id, user_id)
+, role_id INT NOT NULL
+, PRIMARY KEY (set_id, user_id, role_id)
 , FOREIGN KEY (user_id) REFERENCES match_making.users(user_id)
 , FOREIGN KEY (set_id) REFERENCES match_making.project_matches(set_id)
+, FOREIGN KEY (role_id) REFERENCES match_making.roles(role_id)
 );
 
 CREATE TABLE match_making.user_matches(
@@ -167,41 +169,51 @@ CREATE TABLE match_making.user_matches(
 CREATE TABLE match_making.user_sets(
   set_id INT NOT NULL
 , project_id INT NOT NULL
-, PRIMARY KEY (set_id, project_id)
+, role_id INT NOT NULL
+, PRIMARY KEY (set_id, project_id, role_id)
 , FOREIGN KEY (project_id) REFERENCES match_making.projects(project_id)
 , FOREIGN KEY (set_id) REFERENCES match_making.user_matches(set_id)
+, FOREIGN KEY (role_id) REFERENCES match_making.roles(role_id)
 );
 
 CREATE TABLE match_making.projects_approved(
   project_id INT NOT NULL
 , user_id INT NOT NULL
-, PRIMARY KEY (project_id, user_id)
+, role_id INT NOT NULL
+, PRIMARY KEY (project_id, user_id, role_id)
 , FOREIGN KEY (project_id) REFERENCES match_making.projects(project_id)
 , FOREIGN KEY (user_id) REFERENCES match_making.users(user_id)
+, FOREIGN KEY (role_id) REFERENCES match_making.roles(role_id)
 );
 
 CREATE TABLE match_making.users_approved(
   user_id INT NOT NULL
 , project_id INT NOT NULL
-, PRIMARY KEY (user_id, project_id)
+, role_id INT NOT NULL
+, PRIMARY KEY (user_id, project_id, role_id)
 , FOREIGN KEY (project_id) REFERENCES match_making.projects(project_id)
 , FOREIGN KEY (user_id) REFERENCES match_making.users(user_id)
+, FOREIGN KEY (role_id) REFERENCES match_making.roles(role_id)
 );
 
 CREATE TABLE match_making.projects_declined(
   project_id INT NOT NULL
 , user_id INT NOT NULL
-, PRIMARY KEY (project_id, user_id)
+, role_id INT NOT NULL
+, PRIMARY KEY (project_id, user_id, role_id)
 , FOREIGN KEY (project_id) REFERENCES match_making.projects(project_id)
 , FOREIGN KEY (user_id) REFERENCES match_making.users(user_id)
+, FOREIGN KEY (role_id) REFERENCES match_making.roles(role_id)
 );
 
 CREATE TABLE match_making.users_declined(
   user_id INT NOT NULL
 , project_id INT NOT NULL
-, PRIMARY KEY (user_id, project_id)
+, role_id INT NOT NULL
+, PRIMARY KEY (user_id, project_id, role_id)
 , FOREIGN KEY (project_id) REFERENCES match_making.projects(project_id)
 , FOREIGN KEY (user_id) REFERENCES match_making.users(user_id)
+, FOREIGN KEY (role_id) REFERENCES match_making.roles(role_id)
 );
 
 

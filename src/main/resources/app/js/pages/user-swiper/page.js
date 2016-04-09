@@ -65,7 +65,11 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         function onAccept(projectId, roleId) {
                             return function () {
                                  // save to accepted array
-                                app.models.matches.addToProjectsAccepted(projectId);
+                                var obj = new Object();
+                                obj.project = projectId;
+                                obj.role = roleId;
+                                app.models.matches.addToProjectsAccepted(obj);
+                                
                                 swipes++;
                                 checkSwipeThreshold();
                                 // remove current entry from array
@@ -75,7 +79,11 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         function onReject(projectId, roleId) {
                             return function () {
                                  // save to rejected array
-                                app.models.matches.addToProjectsRejected(projectId);
+                                var obj = new Object();
+                                obj.project = projectId;
+                                obj.role = roleId;
+                                app.models.matches.addToProjectsRejected(obj);
+                                
                                 swipes++;
                                 checkSwipeThreshold();
                                 // remove current entry from array

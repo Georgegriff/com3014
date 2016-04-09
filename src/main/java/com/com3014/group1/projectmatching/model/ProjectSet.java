@@ -34,6 +34,11 @@ public class ProjectSet implements Serializable {
     @JoinColumn(name = "user_id")
     private UserEntity user;
   
+    @Id
+    @OneToOne
+    @JoinColumn(name = "role_id")
+    private RoleEntity role;
+    
     public ProjectSet() {
     }
 
@@ -53,10 +58,19 @@ public class ProjectSet implements Serializable {
         return set;
     }
     
+    public void setRole(RoleEntity role) {
+        this.role = role;
+    }
+    
+    public RoleEntity getRole() {
+        return role;
+    }
+    
     public static class ProjectSetPK implements Serializable {
         
         private Integer set;
         private Integer user;
+        private Integer role;
         
         public ProjectSetPK() {
         }
@@ -77,11 +91,20 @@ public class ProjectSet implements Serializable {
             this.user = user;
         }
 
+        public Integer getRole() {
+            return role;
+        }
+
+        public void setRole(Integer role) {
+            this.role = role;
+        }
+        
         @Override
         public int hashCode() {
             int hash = 5;
             hash = 73 * hash + Objects.hashCode(this.set);
             hash = 73 * hash + Objects.hashCode(this.user);
+            hash = 73 * hash + Objects.hashCode(this.role);
             return hash;
         }
 
@@ -101,6 +124,9 @@ public class ProjectSet implements Serializable {
                 return false;
             }
             if (!Objects.equals(this.user, other.user)) {
+                return false;
+            }
+            if (!Objects.equals(this.role, other.role)) {
                 return false;
             }
             return true;
