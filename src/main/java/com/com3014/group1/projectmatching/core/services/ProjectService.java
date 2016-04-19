@@ -106,11 +106,43 @@ public class ProjectService {
     }
     
     @Transactional
-    public List<ProjectEntity> createProject(int userId, Project projectData) {
-        //TODO::
-        return null;
+    public boolean createProject(int userId, Project project) {
+        if (!validProject(project)){
+            return false;
+        }
+        ProjectEntity projectEntity = convertProjectToEntity(project);
+        UserEntity userEntity = userDAO.findById(userId);
+        projectDAO.setProjectByProjectOwner(userEntity, projectEntity);
+        return false;
     }
 
+    @Transactional
+    public boolean updateProject(int userId, Project project) {
+        if (!validProject(project)){
+            return false;
+        }
+        ProjectEntity projectEntity = convertProjectToEntity(project);
+        UserEntity userEntity = userDAO.findById(userId);
+        projectDAO.setProjectByProjectOwner(userEntity, projectEntity);
+        return true;
+    }
+    
+    private boolean validProject(Project project){
+        if (project.getName().equals("") || project.getName().isEmpty() || project.getName() == null){
+            return false;
+        }
+        if (project.getDescription().equals("") || project.getDescription().isEmpty() || project.getDescription() == null){
+            return false;
+        }
+        if (project.getProjectStart() == null || project.getEstimatedEnd() == null || project.getProjectStart().after(project.getEstimatedEnd())){
+            return false;
+        }
+        if (userDAO.findById(project.getProjectId()) == null){
+            return false;
+        }
+        return true;
+    }
+    
     public Project convertEntityToProject(ProjectEntity entity) throws ObjectNotFoundException {
         if (entity != null) {
             // Create Project DTO Object with project information only
@@ -212,4 +244,5 @@ public class ProjectService {
     public ProjectEntity findProjectById(int projectId) {
         return this.projectDAO.findOne(projectId);
     }
+
 }
