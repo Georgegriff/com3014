@@ -106,11 +106,19 @@ public class ProjectService {
     }
     
     @Transactional
-    public List<ProjectEntity> createProject(int userId, Project projectData) {
-        //TODO::
-        return null;
+    public void createProject(int userId, Project project) {
+        ProjectEntity projectEntity = convertProjectToEntity(project);
+        UserEntity userEntity = userDAO.findById(userId);
+        projectDAO.setProjectByProjectOwner(userEntity, projectEntity);
     }
 
+    @Transactional
+    public void updateProject(int userId, Project project) {
+        ProjectEntity projectEntity = convertProjectToEntity(project);
+        UserEntity userEntity = userDAO.findById(userId);
+        projectDAO.setProjectByProjectOwner(userEntity, projectEntity);
+    }
+    
     public Project convertEntityToProject(ProjectEntity entity) throws ObjectNotFoundException {
         if (entity != null) {
             // Create Project DTO Object with project information only
@@ -212,4 +220,5 @@ public class ProjectService {
     public ProjectEntity findProjectById(int projectId) {
         return this.projectDAO.findOne(projectId);
     }
+
 }

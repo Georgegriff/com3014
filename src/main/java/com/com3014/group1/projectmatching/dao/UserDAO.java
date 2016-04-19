@@ -16,4 +16,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface UserDAO extends JpaRepository<UserEntity, Integer>{
     // Query to get User object from username
     public UserEntity findByUsername(String username) throws ObjectNotFoundException;
+    public UserEntity findById(int id) throws ObjectNotFoundException;
 }
