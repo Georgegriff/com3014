@@ -38,11 +38,11 @@ public class RestProjectService {
     
     @RequestMapping(method=RequestMethod.POST, value = "/user/{userId}/projects/create", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
     public void createProject(@PathVariable String userId, @RequestBody final Project project) {
-        projectService.createProject(Integer.parseInt(userId), project);
+        boolean valid = projectService.createProject(Integer.parseInt(userId), project);
     }
     
     @RequestMapping(method=RequestMethod.PUT, value = "/user/{userId}/projects/update", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
     public void updateProject(@PathVariable String userId, @RequestBody final Project project) {
-        projectService.updateProject(Integer.parseInt(userId), project);
+        boolean valid = projectService.updateProject(Integer.parseInt(userId), project);
     }
 }

@@ -106,17 +106,41 @@ public class ProjectService {
     }
     
     @Transactional
-    public void createProject(int userId, Project project) {
+    public boolean createProject(int userId, Project project) {
+        if (!validProject(project)){
+            return false;
+        }
         ProjectEntity projectEntity = convertProjectToEntity(project);
         UserEntity userEntity = userDAO.findById(userId);
         projectDAO.setProjectByProjectOwner(userEntity, projectEntity);
+        return false;
     }
 
     @Transactional
-    public void updateProject(int userId, Project project) {
+    public boolean updateProject(int userId, Project project) {
+        if (!validProject(project)){
+            return false;
+        }
         ProjectEntity projectEntity = convertProjectToEntity(project);
         UserEntity userEntity = userDAO.findById(userId);
         projectDAO.setProjectByProjectOwner(userEntity, projectEntity);
+        return true;
+    }
+    
+    private boolean validProject(Project project){
+        if (project.getName().equals("") || project.getName().isEmpty() || project.getName() == null){
+            return false;
+        }
+        if (project.getDescription().equals("") || project.getDescription().isEmpty() || project.getDescription() == null){
+            return false;
+        }
+        if (project.getProjectStart() == null || project.getEstimatedEnd() == null || project.getProjectStart().after(project.getEstimatedEnd())){
+            return false;
+        }
+        if (userDAO.findById(project.getProjectId()) == null){
+            return false;
+        }
+        return true;
     }
     
     public Project convertEntityToProject(ProjectEntity entity) throws ObjectNotFoundException {
