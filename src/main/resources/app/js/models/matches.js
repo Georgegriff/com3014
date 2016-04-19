@@ -8,11 +8,20 @@ define(['jquery', 'js/models/requests'],
             var usersRejected = [];
             var projectsAccepted = [];
             var projectsRejected = [];
-            var projectId = null;
+            var projectIds = [];
             
             function getProjectMatcherPath(projectId) {
                 return MATCHES + "/project/" + projectId;
             }
+            
+             function getProjectMatchesPath(projectId) {
+                return "/projectmatches/" + projectId;
+            }
+            
+            function getProjectMatches(id){
+                return Requests.getJSON(MATCHES + "/project/" +  + id + "/matches");
+            }
+            
             function getMatchesForRole(roleId, projectId) {
                 return Requests.getJSON(MATCHES + "/project/" + projectId + "/role/" + roleId);
             }
@@ -70,16 +79,18 @@ define(['jquery', 'js/models/requests'],
                 return projectsRejected.push(projectRole);
             }
             
-            function setProjectId(id) {
-                return (projectId = id);
+            function addProjectId(id) {
+                projectIds.push(id);
             }
             
-            function getProjectId() {
-                return projectId;
+            function getProjectIds() {
+                return projectIds;
             }
             
             return {
                 getProjectMatcherPath: getProjectMatcherPath,
+                getProjectMatchesPath : getProjectMatchesPath,
+                getProjectMatches : getProjectMatches,
                 getMatchesForRole: getMatchesForRole,
                 getMatchesForUser : getMatchesForUser,
                 saveSwipedUsers: saveSwipedUsers,
@@ -90,7 +101,7 @@ define(['jquery', 'js/models/requests'],
                 addToUsersRejected: addToUsersRejected,
                 addToProjectsAccepted: addToProjectsAccepted,
                 addToProjectsRejected: addToProjectsRejected,
-                setProjectId: setProjectId,
-                getProjectId: getProjectId
+                addProjectId: addProjectId,
+                getProjectIds: getProjectIds
             };
         });

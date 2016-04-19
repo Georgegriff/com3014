@@ -18,6 +18,7 @@ define(['underscore',
                     self.initModels();
                     self.loadComponents();
                     routing = new Routing(self);
+                    routing.interceptLogout();
                     pluginLoader = new PluginLoader(self);
                     self.initialiseUser()
                             .then(self.loadPlugins)
@@ -52,6 +53,7 @@ define(['underscore',
                     self.routeHandler(window.location.pathname);
                     return $.Deferred().resolve();
                 }
+               
 
                 App.prototype.routeHandler = function routeHandler(route, event) {
                     routing.routeHandler(route, event);
@@ -104,7 +106,7 @@ define(['underscore',
                     return _.template(html)(attributes || {});
 
                 };
-
+                 
 
             }
 

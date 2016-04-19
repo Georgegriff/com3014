@@ -557,11 +557,11 @@ ul {
     font-size:250%;
 
 }
-.tile-buttons .edit:hover, .tile-buttons .matcher:hover {
+.tile-buttons .edit:hover, .tile-buttons .matcher:hover, .tile-buttons .matches:hover {
     color:#666;
 }
 
-.tile-buttons .matcher {
+.tile-buttons .matcher, .tile-buttons .matches {
     color: #5A6EC2;
     font-size:240%;
 
@@ -653,4 +653,45 @@ ul.profile-list {
 }
 .profile-page-info .profile-list-cont {
     margin-bottom: 1%;
+}
+
+.matches-cont {
+    margin-top: 25px;
+}
+
+.match {
+    border-bottom: solid #f1f1f1 1px;
+    padding-top:25px;
+    padding-bottom:25px;
+}
+.match-name {
+    font-size:150%;
+}
+.match-name, .match-email{
+  
+}
+.match-role {
+    color: #FFB300;
+}
+
+#project-matches h1{
+    border-bottom: solid #f1f1f1 1px;
+    padding-bottom: 25px;
+}
+
+.match-image, .match-text {
+    display:inline-block;
+    vertical-align: middle;
+}
+
+.match-image {
+    height:80px;
+    width:80px;
+    border: solid 1px #f1f1f1;
+    border-radius: 100%;
+    text-align: center;
+    overflow:hidden;
+}
+.match-image img {
+    height:110%;
 }

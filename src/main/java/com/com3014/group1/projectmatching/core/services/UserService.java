@@ -106,7 +106,7 @@ public class UserService {
     }
 
     /* Convert a UserEntity from the database to a User Object for the front end */
-    private User convertEntityToUser(UserEntity entity) throws ObjectNotFoundException {
+    public User convertEntityToUser(UserEntity entity) throws ObjectNotFoundException {
 
         if (entity != null) {
             // Get the attributes of the user
@@ -137,7 +137,8 @@ public class UserService {
         entity.setLastLogin(user.getLastLogin());
         return entity;
     }
-
+  
+  
     public List<User> convertEntityListToUserList(List<UserEntity> entities) {
         List<User> users = new ArrayList<>();
         for(UserEntity entity : entities) {

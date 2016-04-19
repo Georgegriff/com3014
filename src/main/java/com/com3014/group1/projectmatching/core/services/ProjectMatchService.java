@@ -124,7 +124,7 @@ public class ProjectMatchService {
         return combined;
     }
     
-    public List<ProjectEntity> getProjectsMatchedToUser(UserEntity user) {
+    public List<UserApproved> getProjectsMatchedToUser(UserEntity user) {
         return userApprovedDAO.findByUser(user);
     }
     

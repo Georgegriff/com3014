@@ -1,0 +1,16 @@
+<article class="full-page" id="project-matches">
+    <h1><a href="<%=projectsLink%>"> My Projects </a> &gt; <%=name %></h1>
+    <section class="matches-cont">
+        <% _.each(matches,function(match){ %>
+        <div class="match">
+            <div class="match-image"><img src="img/default-profile.svg"></div>
+            <div class="match-text">
+                <div class="match-name"><%= match && match.user ? match.user.name : "" %></div>
+                <div class="match-email"><a href="mailto:<%= match && match.user ? match.user.email : '' %>">
+                        <%= match && match.user ? match.user.email : "" %></a></div>
+                <div class="match-role"><%= match && match.role ? match.role.name : "" %></div>
+            </div>
+        </div>
+        <% }); %>
+    </section>
+</article>

@@ -9,6 +9,7 @@ import com.com3014.group1.projectmatching.dto.Project;
 import com.com3014.group1.projectmatching.dto.ProjectRoleMatch;
 import com.com3014.group1.projectmatching.dto.Role;
 import com.com3014.group1.projectmatching.dto.User;
+import com.com3014.group1.projectmatching.dto.UserProfile;
 import com.com3014.group1.projectmatching.matchmaking.Matchmaking;
 import com.com3014.group1.projectmatching.model.ProjectEntity;
 import com.com3014.group1.projectmatching.model.ProjectMatch;
@@ -57,6 +58,7 @@ public class MatchmakingService {
         ProjectEntity projectEntity = this.projectService.findProjectById(projectId);
         ProjectMatch projectMatch = this.projectMatchService.findMatchForProject(projectEntity);
         List<User> users = null;
+
         
         if(role == null) {
             return new ArrayList<>();

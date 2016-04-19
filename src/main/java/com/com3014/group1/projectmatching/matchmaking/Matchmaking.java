@@ -13,6 +13,7 @@ import com.com3014.group1.projectmatching.core.services.UserService;
 import com.com3014.group1.projectmatching.core.services.ProjectService;
 import com.com3014.group1.projectmatching.core.services.UserMatchService;
 import com.com3014.group1.projectmatching.dto.ProjectRoleMatch;
+import com.com3014.group1.projectmatching.dto.UserProfile;
 import com.com3014.group1.projectmatching.model.RoleSkill;
 import com.com3014.group1.projectmatching.model.UserSkill;
 
