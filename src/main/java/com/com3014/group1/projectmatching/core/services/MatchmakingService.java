@@ -6,10 +6,8 @@
 package com.com3014.group1.projectmatching.core.services;
 
 import com.com3014.group1.projectmatching.dto.Project;
-import com.com3014.group1.projectmatching.dto.ProjectRoleMatch;
-import com.com3014.group1.projectmatching.dto.Role;
+import com.com3014.group1.projectmatching.dto.ProjectRole;
 import com.com3014.group1.projectmatching.dto.User;
-import com.com3014.group1.projectmatching.dto.UserProfile;
 import com.com3014.group1.projectmatching.matchmaking.Matchmaking;
 import com.com3014.group1.projectmatching.model.ProjectEntity;
 import com.com3014.group1.projectmatching.model.ProjectMatch;
@@ -54,20 +52,20 @@ public class MatchmakingService {
      * @return
      */
     public List<User> matchUserToRole(int projectId, int roleId) {
-        Role role = roleService.findRoleById(roleId);
+        ProjectRole projectRole = roleService.findByProjectRole(projectId, roleId);
         ProjectEntity projectEntity = this.projectService.findProjectById(projectId);
         ProjectMatch projectMatch = this.projectMatchService.findMatchForProject(projectEntity);
         List<User> users = null;
 
         
-        if(role == null) {
+        if(projectRole == null) {
             return new ArrayList<>();
         }
         // If we dont have a current match entry and we have a valid role
         // or if the match set cache has expired then rerun the algorithm
         else if((projectMatch == null) || (projectMatch.getCacheExpire().before(new Date()))) {
-            users = matching.findUsersForRole(role, projectId);
-            this.projectMatchService.saveMatchesForProject(projectEntity, users, role);
+            users = matching.findUsersForRole(projectRole);
+            this.projectMatchService.saveMatchesForProject(projectEntity, users, projectRole.getRole());
         } 
         // Else, retrieve cached set
         else {
@@ -84,9 +82,8 @@ public class MatchmakingService {
         // If there is no match in the database or the cache has expired, 
         // rerun the algorithm and save the new set
         if((userMatch == null) || (userMatch.getCacheExpire().before(new Date()))) {
-            List<ProjectRoleMatch> projectRoles = matching.findRolesForUser(user);
-            System.out.println("Size of Projects: " + projectRoles.get(1).getProject().getProjectId() + " " + projectRoles.get(0).getProject().getProjectId());
-            for(ProjectRoleMatch projectRole : projectRoles) {
+            List<ProjectRole> projectRoles = matching.findRolesForUser(user);
+            for(ProjectRole projectRole : projectRoles) {
                 projects.add(projectRole.getProject());
             }
             

@@ -1,4 +1,4 @@
-define(['jquery'],function ($) {
+define(function () {
     var ROOT = "/";
     function Routing(app) {
         function historyAPI() {
@@ -30,30 +30,8 @@ define(['jquery'],function ($) {
         function getPage(name) {
             return $.Deferred().resolve(app.pages[name]);
         }
-
-        function interceptLogout() {
-            $('#logout-form').find("form").submit(function (e) {
-                e.preventDefault();
-                var self = this;
-                saveSessionSwipes().done(function () {
-                     self.submit();
-                });
-            });
-        }
-       
-        function saveSessionSwipes(){
-            var saveSwipes = [],
-                   projectIds = app.models.matches.getProjectIds();
-              projectIds.forEach(function(id){
-                 saveSwipes.push(app.models.matches.saveSwipedUsers(id)); 
-              });           
-              saveSwipes.push(app.models.matches.saveSwipedProjects(app.currentUser.userId));
-              return $.when.apply($, saveSwipes);
-        }
-        
         return {
-            routeHandler: function (route, event) {
-                $('#content').empty();
+            routeHandler: function (route, event) {                
                 if (typeof (route) !== 'undefined' && route) {
                     if (historyAPI()) {
                         if (route !== window.location.pathname) {
@@ -61,41 +39,38 @@ define(['jquery'],function ($) {
                         }
                     }
                     if (route.indexOf("/matches/") > -1) {
-
+                        
                         if (route.indexOf("/project/") > -1) {
                             route = app.models.matches.getProjectMatcherPath("id");
                         }
                     } else if (route.indexOf("/project/") > -1) {
                         route = app.models.project.getProjectPath("id");
-                    }  else if (route.indexOf("/projectmatches/") > -1) {
-                        route = app.models.matches.getProjectMatchesPath("id");
-                    }             
-
+                    }
+                    
+                    var projectId = app.models.matches.getProjectId();
+                    
                     switch (route) {
                         case ROOT:
                             showPage("user-swiper", event);
                             break;
                         case app.models.user.getProfile():
                             // Save any swipes made before navigating to new screen
-                            saveSessionSwipes().then(function(){
-                                 showPage("user-profile", event);
-                            });
+                            app.models.matches.saveSwipedUsers(projectId);
+                            app.models.matches.saveSwipedProjects(app.currentUser.userId);
+                            showPage("user-profile", event);
                             break;
                         case app.models.project.getUserProjectsPath(app.currentUser.userId):
-                            // Save any swipes made before navigating to new screen   
-                              saveSessionSwipes().then(function(){
-                                   showPage("projects", event);
-                            });    
-                          
+                            // Save any swipes made before navigating to new screen
+                            app.models.matches.saveSwipedUsers(projectId);
+                            app.models.matches.saveSwipedProjects(app.currentUser.userId);
+                            
+                            showPage("projects", event);
                             break;
                         case app.models.project.getProjectPath("id"):
                             showPage("project-profile", event);
                             break;
                         case app.models.matches.getProjectMatcherPath("id"):
                             showPage("project-swiper", event);
-                            break;
-                        case app.models.matches.getProjectMatchesPath("id"):
-                            showPage("project-matches", event);
                             break;
                         default:
                             return true;
@@ -104,8 +79,7 @@ define(['jquery'],function ($) {
                 } else {
                     return true;
                 }
-            },
-            interceptLogout: interceptLogout
+            }
         };
     }
     return Routing;

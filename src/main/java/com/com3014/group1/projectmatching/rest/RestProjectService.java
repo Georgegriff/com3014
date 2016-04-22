@@ -38,7 +38,7 @@ public class RestProjectService {
     
     @RequestMapping(method=RequestMethod.POST, value = "/user/{userId}/projects/create", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
     public void createProject(@PathVariable String userId, @RequestBody final Project project) {
-        boolean valid = projectService.createProject(Integer.parseInt(userId), project);
+        //boolean valid = projectService.createProject(Integer.parseInt(userId), project);
     }
     
     @RequestMapping(method=RequestMethod.PUT, value = "/user/{userId}/projects/update", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)

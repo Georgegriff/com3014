@@ -3,12 +3,10 @@ define(['jquery'],
         function ($) {
             return {
                 getJSON: function (url) {
-                    return $.get("/services" + url).fail(function(e){
+                    return $.getJSON("/services" + url).fail(function(e){
                        if(e.status === 403){
                            window.location.reload();
                        }
-                    }).then(function(data){
-                        return data;
                     });
                 },
                 putJSON: function (url, accepted, rejected) {

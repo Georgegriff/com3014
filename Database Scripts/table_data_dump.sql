@@ -56,19 +56,26 @@ FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' 
 (project_id, interest);
 
+# Project Roles dump
+LOAD DATA LOCAL INFILE 'C:/Users/Daniel/Desktop/PROJECT_ROLES_DATA.csv' 
+INTO TABLE match_making.project_roles
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n' 
+(project_id, role_id);
+
 # Role Skill dump
 LOAD DATA LOCAL INFILE 'C:/Users/Daniel/Desktop/ROLE_SKILL_DATA.csv' 
 INTO TABLE match_making.role_skills
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' 
-(role_id, skill_id, required);
+(project_role_id, skill_id, required);
 
-# Project Roles dump
-LOAD DATA LOCAL INFILE 'C:/Users/Daniel/Desktop/PROJECT_ROLES_DATA.csv' 
-INTO TABLE match_making.project_role
+# Role Qualification dump
+LOAD DATA LOCAL INFILE 'C:/Users/Daniel/Desktop/ROLE_QUALIFICATION_DATA.csv' 
+INTO TABLE match_making.role_qualifications
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' 
-(project_id, role_id);
+(project_role_id, qualification_level_id, subject, required);
 
 commit;
 

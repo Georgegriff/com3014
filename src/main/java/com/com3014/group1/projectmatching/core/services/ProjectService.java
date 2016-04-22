@@ -12,10 +12,10 @@ import com.com3014.group1.projectmatching.dao.RoleQualificationDAO;
 import com.com3014.group1.projectmatching.dao.RoleSkillDAO;
 import com.com3014.group1.projectmatching.dao.UserDAO;
 import com.com3014.group1.projectmatching.dto.Project;
-import com.com3014.group1.projectmatching.dto.Role;
+import com.com3014.group1.projectmatching.dto.ProjectRole;
 import com.com3014.group1.projectmatching.model.ProjectEntity;
 import com.com3014.group1.projectmatching.model.ProjectInterest;
-import com.com3014.group1.projectmatching.model.ProjectRole;
+import com.com3014.group1.projectmatching.model.ProjectRoleEntity;
 import com.com3014.group1.projectmatching.model.RoleEntity;
 import com.com3014.group1.projectmatching.model.RoleQualification;
 import com.com3014.group1.projectmatching.model.RoleSkill;
@@ -47,9 +47,6 @@ public class ProjectService {
     @Autowired
     private ProjectInterestDAO projectInterestDAO;
     
-    @Autowired
-    private UserMatchService userMatchService;
-
     @Autowired
     private RoleSkillDAO roleSkillDAO;
 
@@ -106,13 +103,15 @@ public class ProjectService {
     }
     
     @Transactional
-    public boolean createProject(int userId, Project project) {
+    public boolean createProject(Project project) {
         if (!validProject(project)){
             return false;
         }
-        ProjectEntity projectEntity = convertProjectToEntity(project);
-        UserEntity userEntity = userDAO.findById(userId);
-        projectDAO.setProjectByProjectOwner(userEntity, projectEntity);
+        
+        // Save the high level project
+        projectDAO.save(convertProjectToEntity(project));
+        // Save the project interest
+        projectInterestDAO.save(project.getInterestsList());
         return false;
     }
 
@@ -122,8 +121,8 @@ public class ProjectService {
             return false;
         }
         ProjectEntity projectEntity = convertProjectToEntity(project);
-        UserEntity userEntity = userDAO.findById(userId);
-        projectDAO.setProjectByProjectOwner(userEntity, projectEntity);
+        UserEntity userEntity = userDAO.findByUserId(userId);
+        //projectDAO.setProjectByProjectOwner(userEntity, projectEntity);
         return true;
     }
     
@@ -137,7 +136,7 @@ public class ProjectService {
         if (project.getProjectStart() == null || project.getEstimatedEnd() == null || project.getProjectStart().after(project.getEstimatedEnd())){
             return false;
         }
-        if (userDAO.findById(project.getProjectId()) == null){
+        if (userDAO.findByUserId(project.getProjectId()) == null){
             return false;
         }
         return true;
@@ -177,10 +176,10 @@ public class ProjectService {
         return projects;
     }
 
-    private List<Role> getProjectRoles(ProjectEntity entity) {
+    private List<ProjectRole> getProjectRoles(ProjectEntity entity) {
         // Get the project roles
         if (entity != null) {
-            List<ProjectRole> projectRoles = projectRoleDAO.findByProject(entity);
+            List<ProjectRoleEntity> projectRoles = projectRoleDAO.findByProject(entity);
             return convertEntitiesToRoles(projectRoles);
         } else {
             return new ArrayList<>();
@@ -208,19 +207,25 @@ public class ProjectService {
         }
     }
 
-    private List<Role> convertEntitiesToRoles(List<ProjectRole> entityList) throws ObjectNotFoundException {
-        List<Role> roleList = new ArrayList<>();
+    private List<ProjectRole> convertEntitiesToRoles(List<ProjectRoleEntity> entityList) throws ObjectNotFoundException {
+        List<ProjectRole> projectRoleList = new ArrayList<>();
         if (entityList != null) {
             for (int i = 0; i < entityList.size(); i++) {
-                RoleEntity entity = entityList.get(i).getRole();
-                List<RoleSkill> skillList = roleSkillDAO.findByRole(entity);
-                List<RoleQualification> qualificationList = roleQualificationDAO.findByRole(entity);
-                Role role = new Role(entity, skillList, qualificationList);
-                roleList.add(role);
+                ProjectRoleEntity projectRoleEntity = entityList.get(i);
+                
+                List<RoleSkill> skillList = roleSkillDAO.findByProjectRole(projectRoleEntity);
+                List<RoleQualification> qualificationList = roleQualificationDAO.findByProjectRole(projectRoleEntity);
+                Project project = convertEntityToProject(projectRoleEntity.getProject());
+                
+                ProjectRole projectRole = new ProjectRole(project, projectRoleEntity.getRole());
+                projectRole.setQualificationsList(qualificationList);
+                projectRole.setSkillsList(skillList);
+ 
+                projectRoleList.add(projectRole);
             }
-            return roleList;
+            return projectRoleList;
         } else {
-            throw new ObjectNotFoundException(ProjectRole.class, "Project Roles Not Found");
+            throw new ObjectNotFoundException(ProjectRoleEntity.class, "Project Roles Not Found");
         }
     }
     

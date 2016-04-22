@@ -81,27 +81,6 @@ CREATE TABLE match_making.roles(
 , PRIMARY KEY (role_id)
 );
 
-#Role Skills Table
-CREATE TABLE match_making.role_skills(
-  role_id INT NOT NULL
-, skill_id INT NOT NULL
-, required BOOL NOT NULL
-, PRIMARY KEY (role_id, skill_id)
-, FOREIGN KEY (role_id) REFERENCES match_making.roles(role_id)
-, FOREIGN KEY (skill_id) REFERENCES match_making.skills(skill_id)
-);
-
-#Role Qualifications Table
-CREATE TABLE match_making.role_qualifications(
-  role_id INT NOT NULL
-, qualification_level_id INT NOT NULL
-, subject VARCHAR(45)
-, required BOOL NOT NULL
-, PRIMARY KEY (role_id, qualification_level_id)
-, FOREIGN KEY (role_id) REFERENCES match_making.roles(role_id)
-, FOREIGN KEY (qualification_level_id) REFERENCES match_making.qualification_levels(qualification_id)
-);
-
 /* Project Tables */
 
 #Projects Table
@@ -128,12 +107,34 @@ CREATE TABLE match_making.project_interests(
 );
 
 #Project Role Skills
-CREATE TABLE match_making.project_role(
-  project_id INT NOT NULL
+CREATE TABLE match_making.project_roles(
+  project_role_id INT NOT NULL AUTO_INCREMENT
+, project_id INT NOT NULL
 , role_id INT NOT NULL
-, PRIMARY KEY (project_id, role_id)
+, PRIMARY KEY (project_role_id)
 , FOREIGN KEY (project_id) REFERENCES match_making.projects(project_id)
 , FOREIGN KEY (role_id) REFERENCES match_making.roles(role_id)
+);
+
+#Role Skills Table
+CREATE TABLE match_making.role_skills(
+  project_role_id INT NOT NULL
+, skill_id INT NOT NULL
+, required BOOL NOT NULL
+, PRIMARY KEY (project_role_id, skill_id)
+, FOREIGN KEY (project_role_id) REFERENCES match_making.project_roles(project_role_id)
+, FOREIGN KEY (skill_id) REFERENCES match_making.skills(skill_id)
+);
+
+#Role Qualifications Table
+CREATE TABLE match_making.role_qualifications(
+  project_role_id INT NOT NULL
+, qualification_level_id INT NOT NULL
+, subject VARCHAR(45)
+, required BOOL NOT NULL
+, PRIMARY KEY (project_role_id, qualification_level_id)
+, FOREIGN KEY (project_role_id) REFERENCES match_making.project_roles(project_role_id)
+, FOREIGN KEY (qualification_level_id) REFERENCES match_making.qualification_levels(qualification_id)
 );
 
 /* Matching tables */

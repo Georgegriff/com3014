@@ -26,7 +26,7 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                                     var project = roleMatches[swiper.getPosition()],
                                             role = null;
                                     if (project) {
-                                        role = project.rolesList[0];
+                                        role = project.rolesList[0].role;
                                         swiper.init({
                                             onAccept: onAccept(project.projectId, role.roleId),
                                             onReject: onReject(project.projectId, role.roleId)

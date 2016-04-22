@@ -26,8 +26,8 @@ public class RoleQualification implements Serializable {
     
     @Id
     @ManyToOne
-    @JoinColumn(name ="role_id")
-    private RoleEntity role;
+    @JoinColumn(name ="project_role_id")
+    private ProjectRoleEntity projectRole;
     
     @Id
     @ManyToOne
@@ -43,8 +43,8 @@ public class RoleQualification implements Serializable {
     public RoleQualification() {
     }
 
-    public void setRole(RoleEntity role) {
-        this.role = role;
+    public void setProjectRole(ProjectRoleEntity role) {
+        this.projectRole = role;
     }
 
     public QualificationLevel getQualificationLevel() {
@@ -73,18 +73,18 @@ public class RoleQualification implements Serializable {
     
     public static class RoleQualificationPK implements Serializable {
         
-        private Integer role;
+        private Integer projectRole;
         private Integer qualificationLevel;
         
         public RoleQualificationPK() {
         }
 
-        public Integer getRole() {
-            return role;
+        public Integer getProjectRole() {
+            return projectRole;
         }
 
-        public void setRole(Integer role) {
-            this.role = role;
+        public void setProjectRole(Integer role) {
+            this.projectRole = role;
         }
 
         public Integer getQualificationLevel() {
@@ -98,7 +98,7 @@ public class RoleQualification implements Serializable {
         @Override
         public int hashCode() {
             int hash = 7;
-            hash = 23 * hash + Objects.hashCode(this.role);
+            hash = 23 * hash + Objects.hashCode(this.projectRole);
             hash = 23 * hash + Objects.hashCode(this.qualificationLevel);
             return hash;
         }
@@ -115,7 +115,7 @@ public class RoleQualification implements Serializable {
                 return false;
             }
             final RoleQualificationPK other = (RoleQualificationPK) obj;
-            if (!Objects.equals(this.role, other.role)) {
+            if (!Objects.equals(this.projectRole, other.projectRole)) {
                 return false;
             }
             if (!Objects.equals(this.qualificationLevel, other.qualificationLevel)) {

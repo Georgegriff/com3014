@@ -3,8 +3,8 @@ define(['jquery','js/models/requests'],
         function ($, Requests) {
             "use strict";
             var USER_PATH = "/user",
-                    CURRENT_USER = "/userinfo",
-                    currentUser = null;
+                CURRENT_USER = "/userinfo",
+                currentUser = null;
             return {
                 getUser: function (id) {
                     return Requests.getJSON(USER_PATH + id);

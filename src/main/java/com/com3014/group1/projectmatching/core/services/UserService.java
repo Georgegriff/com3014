@@ -21,6 +21,7 @@ import java.util.Map;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -105,12 +106,22 @@ public class UserService {
         return user;
     }
 
+    @Transactional
     public boolean registerUser(User user){
         if (!validUser(user)){
             return false;
         }
+        
+        // Save the top level user entity
         UserEntity userEntity = convertUserToEntity(user);
-        userDAO.setUser(userEntity);
+        userDAO.save(userEntity);
+        // Save user interest
+        userInterestDAO.save(user.getInterestsList());
+        // Save user skill
+        userSkillDAO.save(user.getSkillsList());
+        // Save user qualifications
+        userQualDAO.save(user.getQualificationsList());
+        
         return true;
     }
     
@@ -169,8 +180,7 @@ public class UserService {
         entity.setLastLogin(user.getLastLogin());
         return entity;
     }
-  
-  
+ 
     public List<User> convertEntityListToUserList(List<UserEntity> entities) {
         List<User> users = new ArrayList<>();
         for(UserEntity entity : entities) {

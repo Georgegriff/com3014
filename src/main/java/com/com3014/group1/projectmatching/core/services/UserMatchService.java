@@ -11,8 +11,7 @@ import com.com3014.group1.projectmatching.dao.RoleDAO;
 import com.com3014.group1.projectmatching.dao.UserMatchDAO;
 import com.com3014.group1.projectmatching.dao.UserSetDAO;
 import com.com3014.group1.projectmatching.dto.Project;
-import com.com3014.group1.projectmatching.dto.ProjectRoleMatch;
-import com.com3014.group1.projectmatching.dto.Role;
+import com.com3014.group1.projectmatching.dto.ProjectRole;
 import com.com3014.group1.projectmatching.model.ProjectApproved;
 import com.com3014.group1.projectmatching.model.ProjectDeclined;
 import com.com3014.group1.projectmatching.model.ProjectEntity;
@@ -65,7 +64,7 @@ public class UserMatchService {
      * it needs to be public for hibernate to proxy the method as a transaction
      */
     @Transactional
-    public void saveMatchesForUser(UserEntity userEntity, List<ProjectRoleMatch> projectRoles) {
+    public void saveMatchesForUser(UserEntity userEntity, List<ProjectRole> projectRoles) {
                
         // Try to get the user match row from the db
         UserMatch userMatchEntity = this.userMatchDAO.findByUser(userEntity);
@@ -85,15 +84,14 @@ public class UserMatchService {
         List<UserSet> userSets = new ArrayList<>();
         // Loop over all the projects the user matches too and save to the database
         for(int i = 0; i < projectRoles.size(); i++) {
-            ProjectRoleMatch projectRole = projectRoles.get(i);
+            ProjectRole projectRole = projectRoles.get(i);
             
             UserSet userSetEntity = new UserSet();
             userSetEntity.setSet(userMatchEntity);
             userSetEntity.setProject(projectService.convertProjectToEntity(projectRole.getProject()));
-            userSetEntity.setRole(this.projectRoleService.convertRoleToEntity(projectRole.getRole()));
+            userSetEntity.setRole(projectRole.getRole());
             
             userSets.add(userSetEntity);
-            //userSetDAO.save(userSetEntity);
         }
         //Bulk insert
         this.userSetDAO.save(userSets);
@@ -101,42 +99,42 @@ public class UserMatchService {
     
     public List<Project> retrieveCachedMatches(UserMatch userMatch, int userId){
         List<UserSet> matches = this.userSetDAO.findBySet(userMatch);
-        List<ProjectRoleMatch> projectRoles = new ArrayList<>();
+        List<ProjectRole> projectRoles = new ArrayList<>();
         List<Project> projects = new ArrayList<>();
         
         for(UserSet match : matches) {
             Project projectMatch = this.projectService.convertEntityToProjectAllData(match.getProject());
-            Role roleMatch = this.projectRoleService.convertEntitiesToRoles(match.getRole());
-            projectRoles.add(new ProjectRoleMatch(projectMatch, roleMatch));
+            RoleEntity roleMatch = match.getRole();
+            projectRoles.add(new ProjectRole(projectMatch, roleMatch));
         }
         
         // Get the accepted and rejected users for this project
-        List<ProjectRoleMatch> swiped = getAlreadySwipedProjects(userId);
+        List<ProjectRole> swiped = getAlreadySwipedProjects(userId);
         // Remove all users from the users list that are also in the swiped list
         projectRoles.removeAll(swiped);
         
         //Get the projects out that have not already been swiped
-        for(ProjectRoleMatch projectRole : projectRoles) {
+        for(ProjectRole projectRole : projectRoles) {
             projects.add(projectRole.getProject());
         }
         return projects;
     }
     
-    public List<ProjectRoleMatch> getAlreadySwipedProjects(int userId) {
+    public List<ProjectRole> getAlreadySwipedProjects(int userId) {
         List<ProjectApproved> approved = this.projectApprovedDAO.findByUser_UserId(userId);
         List<ProjectDeclined> declined = this.projectDeclinedDAO.findByUser_UserId(userId);
         
-        List<ProjectRoleMatch> combined = new ArrayList<>();
+        List<ProjectRole> combined = new ArrayList<>();
         
         for(ProjectApproved project : approved) {
             Project projectMatch = this.projectService.convertEntityToProjectAllData(project.getProject());
-            Role roleMatch = this.projectRoleService.convertEntitiesToRoles(project.getRole());
-            combined.add(new ProjectRoleMatch(projectMatch, roleMatch));
+            RoleEntity roleMatch = project.getRole();
+            combined.add(new ProjectRole(projectMatch, roleMatch));
         }
         for(ProjectDeclined project : declined) {
             Project projectMatch = this.projectService.convertEntityToProjectAllData(project.getProject());
-            Role roleMatch = this.projectRoleService.convertEntitiesToRoles(project.getRole());
-            combined.add(new ProjectRoleMatch(projectMatch, roleMatch));
+            RoleEntity roleMatch = project.getRole();
+            combined.add(new ProjectRole(projectMatch, roleMatch));
         }
         return combined;
     }

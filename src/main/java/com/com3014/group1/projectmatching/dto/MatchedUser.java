@@ -5,6 +5,8 @@
  */
 package com.com3014.group1.projectmatching.dto;
 
+import com.com3014.group1.projectmatching.model.RoleEntity;
+
 /**
  *
  * @author George
@@ -13,9 +15,9 @@ public class MatchedUser {
 
     private UserProfile user;
     private Project project;
-    private Role role;
+    private RoleEntity role;
 
-    public MatchedUser(User user, Project project, Role role) {
+    public MatchedUser(User user, Project project, RoleEntity role) {
         this.user = new UserProfile(user);
         this.user.provideEmail(user.getEmail());
         this.project = project;
@@ -38,11 +40,11 @@ public class MatchedUser {
         this.project = project;
     }
 
-    public Role getRole() {
+    public RoleEntity getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(RoleEntity role) {
         this.role = role;
     }
 

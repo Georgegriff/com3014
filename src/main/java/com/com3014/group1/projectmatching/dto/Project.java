@@ -9,14 +9,12 @@ import com.com3014.group1.projectmatching.model.ProjectInterest;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author Sam Waters
  * @author Dan Ashworth
  */
-@Repository
 public class Project {
         
     private Integer projectId;
@@ -26,7 +24,7 @@ public class Project {
     private Date estimatedEnd;
     private Location location;
     private int projectOwner;
-    private List<Role> rolesList;
+    private List<ProjectRole> rolesList;
     private List<ProjectInterest> interestsList;
     
     public Project() {
@@ -92,11 +90,11 @@ public class Project {
         this.location = location;
     }
 
-    public List<Role> getRolesList() {
+    public List<ProjectRole> getRolesList() {
         return rolesList;
     }
 
-    public void setRolesList(List<Role> rolesList) {
+    public void setRolesList(List<ProjectRole> rolesList) {
         this.rolesList = rolesList;
     }
 

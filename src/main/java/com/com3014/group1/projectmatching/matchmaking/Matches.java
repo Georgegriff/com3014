@@ -12,11 +12,11 @@ import com.com3014.group1.projectmatching.core.services.ProjectService;
 import com.com3014.group1.projectmatching.core.services.UserService;
 import com.com3014.group1.projectmatching.dto.MatchedUser;
 import com.com3014.group1.projectmatching.dto.Project;
-import com.com3014.group1.projectmatching.dto.Role;
 import com.com3014.group1.projectmatching.dto.User;
 import com.com3014.group1.projectmatching.model.ProjectApproved;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.com3014.group1.projectmatching.model.ProjectEntity;
+import com.com3014.group1.projectmatching.model.RoleEntity;
 import com.com3014.group1.projectmatching.model.UserApproved;
 import com.com3014.group1.projectmatching.model.UserEntity;
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class Matches {
 
     public List<MatchedUser> findMutualMatchesForProject(int projectId) {
         ProjectEntity project = projectService.findProjectById(projectId);
-        List<MatchedUser> mutualMatchedUsers = new ArrayList<MatchedUser>();
+        List<MatchedUser> mutualMatchedUsers = new ArrayList<>();
         List<ProjectApproved> usersMatches = userMatchService.getUsersMatchedToProject(project);
         for (ProjectApproved userMatched : usersMatches) {
             UserEntity user = userMatched.getUser();
@@ -92,7 +92,7 @@ public class Matches {
     private MatchedUser convertToMatchedUser(ProjectApproved userMatched) {
         User user = userService.convertEntityToUser(userMatched.getUser());
         Project project = projectService.convertEntityToProject(userMatched.getProject());
-        Role role = projectRoleService.convertEntitiesToRoles(userMatched.getRole());
+        RoleEntity role = userMatched.getRole();
         return new MatchedUser(user, project, role);
     }
 

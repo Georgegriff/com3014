@@ -111,8 +111,9 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         function prepareProjectData(data) {
                             project = data;
                             projectId = project.projectId;
-                            app.models.matches.addProjectId(projectId);
+                            app.models.matches.setProjectId(projectId);
                             roles = project.rolesList;
+                            console.log(roles[0]);
                             return roles;
                         }
                         function showLoading($pending) {
@@ -121,7 +122,7 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         }
                         function getMatchesForRole(roles) {
                             if (roles.length > 0) {
-                                var firstRole = roles[0];
+                                var firstRole = roles[0].role;
                                 return app.models.matches.getMatchesForRole(projectId, firstRole.roleId)
                                         .then(function (data) {
                                             return $.Deferred().resolve(firstRole, data);

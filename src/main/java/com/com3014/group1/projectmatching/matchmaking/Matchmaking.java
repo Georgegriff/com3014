@@ -6,14 +6,13 @@
 package com.com3014.group1.projectmatching.matchmaking;
 
 import com.com3014.group1.projectmatching.dto.User;
-import com.com3014.group1.projectmatching.dto.Role;
 import com.com3014.group1.projectmatching.dto.Project;
 
 import com.com3014.group1.projectmatching.core.services.UserService;
 import com.com3014.group1.projectmatching.core.services.ProjectService;
 import com.com3014.group1.projectmatching.core.services.UserMatchService;
-import com.com3014.group1.projectmatching.dto.ProjectRoleMatch;
-import com.com3014.group1.projectmatching.dto.UserProfile;
+import com.com3014.group1.projectmatching.dto.ProjectRole;
+import com.com3014.group1.projectmatching.model.RoleEntity;
 import com.com3014.group1.projectmatching.model.RoleSkill;
 import com.com3014.group1.projectmatching.model.UserSkill;
 
@@ -21,7 +20,6 @@ import java.util.Date;
 import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.Map;
@@ -56,7 +54,7 @@ public class Matchmaking {
     }
 
     // Calculate the fitness score for a particular user to a role
-    private double calculateUserScore(User user, Role role) {
+    private double calculateUserScore(User user, ProjectRole role) {
         // a list of skills desired but not required for this role
         List<RoleSkill> roleSkills = role.getSkillsList();
 
@@ -101,13 +99,13 @@ public class Matchmaking {
     }
 
     // Returns an array of user id's, ordered by matchmaking score
-    public List<User> findUsersForRole(Role role, int projectId) {
+    public List<User> findUsersForRole(ProjectRole projectRole) {
         // a list of skills required for this role
-        List<RoleSkill> roleSkills = role.getSkillsList();
+        List<RoleSkill> roleSkills = projectRole.getSkillsList();
         // a map of all users
         Map<Integer, User> allUsersMap = userService.getAllUsers();
         // a map of users already accepted or rejected
-        Map<Integer, User> alreadySwipedMap = userService.getAlreadySwipedUsers(projectId);
+        Map<Integer, User> alreadySwipedMap = userService.getAlreadySwipedUsers(projectRole.getProject().getProjectId());
 
         List<User> allUsers = new ArrayList<>(allUsersMap.values());
         List<Integer> alreadySwiped = new ArrayList<>(alreadySwipedMap.keySet());
@@ -121,7 +119,7 @@ public class Matchmaking {
                 List<UserSkill> userSkills = user.getSkillsList();
 
                 if (userHasRequiredSkills(userSkills, roleSkills)) {
-                    double userScore = calculateUserScore(user, role);
+                    double userScore = calculateUserScore(user, projectRole);
                     usersAndScores.put(userScore, user);
                 }
             }
@@ -155,41 +153,41 @@ public class Matchmaking {
         return numberOfRequiredSkills == numberOfRequiredSkillsUserHas;
     }
 
-    // returns an array of pjrects with matches roles, ordered by score
-    public List<ProjectRoleMatch> findRolesForUser(User user) {
+    // returns an array of projects with matches roles, ordered by score
+    public List<ProjectRole> findRolesForUser(User user) {
         // a list of skills this user has
         List<UserSkill> userSkills = user.getSkillsList();
         // a list of all projects
         List<Project> allProjects = projectService.getAllProjects();
 
         // a map of users already accepted or rejected
-        List<ProjectRoleMatch> alreadySwipedMap = userMatchService.getAlreadySwipedProjects(user.getUserId());
+        List<ProjectRole> alreadySwipedMap = userMatchService.getAlreadySwipedProjects(user.getUserId());
 
         //Map<Role, Project> roleIdProjectData = new HashMap<>();
-        Map<Double, ProjectRoleMatch> projectRolesAndScores = new HashMap<>();
+        Map<Double, ProjectRole> projectRolesAndScores = new HashMap<>();
         
         for (Project project : allProjects) {
             // get the projects roles
-            List<Role> allRoles = project.getRolesList();
+            List<ProjectRole> allProjectRoles = project.getRolesList();
 
-            for (Role role : allRoles) {
-                ProjectRoleMatch projectRoleCheck = new ProjectRoleMatch(project, role);
+            for (ProjectRole projectRole : allProjectRoles) {
+                //ProjectRole projectRoleCheck = new ProjectRole(project, role);
                 
                 // check the role in this project has not already been swiped
-                if (!alreadySwipedMap.contains(projectRoleCheck)) {
+                if (!alreadySwipedMap.contains(projectRole)) {
                        
-                    List<RoleSkill> roleSkills = role.getSkillsList();
+                    List<RoleSkill> roleSkills = projectRole.getSkillsList();
 
                     if (userHasRequiredSkills(userSkills, roleSkills)) {
-                        double userScore = calculateUserScore(user, role);
-                        projectRolesAndScores.put(userScore, new ProjectRoleMatch(project, role));
+                        double userScore = calculateUserScore(user, projectRole);
+                        projectRolesAndScores.put(userScore, projectRole);
                     }
                 }
             }
         }
 
         // order the users based on matchmaking score
-        List<ProjectRoleMatch> projectRolesOrdered = new ArrayList<>();
+        List<ProjectRole> projectRolesOrdered = new ArrayList<>();
 
         SortedSet<Double> scores = new TreeSet<>(projectRolesAndScores.keySet());
         for (Double score : scores) {

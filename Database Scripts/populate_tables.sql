@@ -24,17 +24,6 @@ INSERT INTO match_making.qualification_levels(qualification_level) VALUES
 , ('Diploma')
 , ('GSCE');
 
-# Populate the Role Qualifications Table
-INSERT INTO match_making.role_qualifications(role_id, qualification_level_id, subject, required) VALUES
-  (1, 1, 'Computer Science', true)
-, (2, 1, 'Computer Science', true)
-, (3, 1, 'Business', false)
-, (4, 2, 'IT', false)
-, (5, 1, 'Computer Science', true)
-, (6, 1, 'Computer Science', true)
-, (7, 2, 'Graphic Design', true)
-, (8, 1, 'Business', false)
-, (9, 1, 'Computer Science', false);
 
 # Populate the Users Table
 INSERT INTO match_making.users(username, forename, surname, email) VALUES

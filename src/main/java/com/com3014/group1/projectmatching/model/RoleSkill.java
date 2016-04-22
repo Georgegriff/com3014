@@ -26,8 +26,8 @@ public class RoleSkill implements Serializable {
     
     @Id
     @ManyToOne
-    @JoinColumn(name ="role_id")
-    private RoleEntity role;
+    @JoinColumn(name ="project_role_id")
+    private ProjectRoleEntity projectRole;
     
     @Id
     @ManyToOne
@@ -40,8 +40,12 @@ public class RoleSkill implements Serializable {
     public RoleSkill() {
     }
     
-    public void setRole(RoleEntity role) {
-        this.role = role;
+    public void setProjectRoleId(ProjectRoleEntity projectRole) {
+        this.projectRole = projectRole;
+    }
+    
+    public ProjectRoleEntity getProjectRoleId() {
+        return this.projectRole;
     }
 
     public Skill getSkill() {
@@ -62,18 +66,18 @@ public class RoleSkill implements Serializable {
     
     public static class RoleSkillPK implements Serializable {
         
-        private Integer role;
+        private Integer projectRole;
         private Integer skill;
         
         public RoleSkillPK() {
         }
 
-        public Integer getRole() {
-            return role;
+        public Integer getProjectRole() {
+            return projectRole;
         }
 
-        public void setRole(Integer role) {
-            this.role = role;
+        public void setProjectRole(Integer projectRole) {
+            this.projectRole = projectRole;
         }
 
         public Integer getSkill() {
@@ -87,7 +91,7 @@ public class RoleSkill implements Serializable {
         @Override
         public int hashCode() {
             int hash = 7;
-            hash = 17 * hash + Objects.hashCode(this.role);
+            hash = 17 * hash + Objects.hashCode(this.projectRole);
             hash = 17 * hash + Objects.hashCode(this.skill);
             return hash;
         }
@@ -104,7 +108,7 @@ public class RoleSkill implements Serializable {
                 return false;
             }
             final RoleSkillPK other = (RoleSkillPK) obj;
-            if (!Objects.equals(this.role, other.role)) {
+            if (!Objects.equals(this.projectRole, other.projectRole)) {
                 return false;
             }
             if (!Objects.equals(this.skill, other.skill)) {

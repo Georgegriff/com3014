@@ -10,7 +10,6 @@ import com.com3014.group1.projectmatching.dao.ProjectSetDAO;
 import com.com3014.group1.projectmatching.dao.RoleDAO;
 import com.com3014.group1.projectmatching.dao.UserApprovedDAO;
 import com.com3014.group1.projectmatching.dao.UserDeclinedDAO;
-import com.com3014.group1.projectmatching.dto.Role;
 import com.com3014.group1.projectmatching.dto.User;
 import com.com3014.group1.projectmatching.model.ProjectEntity;
 import com.com3014.group1.projectmatching.model.ProjectMatch;
@@ -44,10 +43,7 @@ public class ProjectMatchService {
     
     @Autowired
     private ProjectService projectService;
-    
-    @Autowired
-    private ProjectRoleService projectRoleService;
-    
+        
     @Autowired
     private UserService userService;
     
@@ -65,10 +61,9 @@ public class ProjectMatchService {
     }
     
     @Transactional
-    public void saveMatchesForProject(ProjectEntity projectEntity, List<User> users, Role role) {
+    public void saveMatchesForProject(ProjectEntity projectEntity, List<User> users, RoleEntity roleEntity) {
        
         ProjectMatch projectMatchEntity = this.projectMatchDAO.findByProject(projectEntity);
-        RoleEntity roleEntity = this.projectRoleService.convertRoleToEntity(role);
         List<ProjectSet> projectSets = new ArrayList<>();
         
         if(projectMatchEntity == null) {
