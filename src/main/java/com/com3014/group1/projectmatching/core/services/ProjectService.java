@@ -107,11 +107,12 @@ public class ProjectService {
         if (!validProject(project)){
             return false;
         }
-        
         // Save the high level project
         projectDAO.save(convertProjectToEntity(project));
         // Save the project interest
         projectInterestDAO.save(project.getInterestsList());
+        // Save the project roles
+        //TODO save the rest of the stuff 
         return false;
     }
 
