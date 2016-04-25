@@ -60,10 +60,6 @@ public class UserService {
         return user;
     }
 
-    /*
-     * TODO Elliot, I made this a map as per your implementation but dont know
-     * if you want to just return the list of users here and map in the matchmaking?
-     */
     public Map<Integer, User> getAllUsers() {
         Map<Integer, User> usersMap = new HashMap<>();
         try {

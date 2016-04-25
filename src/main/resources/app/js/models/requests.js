@@ -3,17 +3,20 @@ define(['jquery'],
         function ($) {
             return {
                 getJSON: function (url) {
-                    return $.getJSON("/services" + url).fail(function(e){
+                    return $.get("/services" + url).fail(function(e){
                        if(e.status === 403){
                            window.location.reload();
                        }
+                    }).then(function(data){
+                        return data;
                     });
                 },
-                putJSON: function (url, accepted, rejected) {
+                postPreferences: function (url, accepted, rejected) {
                     return $.ajax({
-                        type: "PUT",
+                        type: "POST",
                         url: "/services" + url,
-                        data: {accepted: accepted, rejected: rejected},
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({preferences : [accepted, rejected]}),
                         dataType: "json"
                     });
                 }

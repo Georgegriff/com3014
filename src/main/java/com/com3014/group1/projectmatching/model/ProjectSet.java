@@ -41,7 +41,7 @@ public class ProjectSet implements Serializable {
     
     public ProjectSet() {
     }
-
+    
     public void setSet(ProjectMatch set) {
         this.set = set;
     }

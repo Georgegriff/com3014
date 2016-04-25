@@ -17,6 +17,7 @@ define(['underscore', 'jquery', 'text!js/pages/project-profile/template/template
                             });
 
                         }
+                                               
                         function monthYearRange(start, end) {
                             var start = new Date(start),
                                     end = new Date(end);
@@ -40,6 +41,24 @@ define(['underscore', 'jquery', 'text!js/pages/project-profile/template/template
 
                                     });
 
+                        }
+                        function addList(listTitle, items, itemHandler) {
+                           var $pContainer = $profile.find('.profile-page-info'),
+                                   $plist = $('<div class="profile-list-cont">'),
+                                   $listTitle = $('<h4 class="profile-list">' + listTitle + "</h4>"),
+                                   $list = $('<ul class="profile-list">');
+                            $pContainer.append($plist);
+                            $plist.append($listTitle);
+                            $plist.append($list);
+                            if (_.isArray(items)) {
+                                items.forEach(function (item) {
+                                    if (_.isFunction(itemHandler)) {
+                                       $list.append('<li>' + itemHandler(item) + '</li>');
+                                    } else {
+                                       $list.append('<li>' + item + '</li>');
+                                    }
+                                });
+                            }
                         }
                         function renderRole(role, profile) {
                             profile.addList("Skills", role.skillsList, function (skill) {
@@ -66,8 +85,6 @@ define(['underscore', 'jquery', 'text!js/pages/project-profile/template/template
                             roles.forEach(function (role) {
                                 renderRole(role, profile);
                             });
-
-
 
                             profile.attachTo($page.find('.project-data'));
                             console.log(project);

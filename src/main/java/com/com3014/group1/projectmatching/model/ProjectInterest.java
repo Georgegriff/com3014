@@ -6,6 +6,7 @@
 package com.com3014.group1.projectmatching.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -48,7 +49,7 @@ public class ProjectInterest implements Serializable {
     public void setInterestId(Integer interestId) {
         this.interestId = interestId;
     }
-
+    
     public void setProject(ProjectEntity project) {
         this.project = project;
     }
@@ -60,4 +61,39 @@ public class ProjectInterest implements Serializable {
     public void setInterest(String interest) {
         this.interest = interest;
     }   
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 37 * hash + Objects.hashCode(this.interestId);
+        hash = 37 * hash + Objects.hashCode(this.project);
+        hash = 37 * hash + Objects.hashCode(this.interest);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ProjectInterest other = (ProjectInterest) obj;
+        if (!Objects.equals(this.interest, other.interest)) {
+            return false;
+        }
+        if (!Objects.equals(this.interestId, other.interestId)) {
+            return false;
+        }
+        if (!Objects.equals(this.project, other.project)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

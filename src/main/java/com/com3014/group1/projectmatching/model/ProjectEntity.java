@@ -73,20 +73,14 @@ public class ProjectEntity implements Serializable {
     }
 
     public void setProjectId(Integer projectId) {
-        if(projectId.equals(this.projectId)) {
-            return;
-        }
         this.projectId = projectId;
     }
-
+    
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
-        if(name.equals(this.name)) {
-            return;
-        }
         this.name = name;
     }
 
@@ -95,9 +89,6 @@ public class ProjectEntity implements Serializable {
     }
 
     public void setDescription(String description) {
-        if(description.equals(this.description)) {
-            return;
-        }
         this.description = description;
     }
 
@@ -106,9 +97,6 @@ public class ProjectEntity implements Serializable {
     }
 
     public void setProjectStart(Date projectStart) {
-        if(projectStart.equals(this.projectStart)) {
-            return;
-        }
         this.projectStart = projectStart;
     }
 
@@ -117,9 +105,6 @@ public class ProjectEntity implements Serializable {
     }
 
     public void setEstimatedEnd(Date estimatedEnd) {
-        if(estimatedEnd.equals(this.estimatedEnd)) {
-            return;
-        }
         this.estimatedEnd = estimatedEnd;
     }
 
@@ -128,9 +113,6 @@ public class ProjectEntity implements Serializable {
     }
 
     public void setLocation(Location location) {
-        if(location.equals(this.location)) {
-            return;
-        }
         this.location = location;
     }
     
@@ -139,9 +121,6 @@ public class ProjectEntity implements Serializable {
     }
     
     public void setProjectOwner(UserEntity projectOwner) {
-        if(projectOwner.equals(this.projectOwner)) {
-            return;
-        }
         this.projectOwner = projectOwner;
     }
 

@@ -10,12 +10,12 @@ define(['underscore', 'jquery', 'jquery.ui', 'text!js/plugins/sidemenu/template/
                     appendLoginButton();
                     menu.addItem({
                         text: app.currentUser.name,
-                        href: app.models.user.getProfile(app.currentUser.userId)
+                        href: app.models.user.getProfile()
                     });
                     
                     menu.addItem({
                         text: "My Projects",
-                        href: app.models.user.getProjects(app.currentUser.userId)
+                        href: app.models.user.getProjects()
                     });
                     menu.addItem({
                         text: "Matched Projects",

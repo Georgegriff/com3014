@@ -24,7 +24,7 @@ public class RestRegisterService {
     @Autowired
     private UserService userService;
     
-    @RequestMapping(value = "/user", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/register", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
     public void registerUser(@PathVariable User user) {
         boolean valid = userService.registerUser(user);
     }

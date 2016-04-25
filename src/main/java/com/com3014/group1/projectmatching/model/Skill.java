@@ -6,7 +6,6 @@
 package com.com3014.group1.projectmatching.model;
 
 import java.io.Serializable;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,7 +40,7 @@ public class Skill implements Serializable {
     public Integer getSkillId() {
         return skillId;
     }
-    
+
     public void setSkillId(Integer skillId) {
         this.skillId = skillId;
     }

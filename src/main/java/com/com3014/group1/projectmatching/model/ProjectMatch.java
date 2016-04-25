@@ -7,6 +7,7 @@ package com.com3014.group1.projectmatching.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -53,16 +54,10 @@ public class ProjectMatch implements Serializable {
     }
 
     public void setSetId(Integer setId) {
-        if(setId.equals(this.setId)) {
-            return;
-        }
         this.setId = setId;
     }
-
+    
     public void setProject(ProjectEntity project) {
-        if(project.equals(this.project)) {
-            return;
-        }
         this.project = project;
     }
 
@@ -71,9 +66,6 @@ public class ProjectMatch implements Serializable {
     }
 
     public void setCacheExpire(Date cacheExpire) {
-        if(cacheExpire.equals(this.cacheExpire)) {
-            return;
-        }
         this.cacheExpire = cacheExpire;
     }
 
@@ -82,13 +74,47 @@ public class ProjectMatch implements Serializable {
     }
 
     public void setStatusControl(String statusControl) {
-        if(statusControl.equals(this.statusControl)) {
-            return;
-        }
         this.statusControl = statusControl;
     }   
 
     public ProjectEntity getProject() {
         return project;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 17 * hash + Objects.hashCode(this.setId);
+        hash = 17 * hash + Objects.hashCode(this.project);
+        hash = 17 * hash + Objects.hashCode(this.cacheExpire);
+        hash = 17 * hash + Objects.hashCode(this.statusControl);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ProjectMatch other = (ProjectMatch) obj;
+        if (!Objects.equals(this.statusControl, other.statusControl)) {
+            return false;
+        }
+        if (!Objects.equals(this.setId, other.setId)) {
+            return false;
+        }
+        if (!Objects.equals(this.project, other.project)) {
+            return false;
+        }
+        if (!Objects.equals(this.cacheExpire, other.cacheExpire)) {
+            return false;
+        }
+        return true;
+    } 
 }

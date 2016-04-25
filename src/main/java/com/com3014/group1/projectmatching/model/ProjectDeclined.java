@@ -46,7 +46,7 @@ public class ProjectDeclined implements Serializable {
     }
     
     public void setUser(UserEntity user) {
-        this.user = user;
+       this.user = user;
     }
 
     public void setProject(ProjectEntity project) {

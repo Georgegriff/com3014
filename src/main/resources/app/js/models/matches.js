@@ -8,11 +8,20 @@ define(['jquery', 'js/models/requests'],
             var usersRejected = [];
             var projectsAccepted = [];
             var projectsRejected = [];
-            var projectId = null;
+            var projectIds = [];
             
             function getProjectMatcherPath(projectId) {
                 return MATCHES + "/project/" + projectId;
-            }
+            } 
+            
+            function getProjectMatchesPath(projectId) {
+               return "/projectmatches/" + projectId;
+           }
+           
+           function getProjectMatches(id){
+               return Requests.getJSON(MATCHES + "/project/" +  + id + "/matches");
+           }
+            
             function getMatchesForRole(roleId, projectId) {
                 return Requests.getJSON(MATCHES + "/project/" + projectId + "/role/" + roleId);
             }
@@ -22,24 +31,19 @@ define(['jquery', 'js/models/requests'],
             }
             
             function saveSwipedUsers(projectId) {
-                var acceptedJSON = JSON.stringify({accepted : usersAccepted});
-                var rejectedJSON = JSON.stringify({rejected : usersRejected});
+                var acceptedJSON = {accepted : usersAccepted};
+                var rejectedJSON = {rejected : usersRejected};
                 // Clear arrays
                 clearSwipedUsers();
-                return Requests.getJSON(MATCHES + "/project/" + projectId + "/save/" + acceptedJSON + "/" + rejectedJSON);
-                //Stub below for PUT request change
-                //return Requests.putJSON(MATCHES + "/project/" + projectId + "/save, acceptedJSON, rejectedJSON);
+                return Requests.postPreferences(MATCHES + "/project/" + projectId + "/save", acceptedJSON, rejectedJSON);
             }
             
-            function saveSwipedProjects(userId) {
-                var acceptedJSON = JSON.stringify({accepted : projectsAccepted});
-                var rejectedJSON = JSON.stringify({rejected : projectsRejected});
-                console.log(acceptedJSON);
+            function saveSwipedProjects() {
+                var acceptedJSON = {accepted : projectsAccepted};
+                var rejectedJSON = {rejected : projectsRejected};
                 // Clear the arrays
                 clearSwipedProjects();
-                return Requests.getJSON(MATCHES + "/user/" + userId + "/save/" + acceptedJSON + "/" + rejectedJSON);
-                //Stub below for put request change
-                //return Requests.putJSON(MATCHES + "/user/" + userId + "/save", acceptedJSON, rejectedJSON);
+                return Requests.postPreferences(MATCHES + "/user/save", acceptedJSON, rejectedJSON);
             }
             
             function clearSwipedUsers() {
@@ -53,12 +57,10 @@ define(['jquery', 'js/models/requests'],
             }
             
             function addToUsersAccepted(userRole) {
-                console.log("USER ACCEPTED");
                 return usersAccepted.push(userRole);
             }
             
             function addToUsersRejected(userRole) {
-                console.log("USER REJECTED");
                 return usersRejected.push(userRole);
             }
             
@@ -70,16 +72,18 @@ define(['jquery', 'js/models/requests'],
                 return projectsRejected.push(projectRole);
             }
             
-            function setProjectId(id) {
-                return (projectId = id);
+            function addProjectId(id) {
+                projectIds.push(id);
             }
             
-            function getProjectId() {
-                return projectId;
+            function getProjectIds() {
+                return projectIds;
             }
             
             return {
                 getProjectMatcherPath: getProjectMatcherPath,
+                getProjectMatchesPath : getProjectMatchesPath,
+                getProjectMatches : getProjectMatches,
                 getMatchesForRole: getMatchesForRole,
                 getMatchesForUser : getMatchesForUser,
                 saveSwipedUsers: saveSwipedUsers,
@@ -90,7 +94,7 @@ define(['jquery', 'js/models/requests'],
                 addToUsersRejected: addToUsersRejected,
                 addToProjectsAccepted: addToProjectsAccepted,
                 addToProjectsRejected: addToProjectsRejected,
-                setProjectId: setProjectId,
-                getProjectId: getProjectId
+                addProjectId: addProjectId,
+                getProjectIds: getProjectIds
             };
         });

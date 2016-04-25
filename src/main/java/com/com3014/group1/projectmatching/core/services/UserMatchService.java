@@ -8,6 +8,8 @@ package com.com3014.group1.projectmatching.core.services;
 import com.com3014.group1.projectmatching.dao.ProjectApprovedDAO;
 import com.com3014.group1.projectmatching.dao.ProjectDeclinedDAO;
 import com.com3014.group1.projectmatching.dao.RoleDAO;
+import com.com3014.group1.projectmatching.dao.RoleQualificationDAO;
+import com.com3014.group1.projectmatching.dao.RoleSkillDAO;
 import com.com3014.group1.projectmatching.dao.UserMatchDAO;
 import com.com3014.group1.projectmatching.dao.UserSetDAO;
 import com.com3014.group1.projectmatching.dto.Project;
@@ -16,6 +18,8 @@ import com.com3014.group1.projectmatching.model.ProjectApproved;
 import com.com3014.group1.projectmatching.model.ProjectDeclined;
 import com.com3014.group1.projectmatching.model.ProjectEntity;
 import com.com3014.group1.projectmatching.model.RoleEntity;
+import com.com3014.group1.projectmatching.model.RoleQualification;
+import com.com3014.group1.projectmatching.model.RoleSkill;
 import com.com3014.group1.projectmatching.model.UserEntity;
 import com.com3014.group1.projectmatching.model.UserMatch;
 import com.com3014.group1.projectmatching.model.UserSet;
@@ -47,10 +51,7 @@ public class UserMatchService {
     
     @Autowired
     private ProjectDeclinedDAO projectDeclinedDAO;
-    
-    @Autowired
-    private ProjectRoleService projectRoleService;
-    
+        
     @Autowired
     private ProjectService projectService;
     
@@ -59,7 +60,7 @@ public class UserMatchService {
     
     @Autowired
     private RoleDAO roleDAO;
-    
+        
     /* This method is public as according to the docs to properly implement transactional 
      * it needs to be public for hibernate to proxy the method as a transaction
      */

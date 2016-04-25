@@ -39,11 +39,7 @@ public class RoleSkill implements Serializable {
     
     public RoleSkill() {
     }
-    
-    public void setProjectRoleId(ProjectRoleEntity projectRole) {
-        this.projectRole = projectRole;
-    }
-    
+        
     public ProjectRoleEntity getProjectRoleId() {
         return this.projectRole;
     }

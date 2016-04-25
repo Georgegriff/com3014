@@ -111,9 +111,8 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         function prepareProjectData(data) {
                             project = data;
                             projectId = project.projectId;
-                            app.models.matches.setProjectId(projectId);
+                            app.models.matches.addProjectId(projectId);
                             roles = project.rolesList;
-                            console.log(roles[0]);
                             return roles;
                         }
                         function showLoading($pending) {

@@ -83,8 +83,11 @@ public class MatchmakingService {
         // rerun the algorithm and save the new set
         if((userMatch == null) || (userMatch.getCacheExpire().before(new Date()))) {
             List<ProjectRole> projectRoles = matching.findRolesForUser(user);
+            
             for(ProjectRole projectRole : projectRoles) {
-                projects.add(projectRole.getProject());
+                Project project = projectRole.getProject();
+                this.projectService.getRemainingData(projectRole.getProject());
+                projects.add(project);
             }
             
             this.userMatchService.saveMatchesForUser(userEntity, projectRoles);
@@ -96,37 +99,13 @@ public class MatchmakingService {
         return projects;
     }    
     
-    public void saveProjectSwipePreferences(Integer userId, String accepted, String declined) {
-        try {
-            JSONObject acceptedJson = new JSONObject(accepted);
-            JSONObject delcinedJson = new JSONObject(declined);
-
-            JSONArray acceptedArray = acceptedJson.getJSONArray("accepted");
-            this.userMatchService.saveAcceptedProjects(userId, acceptedArray);
-
-            JSONArray declinedArray = delcinedJson.getJSONArray("rejected");
-            this.userMatchService.saveRejectedProjects(userId, declinedArray);
-        }
-        catch(Exception e) {
-            //Need to decide how we want to relay back to user
-            e.printStackTrace();
-        }
+    public void saveProjectSwipePreferences(Integer userId, JSONArray accepted, JSONArray declined) {
+        this.userMatchService.saveAcceptedProjects(userId, accepted);
+        this.userMatchService.saveRejectedProjects(userId, declined);
     }
     
-    public void saveUserSwipePreferences(Integer projectId, String accepted, String declined) {
-        try {
-            JSONObject acceptedJSON = new JSONObject(accepted);
-            JSONObject declinedJSON = new JSONObject(declined);
-
-            JSONArray acceptedArray = acceptedJSON.getJSONArray("accepted");
-            this.projectMatchService.saveAcceptedUsers(projectId, acceptedArray);
-               
-            JSONArray declinedArray = declinedJSON.getJSONArray("rejected");
-            this.projectMatchService.saveRejectedUsers(projectId, declinedArray);
-        }
-        catch (Exception e) {
-            //TODO need to decide how we are propogating errors
-            e.printStackTrace();
-        }
+    public void saveUserSwipePreferences(Integer projectId, JSONArray accepted, JSONArray declined) {
+        this.projectMatchService.saveAcceptedUsers(projectId, accepted);       
+        this.projectMatchService.saveRejectedUsers(projectId, declined);
     }
 }

@@ -13,10 +13,10 @@ import com.com3014.group1.projectmatching.dao.RoleSkillDAO;
 import com.com3014.group1.projectmatching.dao.UserDAO;
 import com.com3014.group1.projectmatching.dto.Project;
 import com.com3014.group1.projectmatching.dto.ProjectRole;
+import com.com3014.group1.projectmatching.dto.User;
 import com.com3014.group1.projectmatching.model.ProjectEntity;
 import com.com3014.group1.projectmatching.model.ProjectInterest;
 import com.com3014.group1.projectmatching.model.ProjectRoleEntity;
-import com.com3014.group1.projectmatching.model.RoleEntity;
 import com.com3014.group1.projectmatching.model.RoleQualification;
 import com.com3014.group1.projectmatching.model.RoleSkill;
 import com.com3014.group1.projectmatching.model.UserEntity;
@@ -52,14 +52,19 @@ public class ProjectService {
 
     @Autowired
     private RoleQualificationDAO roleQualificationDAO;
+    
+    @Autowired
+    private ProjectRoleService projectRoleService;
 
-    public Project getProject(int id, boolean roles, boolean interests) {
-        //TODO:: need to ensure project owner and accepted people can view project
+    public Project getProject(int id, User user, boolean roles, boolean interests) {
         Project project = null;
         try {
             ProjectEntity entity = projectDAO.findOne(id);
-            project = convertEntityToProject(entity);
-            retrieveProjectData(entity, project, roles, interests);
+            // Check that the user is allowed to via this project
+            if(entity.getProjectOwner().getUserId().equals(user.getUserId())) {
+                project = convertEntityToProject(entity);
+                retrieveProjectData(entity, project, roles, interests);
+            }
 
         } catch (ObjectNotFoundException onf) {
             project = null;
@@ -67,13 +72,13 @@ public class ProjectService {
         return project;
     }
 
-    public List<Project> getProjectsUserOwns(int userId) {
+    public List<Project> getProjectsUserOwns(User user) {
 
         List<Project> userProjects = new ArrayList<>();
 
         try {
-            UserEntity user = userDAO.findOne(userId);
-            List<ProjectEntity> projects = projectDAO.findByProjectOwner(user);
+            UserEntity entity = userDAO.findOne(user.getUserId());
+            List<ProjectEntity> projects = projectDAO.findByProjectOwner(entity);
 
             for (int i = 0; i < projects.size(); i++) {
                 Project project = convertEntityToProject(projects.get(i));
@@ -88,11 +93,10 @@ public class ProjectService {
     public List<Project> getAllProjects() {
         List<Project> projects = new ArrayList<>();
         try {
-            // Find all the users
+            // Find all the projects
             List<ProjectEntity> allProjects = projectDAO.findAll();
             for (ProjectEntity entity : allProjects) {
-                Project project = convertEntityToProject(entity);
-                retrieveProjectData(entity, project, true, true);
+                Project project = convertEntityToProjectAllData(entity);
                 projects.add(project);
             }
 
@@ -103,7 +107,7 @@ public class ProjectService {
     }
     
     @Transactional
-    public boolean createProject(Project project) {
+    public boolean saveProject(Project project) {
         if (!validProject(project)){
             return false;
         }
@@ -111,19 +115,9 @@ public class ProjectService {
         projectDAO.save(convertProjectToEntity(project));
         // Save the project interest
         projectInterestDAO.save(project.getInterestsList());
-        // Save the project roles
-        //TODO save the rest of the stuff 
-        return false;
-    }
-
-    @Transactional
-    public boolean updateProject(int userId, Project project) {
-        if (!validProject(project)){
-            return false;
-        }
-        ProjectEntity projectEntity = convertProjectToEntity(project);
-        UserEntity userEntity = userDAO.findByUserId(userId);
-        //projectDAO.setProjectByProjectOwner(userEntity, projectEntity);
+        // Save the project roles, skills and qualifications
+        projectRoleService.saveProjectRoles(project.getRolesList());
+        
         return true;
     }
     
@@ -198,12 +192,10 @@ public class ProjectService {
     }
 
     private void retrieveProjectData(ProjectEntity projectEntity, Project project, boolean roles, boolean interests) {
-        // If param set and the role list is currently null, retrieve data
-        if (roles && (project.getRolesList() == null)) {
+        if (roles) {
             project.setRolesList(getProjectRoles(projectEntity));
         }
-        // If param set and the interest list is currently null, retrieve data
-        if (interests && (project.getInterestsList() == null)) {
+        if (interests) {
             project.setInterestsList(getProjectInterests(projectEntity));
         }
     }
@@ -221,7 +213,7 @@ public class ProjectService {
                 ProjectRole projectRole = new ProjectRole(project, projectRoleEntity.getRole());
                 projectRole.setQualificationsList(qualificationList);
                 projectRole.setSkillsList(skillList);
- 
+                
                 projectRoleList.add(projectRole);
             }
             return projectRoleList;
@@ -249,6 +241,11 @@ public class ProjectService {
     
     public ProjectEntity findProjectById(int projectId) {
         return this.projectDAO.findOne(projectId);
+    }
+    
+    public void getRemainingData(Project project) {
+        ProjectEntity projectEntity = projectDAO.findOne(project.getProjectId());
+        retrieveProjectData(projectEntity, project, true, true);
     }
 
 }

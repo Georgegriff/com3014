@@ -51,10 +51,10 @@ public class RoleEntity implements Serializable {
         return roleId;
     }
 
-    public void setRoleId(int roleId) {
+    public void setRoleId(Integer roleId) {
         this.roleId = roleId;
     }
-
+    
     public String getName() {
         return name;
     }

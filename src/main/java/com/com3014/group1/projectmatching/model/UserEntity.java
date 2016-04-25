@@ -62,20 +62,14 @@ public class UserEntity implements Serializable {
     }
 
     public void setUserId(Integer userId) {
-        if(userId.equals(this.userId)){
-            return;
-        }
         this.userId = userId;
     }
-
+    
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
-        if(username.equals(this.username)){
-            return;
-        }
         this.username = username;
     }
 
@@ -84,9 +78,6 @@ public class UserEntity implements Serializable {
     }
 
     public void setName(String name) {
-        if(name.equals(this.name)){
-            return;
-        }
         this.name = name;
     }
 
@@ -95,9 +86,6 @@ public class UserEntity implements Serializable {
     }
 
     public void setSurname(String surname) {
-        if(surname.equals(this.surname)){
-            return;
-        }
         this.surname = surname;
     }
 
@@ -106,9 +94,6 @@ public class UserEntity implements Serializable {
     }
 
     public void setEmail(String email) {
-        if(email.equals(this.email)){
-            return;
-        }
         this.email = email;
     }
 
@@ -117,9 +102,6 @@ public class UserEntity implements Serializable {
     }
 
     public void setAverageRating(Float averageRating) {
-        if((averageRating == null) || (averageRating.equals(this.averageRating))){
-            return;
-        }
         this.averageRating = averageRating;
     }
 
@@ -128,9 +110,6 @@ public class UserEntity implements Serializable {
     }
 
     public void setLastLogin(Date lastLogin) {
-        if(lastLogin.equals(this.lastLogin)){
-            return;
-        }
         this.lastLogin = lastLogin;
     }
     

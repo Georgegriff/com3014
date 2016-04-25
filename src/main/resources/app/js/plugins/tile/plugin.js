@@ -34,10 +34,18 @@ define(['underscore', 'jquery', 'text!js/plugins/tile/template/template.htm'],
                                 return app.routeHandler($(this).attr("href"), event);
                             });
                         }
+                        function setMatchesLink(href) {
+                            var $links = $tile.find('.matches-button');
+                            $links.prop("href", href);
+                            $links.on('click', function (event) {
+                                return app.routeHandler($(this).attr("href"), event);
+                            });
+                        }
                         return {
                             attachTo: attachTo,
                             setLink: setLink,
                             setMatchLink: setMatchLink,
+                            setMatchesLink : setMatchesLink,
                             setEditLink: setEditLink
                         };
                     }

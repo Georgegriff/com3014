@@ -169,9 +169,8 @@ public class Matchmaking {
         for (Project project : allProjects) {
             // get the projects roles
             List<ProjectRole> allProjectRoles = project.getRolesList();
-
+            
             for (ProjectRole projectRole : allProjectRoles) {
-                //ProjectRole projectRoleCheck = new ProjectRole(project, role);
                 
                 // check the role in this project has not already been swiped
                 if (!alreadySwipedMap.contains(projectRole)) {

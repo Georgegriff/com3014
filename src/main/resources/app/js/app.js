@@ -18,6 +18,7 @@ define(['underscore',
                     self.initModels();
                     self.loadComponents();
                     routing = new Routing(self);
+                    routing.interceptLogout();
                     pluginLoader = new PluginLoader(self);
                     self.initialiseUser()
                             .then(self.loadPlugins)
@@ -27,13 +28,17 @@ define(['underscore',
 
                 };
                 App.prototype.initialiseUser = function initUser() {
-                    return self.models.user.getCurrentUser().then(function (user) {
+                    //return self.models.user.getCurrentUser().then(function (user) {
+                      //  self.currentUser = user;
+                    //});
+                    return self.models.user.getUser().then(function (user) {
                         self.currentUser = user;
                     });
 
                 };
                 App.prototype.linkUserProfile = function linkUserProfile(){
-                    var uri = self.models.user.getProfile(self.currentUser.userId);
+                    //var uri = self.models.user.getProfile(self.currentUser.userId);
+                    var uri = self.models.user.getProfile();
                     $('#profile-icon').find('a').prop("href", uri);
                 };
                 App.prototype.initModels = function initModels() {

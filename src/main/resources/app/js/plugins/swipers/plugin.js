@@ -5,7 +5,7 @@ define(['underscore', 'jquery', 'js/plugins/swipers/swiper', 'text!js/plugins/sw
         init: function (app) {
 
             function createNoMatchMessage() {
-                var message = "No matches left...",
+                var message = "No suggestions left...",
                         direction = "Please check back later.",
                         $element = $('<div class=no-matches>'),
                         $msg = $('<h1 class="no-match-msg">' + message + '</h1>'),
@@ -93,7 +93,7 @@ define(['underscore', 'jquery', 'js/plugins/swipers/swiper', 'text!js/plugins/sw
                     self.$swipeCont.fadeIn();
                 }
                 function pending() {
-                    var message = "Loading Matches...",
+                    var message = "Loading Suggestions...",
                             $element = $('<div class="no-matches">'),
                             $msg = $('<h1 class="no-match-msg">' + message + '</h1>'),
                             $direction = $('<i class="spin fa fa-refresh"></i>');

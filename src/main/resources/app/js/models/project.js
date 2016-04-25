@@ -2,8 +2,8 @@
 define(['jquery', 'js/models/requests'],
         function ($, Requests) {
             "use strict";
-            function getUserProjectsPath(userId) {
-                return "/user/" + userId + "/projects";
+            function getUserProjectsPath() {
+                return "/user/projects";
             }
             function getProjectPath(projectId, urlParams) {
                 var request = "/project/" + projectId;
@@ -22,8 +22,8 @@ define(['jquery', 'js/models/requests'],
             }
             return {
                 getUserProjectsPath: getUserProjectsPath,
-                getUserProjects: function (id) {
-                    return Requests.getJSON(getUserProjectsPath(id));
+                getUserProjects: function () {
+                    return Requests.getJSON(getUserProjectsPath());
                 },
                 getProjectPath: getProjectPath,
                 getProject: function (projectId, urlParams) {

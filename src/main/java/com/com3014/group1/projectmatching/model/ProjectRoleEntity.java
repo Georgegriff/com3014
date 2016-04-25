@@ -47,7 +47,7 @@ public class ProjectRoleEntity implements Serializable {
     public void setProjectRoleId(Integer projectRoleId) {
         this.projectRoleId = projectRoleId;
     }
-    
+        
     public void setProject(ProjectEntity project) {
         this.project = project;
     }

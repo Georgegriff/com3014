@@ -69,14 +69,14 @@ public class ProjectMatchService {
         if(projectMatchEntity == null) {
             projectMatchEntity = new ProjectMatch();
         }
-             
+
         projectMatchEntity.setProject(projectEntity);
         projectMatchEntity.setCacheExpire(setCacheExpireTime());
         projectMatchEntity.setStatusControl("C");
         
         this.projectMatchDAO.save(projectMatchEntity);
         this.projectSetDAO.deleteBySet(projectMatchEntity);
-        
+
         for(int i = 0; i < users.size(); i++) {
             ProjectSet projectSetEntity = new ProjectSet();
             projectSetEntity.setSet(projectMatchEntity);
@@ -87,6 +87,7 @@ public class ProjectMatchService {
         }
         // Bulk insert
         this.projectSetDAO.save(projectSets);
+        
     }
     
     public List<User> retrieveCachedMatches(ProjectMatch projectMatch, int projectId){

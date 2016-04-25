@@ -40,13 +40,13 @@ public class ProjectApproved implements Serializable {
        
     public ProjectApproved() {
     }
-   
+       
     public void setProject(ProjectEntity project) {
         this.project = project;
     }
     
     public void setUser(UserEntity user) {
-        this.user = user;
+       this.user = user;
     }
 
     public UserEntity getUser() {

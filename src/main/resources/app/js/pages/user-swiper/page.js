@@ -24,9 +24,11 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                                 if (swiper) {
                                     //TODO:: check if roleMatches array is < threshold if so repopulate;
                                     var project = roleMatches[swiper.getPosition()],
+                                            projectRole = null,
                                             role = null;
                                     if (project) {
-                                        role = project.rolesList[0].role;
+                                        projectRole = project.rolesList[0];
+                                        role = projectRole.role;
                                         swiper.init({
                                             onAccept: onAccept(project.projectId, role.roleId),
                                             onReject: onReject(project.projectId, role.roleId)
@@ -42,10 +44,10 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                                         swiper.setRightSubtitle("Estmated Project Timeline:<br/>" +
                                                 monthYearRange(project.projectStart, project.estimatedEnd));
 
-                                        swiper.addList("Required Skills", role.skillsList, function (skill) {
+                                        swiper.addList("Required Skills", projectRole.skillsList, function (skill) {
                                             return skill.skill.name;
                                         });
-                                        swiper.addList("Required Qualifications", role.qualificationList, function (qualification) {
+                                        swiper.addList("Required Qualifications", projectRole.qualificationsList, function (qualification) {
                                             return qualification.subject + ": " + qualification.qualificationLevel.qualificationLevel;
                                         });
                                     }

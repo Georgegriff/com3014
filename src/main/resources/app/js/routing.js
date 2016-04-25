@@ -1,4 +1,4 @@
-define(function () {
+define(['jquery'], function ($) {
     var ROOT = "/";
     function Routing(app) {
         function historyAPI() {
@@ -30,8 +30,31 @@ define(function () {
         function getPage(name) {
             return $.Deferred().resolve(app.pages[name]);
         }
+        function interceptLogout() {
+            $('#logout-form').find("form").submit(function (e) {
+                e.preventDefault();
+                var self = this;
+                saveSessionSwipes().done(function () {
+                     self.submit();
+                });
+            });
+        }
+        
+        function saveSessionSwipes(){
+            var saveSwipes = [],
+                   projectIds = app.models.matches.getProjectIds();
+           
+            projectIds.forEach(function(id){
+                saveSwipes.push(app.models.matches.saveSwipedUsers(id)); 
+            });           
+            //saveSwipes.push(app.models.matches.saveSwipedProjects());
+            app.models.matches.saveSwipedProjects();
+            return $.when.apply($, saveSwipes);
+        }
+        
         return {
-            routeHandler: function (route, event) {                
+            routeHandler: function (route, event) {
+                $('#content').empty();
                 if (typeof (route) !== 'undefined' && route) {
                     if (historyAPI()) {
                         if (route !== window.location.pathname) {
@@ -45,9 +68,9 @@ define(function () {
                         }
                     } else if (route.indexOf("/project/") > -1) {
                         route = app.models.project.getProjectPath("id");
+                    } else if (route.indexOf("/projectmatches/") > -1) {
+                        route = app.models.matches.getProjectMatchesPath("id");
                     }
-                    
-                    var projectId = app.models.matches.getProjectId();
                     
                     switch (route) {
                         case ROOT:
@@ -55,22 +78,24 @@ define(function () {
                             break;
                         case app.models.user.getProfile():
                             // Save any swipes made before navigating to new screen
-                            app.models.matches.saveSwipedUsers(projectId);
-                            app.models.matches.saveSwipedProjects(app.currentUser.userId);
-                            showPage("user-profile", event);
+                            saveSessionSwipes().then(function(){
+                                showPage("user-profile", event);
+                            });
                             break;
-                        case app.models.project.getUserProjectsPath(app.currentUser.userId):
+                        case app.models.project.getUserProjectsPath():
                             // Save any swipes made before navigating to new screen
-                            app.models.matches.saveSwipedUsers(projectId);
-                            app.models.matches.saveSwipedProjects(app.currentUser.userId);
-                            
-                            showPage("projects", event);
+                            saveSessionSwipes().then(function(){
+                                showPage("projects", event);
+                            });
                             break;
                         case app.models.project.getProjectPath("id"):
                             showPage("project-profile", event);
                             break;
                         case app.models.matches.getProjectMatcherPath("id"):
                             showPage("project-swiper", event);
+                            break;
+                        case app.models.matches.getProjectMatchesPath("id"):
+                            showPage("project-matches", event);
                             break;
                         default:
                             return true;
@@ -79,7 +104,8 @@ define(function () {
                 } else {
                     return true;
                 }
-            }
+            },
+            interceptLogout: interceptLogout
         };
     }
     return Routing;
