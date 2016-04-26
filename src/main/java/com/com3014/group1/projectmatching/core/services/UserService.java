@@ -174,6 +174,8 @@ public class UserService {
         entity.setEmail(user.getEmail());
         entity.setAverageRating(user.getAverageRating());
         entity.setLastLogin(user.getLastLogin());
+        entity.setLocation(user.getLocation());
+        
         return entity;
     }
  

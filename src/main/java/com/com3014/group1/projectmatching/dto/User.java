@@ -3,6 +3,7 @@
  */
 package com.com3014.group1.projectmatching.dto;
 
+import com.com3014.group1.projectmatching.model.Location;
 import com.com3014.group1.projectmatching.model.UserQualification;
 import com.com3014.group1.projectmatching.model.UserEntity;
 import com.com3014.group1.projectmatching.model.UserInterest;
@@ -30,6 +31,7 @@ public class User {
     private List<UserQualification> qualificationsList;
     private List<UserInterest> interestsList;
     private Date lastLogin;
+    private Location location;
 
     public User() {
         super();
@@ -49,6 +51,7 @@ public class User {
         this.qualificationsList = qualificationList;
         this.interestsList = interests;
         this.lastLogin = user.getLastLogin();
+        this.location = user.getLocation();
     }
     
     public Integer getUserId() {
@@ -137,6 +140,14 @@ public class User {
 
     public void setLastLogin(Date lastLogin) {
         this.lastLogin = lastLogin;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
        
     private String constructName(UserEntity user) {
