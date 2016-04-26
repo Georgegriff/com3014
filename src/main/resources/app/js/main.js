@@ -12,10 +12,10 @@ require.config({
 });
 require.onError = function (err) {
     if (err.requireType === 'timeout') {
-        alert("error: "+err);
+        console.error(err);
     } 
     else {
-        throw err;
+       console.error(err);
     }   
 };    
 require(['jquery', 'js/app'], function ($, app) {

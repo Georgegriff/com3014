@@ -37,9 +37,9 @@ gulp.task('build-login-scripts', function () {
             .pipe(concat("login.js"))
             .pipe(uglify())
             .pipe(gulp.dest('public/js'));
-})
+});
 gulp.task('copy-deps-js', function () {
-    return gulp.src('app/js/vendor/{require,text}.js')
+    return gulp.src('app/js/vendor/{require,text,underscore-min}.js')
             .pipe(gulp.dest('public/js/vendor'));
 });
 gulp.task('copyjson', function () {

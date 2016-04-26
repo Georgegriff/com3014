@@ -17,7 +17,7 @@ require.onError = function (err) {
         throw err;
     }
 };
-require(['jquery', 'jquery.ui'], function ($,JQueryUI) {
+require(['underscore', 'jquery', 'jquery.ui', 'js/plugins/form/plugin'], function (_, $, JQueryUI, SiteForms) {
 
     function LoginPage() {
 
@@ -29,7 +29,7 @@ require(['jquery', 'jquery.ui'], function ($,JQueryUI) {
                     $button = $('#login-btn');
             listenToInput($username);
             listenToInput($password);
-            registerButton()
+            registerButton();
         }
 
         function hasError() {
@@ -54,8 +54,8 @@ require(['jquery', 'jquery.ui'], function ($,JQueryUI) {
         }
 
         function registerButton() {
-                var $registerBtn = $('<a id="register-btn">Register</a>');
-                $registerBtn.insertAfter($('#login-btn'));
+            var $registerBtn = $('<a id="register-btn">Register</a>');
+            $registerBtn.insertAfter($('#login-btn'));
         }
 
 
@@ -77,6 +77,7 @@ require(['jquery', 'jquery.ui'], function ($,JQueryUI) {
 
     function RegisterPage(loginPage) {
         var $registerPage = $('<section id="register-page">'),
+                $registerBtn = $('#register-btn'),
                 $loginRoot = $('#login-page'),
                 SiteForm = SiteForms.init({
                     parseTemplate: function parseTemplate(html, attributes) {
@@ -84,10 +85,70 @@ require(['jquery', 'jquery.ui'], function ($,JQueryUI) {
                     }}),
                 form = new SiteForm({
                     title: "Register",
-                    name: "register-form",
+                    name: "registerform",
                     description: "Sign up to ProMatch."
                 });
         form.attachTo($registerPage);
+        var firstName = form.addField({label: "First Name", validator: function (value) {
+                return value && value !== "";
+            }}),
+        lastName = form.addField({label: "Last Name", validator: function (value) {
+                return value && value !== "";
+            }}),
+        email = form.addField({type: "email", label: "Email", validator: function (value) {
+                return value && value !== "";
+            }}),
+        username = form.addField({label: "Username", validator: function (value) {
+                return value && value !== "";
+            }}),
+        location = form.addField({label: "Location", validator: function (value) {
+                return value && value !== "";
+            }}),
+        qualifications = form.additionButton({id: "add-qual", label: "Add Qualification", action: function (e) {
+                form.addComboAndField({subElement : "#add-qual", validator: function (value) {
+                        return value && value !== "";
+                    }});
+            }}),
+        skills = form.additionButton({id: "add-skill", label: "Add Skill", action: function (e) {
+                form.addComboAndField({subElement : "#add-skill", validator: function (value) {
+                        return value && value !== "";
+                    }});
+            }}),
+        interests = form.additionButton({id: "add-inter", label: "Add Interest", action: function (e) {
+                form.addField({subElement : "#add-inter", label: "Interest", validator: function (value) {
+                        return value && value !== "";
+                    }});
+            }});
+        form.addButton({label: "Register", action: function (e) {
+                e.preventDefault();
+                registerUser();
+            }});
+
+
+
+        $registerBtn.click(function (e) {
+            render();
+        });
+        function getRegistrationData(){
+            
+        }
+        function registerUser(){
+             $.ajax({
+                        type: "POST",
+                        headers : {
+                          "X-CSRF-TOKEN" :$("meta[name='_csrf']").attr("content"),
+                        },
+                        url: "/register",
+                        contentType: "application/json; charset=utf-8",
+                        data: getRegistrationData(),
+                        dataType: "json"
+                    }).success(function(){
+                        showLogin();
+                    }).fail(function(e){
+                        form.showError("Validation Error");
+                    });
+        }
+
         function render() {
             loginPage.hide();
             $loginRoot.prepend($registerPage);
@@ -106,15 +167,16 @@ require(['jquery', 'jquery.ui'], function ($,JQueryUI) {
         return {
             render: render,
             hide: hide
-        }
+        };
     }
 
 
     $(document).ready(function () {
         window.scrollTo(0, 1);
         var login = new LoginPage();
-         //       registerPage = new RegisterPage(login);
         login.render();
+        var registerPage = new RegisterPage(login);
+        registerPage.render();
         if (login.hasError()) {
             login.shake();
         }

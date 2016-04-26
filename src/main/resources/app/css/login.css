@@ -16,8 +16,8 @@ body,html {
     -webkit-box-shadow: 0px 0px 7px 0px rgba(102,102,102,1);
     -moz-box-shadow: 0px 0px 7px 0px rgba(102,102,102,1);
     box-shadow: 0px 0px 7px 0px rgba(102,102,102,1);
-        border-radius:1%;
-        overflow:hidden;
+    border-radius:1%;
+    overflow:hidden;
 }
 .login-form {
     width:90%;
@@ -71,6 +71,21 @@ body,html {
     margin-top:2%;
 
 }
+.form-item.btn {
+    display:flex;
+    flex-direction: column;
+    text-align: center;
+}
+#register-btn {
+    margin-top:2px;
+    color: #5A6EC2;
+    cursor: pointer;
+}
+#register-btn:hover, #register-btn:active {
+    margin-top:2px;
+    color: black;
+
+}
 .form-btn {
     width:100%;
 
@@ -113,6 +128,109 @@ body,html {
 .message {
     text-align: center;
 }
+
 .error {
     color:red;
+}
+
+
+/* Form Stuff */
+.site-form form, .form-fields {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+.site-form input {
+    padding:8px 0 8px 1px;
+    flex:8;
+    margin: 2px 0 2px 0;
+    border: solid 1px #666;
+}
+.form-description {
+    text-align: center;   
+}
+.form-error {
+    color:red;
+}
+.addition-field {
+    width:250px;
+    margin-top:2px;
+    text-align:left;
+    justify-content: center;
+
+}
+.form-field {
+    display: inline-block;
+    text-align: center;
+}
+.addition-field a {
+    font-weight:600;
+    font-size:130%;
+    cursor: pointer;
+    color: #5A6EC2;
+    margin-left:30px;
+}
+.addition-field span {
+    font-size: 75%;
+}
+.addition-field a:hover {
+    color:black;
+}
+.dropdown {
+    width: 149px;
+}
+
+.dropdown select {
+    width: 100%;
+}
+
+.dropdown option,
+.dropdown:after,
+.dropdown::after,
+.dropdown select {
+    color: #fff;
+}
+
+:root .dropdown select,
+:root .dropdown:after,
+:root .dropdown::after {
+    display: block;
+    background: #aaaaaa;
+}
+
+:root .dropdown select,
+:root .dropdown option {
+    padding: 8px;
+}
+
+:root .dropdown {
+    position: relative;
+    display: inline-block;
+    border: 0;
+}
+
+:root .dropdown::after {
+    content: "\25bc";
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: block;
+    width: 32px;
+    font-size: 12px;
+    line-height: 34px;
+    text-align: center;
+
+    -webkit-pointer-events: none;
+    -moz-pointer-events: none;
+    pointer-events: none;
+}
+
+:root .dropdown select {
+    height: 34px;
+    border: 0;
+    vertical-align: middle;
+    font: normal 12px/14px "Segoe UI", Arial, Helvetica, Sans-serif;
+    outline: 0 none;
+
 }
