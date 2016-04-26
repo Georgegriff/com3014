@@ -47,9 +47,9 @@ define(['jquery'], function ($) {
             projectIds.forEach(function(id){
                 saveSwipes.push(app.models.matches.saveSwipedUsers(id)); 
             });           
-            //saveSwipes.push(app.models.matches.saveSwipedProjects());
-            app.models.matches.saveSwipedProjects();
-            return $.when.apply($, saveSwipes);
+            saveSwipes.push(app.models.matches.saveSwipedProjects());
+       
+            return $.when.apply($,saveSwipes);
         }
         
         return {

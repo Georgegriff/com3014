@@ -1,6 +1,8 @@
 /* global define: true, document: true */
 define(['jquery'],
         function ($) {
+            "use strict";
+            var csrf = $("meta[name='_csrf']").attr("content");
             return {
                 getJSON: function (url) {
                     return $.get("/services" + url).fail(function(e){
@@ -12,12 +14,18 @@ define(['jquery'],
                     });
                 },
                 postPreferences: function (url, accepted, rejected) {
-                    return $.ajax({
+                    var promise = $.Deferred();
+                    $.ajax({
                         type: "POST",
+                        headers : {
+                          "X-CSRF-TOKEN" :   csrf
+                        },
                         url: "/services" + url,
                         contentType: "application/json; charset=utf-8",
                         data: JSON.stringify({preferences : [accepted, rejected]}),
                         dataType: "json"
+                    }).always(function(){
+                        return promise.resolve();
                     });
                 }
             };

@@ -17,13 +17,11 @@ require.onError = function (err) {
         throw err;
     }
 };
-require(['jquery', 'jquery.ui'], function ($) {
-    "use strict";
+require(['jquery', 'jquery.ui'], function ($,JQueryUI) {
 
     function LoginPage() {
 
         var $loginPage, $username, $password, $button;
-
         function render() {
             $loginPage = $('#login-page'),
                     $username = $('#username'),
@@ -31,6 +29,7 @@ require(['jquery', 'jquery.ui'], function ($) {
                     $button = $('#login-btn');
             listenToInput($username);
             listenToInput($password);
+            registerButton()
         }
 
         function hasError() {
@@ -54,24 +53,75 @@ require(['jquery', 'jquery.ui'], function ($) {
             });
         }
 
+        function registerButton() {
+                var $registerBtn = $('<a id="register-btn">Register</a>');
+                $registerBtn.insertAfter($('#login-btn'));
+        }
+
+
+        function hide() {
+            $loginPage.find("*").hide();
+        }
+        function show() {
+            $loginPage.find("*").show();
+        }
+
         return {
             render: render,
             hasError: hasError,
-            shake: shake
+            shake: shake,
+            hide: hide
         };
     }
 
 
+    function RegisterPage(loginPage) {
+        var $registerPage = $('<section id="register-page">'),
+                $loginRoot = $('#login-page'),
+                SiteForm = SiteForms.init({
+                    parseTemplate: function parseTemplate(html, attributes) {
+                        return _.template(html)(attributes || {});
+                    }}),
+                form = new SiteForm({
+                    title: "Register",
+                    name: "register-form",
+                    description: "Sign up to ProMatch."
+                });
+        form.attachTo($registerPage);
+        function render() {
+            loginPage.hide();
+            $loginRoot.prepend($registerPage);
+        }
+
+        function hide() {
+            $registerPage.remove();
+        }
+
+
+        function showLogin() {
+            hide();
+            loginPage.show();
+        }
+
+        return {
+            render: render,
+            hide: hide
+        }
+    }
+
+
     $(document).ready(function () {
-        window.scrollTo(0,1);
+        window.scrollTo(0, 1);
         var login = new LoginPage();
+         //       registerPage = new RegisterPage(login);
         login.render();
         if (login.hasError()) {
             login.shake();
         }
 
 
-    });
+    }
+    );
 });
 
 

@@ -9,11 +9,14 @@
         <meta name="description" content=""/>
         <meta name="apple-mobile-web-app-capable" content="yes"/>
         <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+        <meta name="_csrf" th:content="${_csrf.token}"/>
         <script src="js/vendor/require.js" data-main="js/main.js"></script>
         <link rel="stylesheet" href="css/vendor/normalize.css"/>
         <link rel="stylesheet" href="css/vendor/font-awesome.min.css"/>
         <link rel="stylesheet" href="css/vendor/jquery-ui.css"/>
         <link rel="stylesheet" href="css/main.css"/>
+
 
     </head>
     <body>    
