@@ -37,15 +37,16 @@ public class RestRegisterService {
         user.setSurname((String) newUser.get("lastName"));
         user.setEmail((String) newUser.get("email"));
         user.setUsername((String) newUser.get("username"));
-        }catch(JSONException ex){
-             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST); 
-        }
-        
-        //user.setLastLogin((String) newUser.get("firstName"));
+         //user.setLastLogin((String) newUser.get("firstName"));
         if(!userService.registerUser(user)){
            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST); 
         }
         return new ResponseEntity<String>(HttpStatus.OK);
+        }catch(JSONException ex){
+             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST); 
+        }
+        
+       
     }
     
 }
