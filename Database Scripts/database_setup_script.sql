@@ -28,6 +28,8 @@ CREATE TABLE match_making.users(
 , email VARCHAR(45) NOT NULL UNIQUE
 , average_rating FLOAT 
 , last_login DATE
+, location_lat DECIMAL(12, 8)
+, location_lon DECIMAL(12,8)
 , PRIMARY KEY(user_id)
 );
 

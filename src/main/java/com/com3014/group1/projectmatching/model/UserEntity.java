@@ -16,6 +16,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Columns;
+import org.hibernate.annotations.Type;
 
 /**
  * The definition of a UserEntity
@@ -53,6 +55,14 @@ public class UserEntity implements Serializable {
     @Temporal(TemporalType.DATE)
     @Column(name="last_login", nullable = false)
     private Date lastLogin;
+    
+    @Type (type="com.com3014.group1.projectmatching.model.LocationType")
+    @Columns(columns = {
+        @Column(name="location_lat"),
+        @Column(name="location_lon")
+        }
+    )
+    private Location location;
     
     public UserEntity() {
     }
@@ -112,7 +122,15 @@ public class UserEntity implements Serializable {
     public void setLastLogin(Date lastLogin) {
         this.lastLogin = lastLogin;
     }
-    
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+        
     @Override
     public int hashCode() {
         int hash = 7;
