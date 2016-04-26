@@ -92,33 +92,33 @@ require(['underscore', 'jquery', 'jquery.ui', 'js/plugins/form/plugin'], functio
         var firstName = form.addField({label: "First Name", validator: function (value) {
                 return value && value !== "";
             }}),
-        lastName = form.addField({label: "Last Name", validator: function (value) {
-                return value && value !== "";
-            }}),
-        email = form.addField({type: "email", label: "Email", validator: function (value) {
-                return value && value !== "";
-            }}),
-        username = form.addField({label: "Username", validator: function (value) {
-                return value && value !== "";
-            }}),
-        location = form.addField({label: "Location", validator: function (value) {
-                return value && value !== "";
-            }}),
-        qualifications = form.additionButton({id: "add-qual", label: "Add Qualification", action: function (e) {
-                form.addComboAndField({subElement : "#add-qual", validator: function (value) {
+                lastName = form.addField({label: "Last Name", validator: function (value) {
                         return value && value !== "";
-                    }});
-            }}),
-        skills = form.additionButton({id: "add-skill", label: "Add Skill", action: function (e) {
-                form.addComboAndField({subElement : "#add-skill", validator: function (value) {
+                    }}),
+                email = form.addField({type: "email", label: "Email", validator: function (value) {
                         return value && value !== "";
-                    }});
-            }}),
-        interests = form.additionButton({id: "add-inter", label: "Add Interest", action: function (e) {
-                form.addField({subElement : "#add-inter", label: "Interest", validator: function (value) {
+                    }}),
+                username = form.addField({label: "Username", validator: function (value) {
                         return value && value !== "";
+                    }}),
+                location = form.addField({label: "Location", validator: function (value) {
+                        return value && value !== "";
+                    }}),
+                qualifications = form.additionButton({id: "add-qual", label: "Add Qualification", action: function (e) {
+                        form.addComboAndField({subElement: "#add-qual", validator: function (value) {
+                                return value && value !== "";
+                            }});
+                    }}),
+                skills = form.additionButton({id: "add-skill", label: "Add Skill", action: function (e) {
+                        form.addComboAndField({subElement: "#add-skill", validator: function (value) {
+                                return value && value !== "";
+                            }});
+                    }}),
+                interests = form.additionButton({id: "add-inter", label: "Add Interest", action: function (e) {
+                        form.addField({subElement: "#add-inter", label: "Interest", validator: function (value) {
+                                return value && value !== "";
+                            }});
                     }});
-            }});
         form.addButton({label: "Register", action: function (e) {
                 e.preventDefault();
                 registerUser();
@@ -129,24 +129,32 @@ require(['underscore', 'jquery', 'jquery.ui', 'js/plugins/form/plugin'], functio
         $registerBtn.click(function (e) {
             render();
         });
-        function getRegistrationData(){
-            
+        function getRegistrationData() {
+            return {
+                username: "1",
+                name: "2",
+                forename: "3",
+                surname: "4",
+                email: "5"
+
+
+            };
         }
-        function registerUser(){
-             $.ajax({
-                        type: "POST",
-                        headers : {
-                          "X-CSRF-TOKEN" :$("meta[name='_csrf']").attr("content"),
-                        },
-                        url: "/register",
-                        contentType: "application/json; charset=utf-8",
-                        data: getRegistrationData(),
-                        dataType: "json"
-                    }).success(function(){
-                        showLogin();
-                    }).fail(function(e){
-                        form.showError("Validation Error");
-                    });
+        function registerUser() {
+            $.ajax({
+                type: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": $("meta[name='_csrf']").attr("content"),
+                },
+                url: "/register",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(getRegistrationData()),
+                dataType: "json"
+            }).success(function () {
+                showLogin();
+            }).fail(function (e) {
+                form.showError("Validation Error");
+            });
         }
 
         function render() {
@@ -176,7 +184,6 @@ require(['underscore', 'jquery', 'jquery.ui', 'js/plugins/form/plugin'], functio
         var login = new LoginPage();
         login.render();
         var registerPage = new RegisterPage(login);
-        registerPage.render();
         if (login.hasError()) {
             login.shake();
         }
