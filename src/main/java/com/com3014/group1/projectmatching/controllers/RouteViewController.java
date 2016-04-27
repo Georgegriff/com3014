@@ -1,6 +1,3 @@
-/*
- * Controller for Static Paths in the Application
- */
 package com.com3014.group1.projectmatching.controllers;
 
 import org.springframework.context.annotation.Configuration;
@@ -9,12 +6,18 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
+ * Controller for Static Paths in the Application
  *
  * @author George
  */
 @Configuration
 public class RouteViewController extends WebMvcConfigurerAdapter {
 
+    /**
+     * Register the view controllers with their path and view name
+     *
+     * @param registry The View Controller Registry
+     */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");

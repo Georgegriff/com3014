@@ -13,7 +13,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-
+/**
+ *  Lifted from http://stackoverflow.com/a/9601218
+ */
 public class GoogleGeoCode 
 {
     private static final String GEO_CODE_SERVER = "http://maps.googleapis.com/maps/api/geocode/json?";

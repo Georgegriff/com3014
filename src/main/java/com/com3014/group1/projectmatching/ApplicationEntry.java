@@ -12,9 +12,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class ApplicationEntry {
 
+    /**
+     * Application Entry
+     * 
+     * @param args
+     *      Empty Arguments
+     */
     public static void main(String[] args) {
         SpringApplication.run(ApplicationEntry.class, args);
     }
 
-   
 }

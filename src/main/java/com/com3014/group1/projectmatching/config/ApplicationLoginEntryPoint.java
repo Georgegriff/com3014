@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.config;
 
 import java.io.IOException;
@@ -13,21 +8,38 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
 /**
+ * The entry point for the login request
  *
  * @author George
  */
 class ApplicationLoginEntryPoint extends LoginUrlAuthenticationEntryPoint {
 
-    public ApplicationLoginEntryPoint(String login) {
-        super(login);
+    /**
+     * Constructor to call constructor of super class
+     *
+     * @param loginFormUrl The URL from the login form
+     */
+    public ApplicationLoginEntryPoint(String loginFormUrl) {
+        super(loginFormUrl);
     }
 
+    /**
+     *
+     * @param request The HTTP Servlet Request made by the front end
+     * @param response The HTTP Servlet Response
+     * @param authException An Authentication Exception, set to null if no
+     * exception has been thrown
+     * @throws IOException Exception thrown both by the super class version of
+     * this method and in sending the error with the response object
+     * @throws ServletException Exception thrown by the super class version of
+     * this method
+     */
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse res, AuthenticationException authException) throws IOException, ServletException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
-            res.sendError(403, "Forbidden");
+            response.sendError(403, "Forbidden");
         } else {
-            super.commence(request, res, authException);
+            super.commence(request, response, authException);
         }
     }
 

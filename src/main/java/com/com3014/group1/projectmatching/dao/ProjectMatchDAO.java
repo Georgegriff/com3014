@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in ProjectEntity Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.dao;
 
 import com.com3014.group1.projectmatching.model.ProjectEntity;
@@ -11,14 +6,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 /**
+ * Interface used to define database call needed by Hibernate to access the User
+ * matches of a Project
  *
  * @author Daniel
  */
 public interface ProjectMatchDAO extends JpaRepository<ProjectMatch, Integer> {
-    
+
     @Query(
-        value = "SELECT * FROM project_matches pm WHERE pm.project_id = ?1 AND pm.status_control = 'C'",
-        nativeQuery = true
+            value = "SELECT * FROM project_matches pm WHERE pm.project_id = ?1 AND pm.status_control = 'C'",
+            nativeQuery = true
     )
     public ProjectMatch findByProject(ProjectEntity project);
 }

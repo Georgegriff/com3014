@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.core.services;
 
 import com.com3014.group1.projectmatching.dto.Project;
@@ -19,9 +14,10 @@ import java.util.List;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 /**
  *
- * @author ggriffiths
+ * @author George
  */
 @Service
 public class MatchmakingService {
@@ -31,19 +27,19 @@ public class MatchmakingService {
 
     @Autowired
     private Matchmaking matching;
-    
+
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private UserMatchService userMatchService;
-    
+
     @Autowired
     private ProjectMatchService projectMatchService;
-    
+
     @Autowired
     private ProjectService projectService;
-        
+
     /**
      *
      * @param roleId
@@ -56,20 +52,18 @@ public class MatchmakingService {
         ProjectMatch projectMatch = this.projectMatchService.findMatchForProject(projectEntity);
         List<User> users = null;
 
-        if(projectRole == null) {
+        if (projectRole == null) {
             return new ArrayList<>();
-        }
-        // If we dont have a current match entry and we have a valid role
+        } // If we dont have a current match entry and we have a valid role
         // or if the match set cache has expired then rerun the algorithm
-        else if((projectMatch == null) || (projectMatch.getCacheExpire().before(new Date()))) {
+        else if ((projectMatch == null) || (projectMatch.getCacheExpire().before(new Date()))) {
             users = matching.findUsersForRole(projectRole);
             this.projectMatchService.saveMatchesForProject(projectEntity, users, projectRole.getRole());
-        } 
-        // Else, retrieve cached set
+        } // Else, retrieve cached set
         else {
             users = this.projectMatchService.retrieveCachedMatches(projectMatch, projectId);
         }
-        
+
         return users;
     }
 
@@ -79,31 +73,30 @@ public class MatchmakingService {
         List<Project> projects = new ArrayList<>();
         // If there is no match in the database or the cache has expired, 
         // rerun the algorithm and save the new set
-        if((userMatch == null) || (userMatch.getCacheExpire().before(new Date()))) {
+        if ((userMatch == null) || (userMatch.getCacheExpire().before(new Date()))) {
             List<ProjectRole> projectRoles = matching.findRolesForUser(user);
-            
-            for(ProjectRole projectRole : projectRoles) {
+
+            for (ProjectRole projectRole : projectRoles) {
                 Project project = projectRole.getProject();
                 this.projectService.getRemainingData(projectRole.getProject());
                 projects.add(project);
             }
-            
+
             this.userMatchService.saveMatchesForUser(userEntity, projectRoles);
-        }
-        // Else, retrieve the cached set
+        } // Else, retrieve the cached set
         else {
             projects = this.userMatchService.retrieveCachedMatches(userMatch, user.getUserId());
         }
         return projects;
-    }    
-    
+    }
+
     public void saveProjectSwipePreferences(Integer userId, JSONArray accepted, JSONArray declined) {
         this.userMatchService.saveAcceptedProjects(userId, accepted);
         this.userMatchService.saveRejectedProjects(userId, declined);
     }
-    
+
     public void saveUserSwipePreferences(Integer projectId, JSONArray accepted, JSONArray declined) {
-        this.projectMatchService.saveAcceptedUsers(projectId, accepted);       
+        this.projectMatchService.saveAcceptedUsers(projectId, accepted);
         this.projectMatchService.saveRejectedUsers(projectId, declined);
     }
 }
