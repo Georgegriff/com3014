@@ -56,7 +56,8 @@ public class PasswordService {
     public void changePassword(String username, String oldPassword, String newPassword) throws AuthenticationException, IllegalArgumentException {
         if (!validPassword(newPassword)) {
             // Maybe change to a different type of exception
-            throw new IllegalArgumentException("New password is invalid") {};
+            throw new IllegalArgumentException("New password is invalid") {
+            };
         }
         if (checkPassword(username, oldPassword)) {
             UserEntity userEntity = userDAO.findByUsername(username);
@@ -70,7 +71,29 @@ public class PasswordService {
                 }
             }
         } else {
-            throw new AuthenticationException("Unable to authenticate") {};
+            throw new AuthenticationException("Unable to authenticate") {
+            };
+        }
+    }
+
+    public void addPassword(String username, String newPassword) throws AuthenticationException, IllegalArgumentException {
+        if (!validPassword(newPassword)) {
+            // Maybe change to a different type of exception
+            throw new IllegalArgumentException("New password is invalid") {
+            };
+        }
+        UserEntity userEntity = userDAO.findByUsername(username);
+        if (userEntity != null) {
+            try {
+                Password userPassword = passwordDAO.findByUserId(userEntity.getUserId());
+                userPassword.setPassword(hashPassword(newPassword));
+                passwordDAO.save(userPassword);
+            } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+                Logger.getLogger(PasswordService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            throw new AuthenticationException("Unable to authenticate") {
+            };
         }
     }
 
