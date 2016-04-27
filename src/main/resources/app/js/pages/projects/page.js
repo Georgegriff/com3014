@@ -16,7 +16,9 @@ define(['underscore', 'jquery', 'text!js/pages/projects/template/template.htm'],
                             }
                         }
                         function showAddTile() {
-
+                            $('#create-project, #add-project').click(function(e){
+                                 return app.routeHandler(app.models.project.createProjectPath(), e); 
+                            });
                         }
                         function showProjects(projects) {
                             if (projects && projects.length) {

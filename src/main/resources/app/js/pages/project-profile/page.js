@@ -36,7 +36,6 @@ define(['underscore', 'jquery', 'text!js/pages/project-profile/template/template
                                             name: project.name
                                         }));
                                         app.container.showContent($page);
-                                        console.log(project);
                                         render(project);
 
                                     });

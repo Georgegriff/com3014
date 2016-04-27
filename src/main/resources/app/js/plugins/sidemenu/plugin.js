@@ -17,13 +17,7 @@ define(['underscore', 'jquery', 'jquery.ui', 'text!js/plugins/sidemenu/template/
                         text: "My Projects",
                         href: app.models.user.getProjects()
                     });
-                    menu.addItem({
-                        text: "Matched Projects",
-                        onClick: function () {
-                            alert("Todo");
-                        }
-                    });
-
+                
                     function appendLoginButton() {
                         var $logoutForm = $('#logout-form');
                         $('#logout-area').append($logoutForm);

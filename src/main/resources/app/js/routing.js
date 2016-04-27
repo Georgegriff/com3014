@@ -91,6 +91,9 @@ define(['jquery'], function ($) {
                         case app.models.project.getProjectPath("id"):
                             showPage("project-profile", event);
                             break;
+                         case app.models.project.createProjectPath():
+                            showPage("create-project", event);
+                            break;
                         case app.models.matches.getProjectMatcherPath("id"):
                             showPage("project-swiper", event);
                             break;
