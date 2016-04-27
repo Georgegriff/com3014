@@ -5,6 +5,7 @@
  */
 package com.com3014.group1.projectmatching.matchmaking;
 
+import com.com3014.group1.projectmatching.model.Location;
 import com.com3014.group1.projectmatching.dto.User;
 import com.com3014.group1.projectmatching.dto.Project;
 
@@ -12,7 +13,6 @@ import com.com3014.group1.projectmatching.core.services.UserService;
 import com.com3014.group1.projectmatching.core.services.ProjectService;
 import com.com3014.group1.projectmatching.core.services.UserMatchService;
 import com.com3014.group1.projectmatching.dto.ProjectRole;
-import com.com3014.group1.projectmatching.model.RoleEntity;
 import com.com3014.group1.projectmatching.model.RoleSkill;
 import com.com3014.group1.projectmatching.model.UserSkill;
 
@@ -90,11 +90,25 @@ public class Matchmaking {
         // calculate the weighting from the users skills
         double skillsWeighting = numberDesiredSkillsForRole == 0 ? 0 : ((numberDesiredSkillsUserHas / numberDesiredSkillsForRole) * 10.0);
 
+        // calculate the distance weighting
+        Location projectLocation = role.getProject().getLocation();
+        Location userLocation = user.getLocation();
+      
+        double distance = projectLocation.getDistance(userLocation);
+        double distanceWeighting = 5.0;
+        
+        if(distance > 400.0) {
+            distanceWeighting = 0.0;
+        }
+        else if(distance > 10.0) {
+            distanceWeighting = ((distance / 400.0) * 5);    
+        }
+
         // generate a random weighting
-        double randomWeighting = randDouble(0.0, 5.0);
+        double randomWeighting = randDouble(0.0, 10.0);
 
         // calculate the users matchmaking score 
-        double userScore = loginTimeWeighting + skillsWeighting + randomWeighting;
+        double userScore = loginTimeWeighting + skillsWeighting + distanceWeighting + randomWeighting;
         return userScore;
     }
 
