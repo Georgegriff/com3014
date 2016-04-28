@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.model;
 
 import java.io.Serializable;
@@ -14,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
+ * Database representation of a Skill
  *
  * @author Sam Waters
  * @author Dan Ashworth
@@ -23,13 +19,13 @@ import javax.persistence.Table;
 public class Skill implements Serializable {
 
     @Id
-    @Column(name="skill_id")
+    @Column(name = "skill_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer skillId;
-    
-    @Column(name="skill")
+
+    @Column(name = "skill")
     private String name;
-    
+
     public Skill() {
     }
 
@@ -44,7 +40,7 @@ public class Skill implements Serializable {
     public void setSkillId(Integer skillId) {
         this.skillId = skillId;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -56,12 +52,12 @@ public class Skill implements Serializable {
     @Override
     public int hashCode() {
         int hash = 5;
-      hash = 59 * hash + (this.skillId.intValue() != 0 ? this.skillId.hashCode() : 0);
-      return hash;
+        hash = 59 * hash + (this.skillId.intValue() != 0 ? this.skillId.hashCode() : 0);
+        return hash;
     }
 
     @Override
-    public boolean equals(Object obj) {      
+    public boolean equals(Object obj) {
         if (obj == null) {
             return false;
         }
@@ -69,11 +65,10 @@ public class Skill implements Serializable {
             return false;
         }
         final Skill other = (Skill) obj;
-        if(skillId.intValue() != other.getSkillId().intValue()) {
+        if (skillId.intValue() != other.getSkillId().intValue()) {
             return false;
         }
         return true;
     }
-    
-    
+
 }

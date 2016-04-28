@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.model;
 
 import java.io.Serializable;
@@ -17,25 +12,26 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
+ * Database representation of a @User Qualification
  *
  * @author Sam Waters
  * @author Dan Ashworth
  */
 @Entity
-@Table(name="user_qualifications")
+@Table(name = "user_qualifications")
 @IdClass(UserQualification.UserQualificationPK.class)
 public class UserQualification implements Serializable {
 
     @Id
     @ManyToOne
-    @JoinColumn(name ="user_id")
+    @JoinColumn(name = "user_id")
     private UserEntity user;
-    
+
     @Id
     @ManyToOne
     @JoinColumn(name = "qualification_level_id")
     private QualificationLevel qualificationLevel;
-    
+
     @NotNull
     @Column(name = "subject")
     private String subject;
@@ -62,12 +58,12 @@ public class UserQualification implements Serializable {
     public void setSubject(String subject) {
         this.subject = subject;
     }
-    
+
     public static class UserQualificationPK implements Serializable {
-        
+
         private Integer user;
         private Integer qualificationLevel;
-        
+
         public UserQualificationPK() {
         }
 
@@ -115,8 +111,7 @@ public class UserQualification implements Serializable {
             }
             return true;
         }
-        
-        
+
     }
 
 }

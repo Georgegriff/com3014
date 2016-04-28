@@ -1,22 +1,35 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.dto;
 
 import com.com3014.group1.projectmatching.model.RoleEntity;
 
 /**
+ * The definition of a @UserProfile that has been matched with a @RoleEntity
+ * within a @Project
  *
  * @author George
  */
 public class MatchedUser {
 
+    /**
+     * The User Profile of a @User that has been matched
+     */
     private UserProfile user;
+    /**
+     * The Project that the @RoleEntity of the match belongs to
+     */
     private Project project;
+    /**
+     * The RoleEntity that the @User has matched to
+     */
     private RoleEntity role;
 
+    /**
+     * Constructor
+     *
+     * @param user The User Profile of a @User that has been matched
+     * @param project The Project that the @RoleEntity of the match belongs to
+     * @param role The RoleEntity that the @User has matched to
+     */
     public MatchedUser(User user, Project project, RoleEntity role) {
         this.user = new UserProfile(user);
         this.user.provideEmail(user.getEmail());

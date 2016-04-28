@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.model;
 
 import com.com3014.group1.projectmatching.core.enums.PaymentEnum;
@@ -10,6 +5,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
+ * Representation of a Payment
  *
  * @author Sam Waters
  */
@@ -42,6 +38,12 @@ public class Payment implements Serializable {
         this.amount = amount;
     }
 
+    /**
+     * Overridden because a payment is equal if it's fields are equal, not
+     * objects
+     *
+     * @return the hash code
+     */
     @Override
     public int hashCode() {
         int hash = 3;
@@ -50,6 +52,13 @@ public class Payment implements Serializable {
         return hash;
     }
 
+    /**
+     * Overridden because a payment is equal if it's fields are equal, not
+     * objects
+     *
+     * @param obj The object to compare this one to
+     * @return Whether the given object's fields are the same as this one
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -70,6 +79,5 @@ public class Payment implements Serializable {
         }
         return true;
     }
-    
-    
+
 }

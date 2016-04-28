@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in ProjectEntity Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.model;
 
 import java.io.Serializable;
@@ -17,32 +12,33 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
+ * Database representation of a Set of @User
  *
  * @author Daniel
  */
 @Entity
-@Table(name="user_sets")
+@Table(name = "user_sets")
 @IdClass(UserSet.UserSetPK.class)
 public class UserSet implements Serializable {
-    
+
     @Id
     @ManyToOne
     @JoinColumn(name = "set_id")
     UserMatch set;
-    
+
     @Id
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "project_id")
     private ProjectEntity project;
-    
+
     @Id
     @ManyToOne
     @JoinColumn(name = "role_id")
     private RoleEntity role;
-    
+
     public UserSet() {
     }
-    
+
     public void setSet(UserMatch set) {
         this.set = set;
     }
@@ -54,7 +50,7 @@ public class UserSet implements Serializable {
     public void setProject(ProjectEntity project) {
         this.project = project;
     }
-    
+
     public UserMatch getSet() {
         return set;
     }
@@ -66,13 +62,13 @@ public class UserSet implements Serializable {
     public void setRole(RoleEntity role) {
         this.role = role;
     }
-        
+
     public static class UserSetPK implements Serializable {
-        
+
         private Integer set;
         private Integer project;
         private Integer role;
-        
+
         public UserSetPK() {
         }
 
@@ -91,7 +87,7 @@ public class UserSet implements Serializable {
         public void setProject(Integer project) {
             this.project = project;
         }
-        
+
         @Override
         public int hashCode() {
             int hash = 7;
@@ -123,6 +119,6 @@ public class UserSet implements Serializable {
                 return false;
             }
             return true;
-        }        
+        }
     }
 }

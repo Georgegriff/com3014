@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
+ * A service to provide Matchmaking methods to the REST Service from the
+ * Matchmaking algorithm
  *
  * @author George
  */
@@ -41,19 +43,21 @@ public class MatchmakingService {
     private ProjectService projectService;
 
     /**
+     * Get a list of @User that match the @Role that is within the @Project
      *
-     * @param roleId
-     * @param projectId
-     * @return
+     * @param roleId The ID of the @Role to match with
+     * @param projectId The ID of the @Project that the @Role is in
+     * @return The list of @User that matched
      */
     public List<User> matchUserToRole(int projectId, int roleId) {
         ProjectRole projectRole = roleService.findByProjectRole(projectId, roleId);
         ProjectEntity projectEntity = this.projectService.findProjectById(projectId);
         ProjectMatch projectMatch = this.projectMatchService.findMatchForProject(projectEntity);
-        List<User> users = null;
+        List<User> users = new ArrayList<User>();
 
+        // If there isn't a project role then return the empty list
         if (projectRole == null) {
-            return new ArrayList<>();
+            return users;
         } // If we dont have a current match entry and we have a valid role
         // or if the match set cache has expired then rerun the algorithm
         else if ((projectMatch == null) || (projectMatch.getCacheExpire().before(new Date()))) {
@@ -67,10 +71,16 @@ public class MatchmakingService {
         return users;
     }
 
+    /**
+     * Get a list of @Project that match the @User
+     *
+     * @param user The @User to find the @Project matched for
+     * @return The list of @Project that matched
+     */
     public List<Project> matchUserToProjectRoles(User user) {
         UserEntity userEntity = userService.convertUserToEntity(user);
         UserMatch userMatch = userMatchService.findMatchForUser(userEntity);
-        List<Project> projects = new ArrayList<>();
+        List<Project> projects = new ArrayList<Project>();
         // If there is no match in the database or the cache has expired, 
         // rerun the algorithm and save the new set
         if ((userMatch == null) || (userMatch.getCacheExpire().before(new Date()))) {
@@ -90,11 +100,25 @@ public class MatchmakingService {
         return projects;
     }
 
+    /**
+     * Save the accept or decline of a @Project @Role by a @User
+     *
+     * @param userId The ID of the @User
+     * @param accepted The JSON Array of accepted @Project
+     * @param declined The JSON array of declined @Project
+     */
     public void saveProjectSwipePreferences(Integer userId, JSONArray accepted, JSONArray declined) {
         this.userMatchService.saveAcceptedProjects(userId, accepted);
         this.userMatchService.saveRejectedProjects(userId, declined);
     }
 
+    /**
+     * Save the accept or decline of a @User by a @Project manager
+     *
+     * @param projectId The ID of the @Project
+     * @param accepted The JSON Array of accepted @User
+     * @param declined The JSON Array of accepted @User
+     */
     public void saveUserSwipePreferences(Integer projectId, JSONArray accepted, JSONArray declined) {
         this.projectMatchService.saveAcceptedUsers(projectId, accepted);
         this.projectMatchService.saveRejectedUsers(projectId, declined);

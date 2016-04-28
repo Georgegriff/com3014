@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.model;
 
 import java.io.Serializable;
@@ -16,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
+ * Database representation of a @Role skill
  *
  * @author Daniel
  */
@@ -23,23 +19,23 @@ import javax.persistence.Table;
 @Table(name = "role_skills")
 @IdClass(RoleSkill.RoleSkillPK.class)
 public class RoleSkill implements Serializable {
-    
+
     @Id
     @ManyToOne
-    @JoinColumn(name ="project_role_id")
+    @JoinColumn(name = "project_role_id")
     private ProjectRoleEntity projectRole;
-    
+
     @Id
     @ManyToOne
-    @JoinColumn(name ="skill_id")
+    @JoinColumn(name = "skill_id")
     private Skill skill;
-    
-    @Column (name = "required")
+
+    @Column(name = "required")
     private boolean required;
-    
+
     public RoleSkill() {
     }
-        
+
     public ProjectRoleEntity getProjectRoleId() {
         return this.projectRole;
     }
@@ -59,12 +55,12 @@ public class RoleSkill implements Serializable {
     public void setRequired(boolean required) {
         this.required = required;
     }
-    
+
     public static class RoleSkillPK implements Serializable {
-        
+
         private Integer projectRole;
         private Integer skill;
-        
+
         public RoleSkillPK() {
         }
 
@@ -112,7 +108,6 @@ public class RoleSkill implements Serializable {
             }
             return true;
         }
-        
-        
+
     }
 }

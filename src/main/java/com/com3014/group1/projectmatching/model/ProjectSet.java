@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.model;
 
 import java.io.Serializable;
@@ -16,32 +11,33 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
+ * Database representation of a Set of Projects
  *
  * @author Daniel
  */
 @Entity
-@Table(name="project_sets")
+@Table(name = "project_sets")
 @IdClass(ProjectSet.ProjectSetPK.class)
 public class ProjectSet implements Serializable {
-    
+
     @Id
     @ManyToOne
     @JoinColumn(name = "set_id")
     ProjectMatch set;
-    
+
     @Id
     @OneToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
-  
+
     @Id
     @OneToOne
     @JoinColumn(name = "role_id")
     private RoleEntity role;
-    
+
     public ProjectSet() {
     }
-    
+
     public void setSet(ProjectMatch set) {
         this.set = set;
     }
@@ -57,21 +53,21 @@ public class ProjectSet implements Serializable {
     public ProjectMatch getSet() {
         return set;
     }
-    
+
     public void setRole(RoleEntity role) {
         this.role = role;
     }
-    
+
     public RoleEntity getRole() {
         return role;
     }
-    
+
     public static class ProjectSetPK implements Serializable {
-        
+
         private Integer set;
         private Integer user;
         private Integer role;
-        
+
         public ProjectSetPK() {
         }
 
@@ -98,7 +94,7 @@ public class ProjectSet implements Serializable {
         public void setRole(Integer role) {
             this.role = role;
         }
-        
+
         @Override
         public int hashCode() {
             int hash = 5;
@@ -132,5 +128,5 @@ public class ProjectSet implements Serializable {
             return true;
         }
     }
-    
+
 }

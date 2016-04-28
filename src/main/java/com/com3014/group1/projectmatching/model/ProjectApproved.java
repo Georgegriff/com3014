@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in ProjectEntity Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.model;
 
 import java.io.Serializable;
@@ -15,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
+ * Database representation of a ProjectApproved object
  *
  * @author Daniel
  */
@@ -22,31 +18,31 @@ import javax.persistence.Table;
 @Table(name = "projects_approved")
 @IdClass(ProjectApproved.ProjectApprovedPK.class)
 public class ProjectApproved implements Serializable {
-   
+
     @Id
     @ManyToOne
     @JoinColumn(name = "project_id")
     private ProjectEntity project;
-    
+
     @Id
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
-    
+
     @Id
     @ManyToOne
     @JoinColumn(name = "role_id")
     private RoleEntity role;
-       
+
     public ProjectApproved() {
     }
-       
+
     public void setProject(ProjectEntity project) {
         this.project = project;
     }
-    
+
     public void setUser(UserEntity user) {
-       this.user = user;
+        this.user = user;
     }
 
     public UserEntity getUser() {
@@ -56,21 +52,21 @@ public class ProjectApproved implements Serializable {
     public ProjectEntity getProject() {
         return project;
     }
-    
+
     public void setRole(RoleEntity role) {
         this.role = role;
     }
-    
+
     public RoleEntity getRole() {
         return this.role;
     }
-    
+
     public static class ProjectApprovedPK implements Serializable {
-                
+
         private Integer project;
         private Integer user;
         private Integer role;
-        
+
         public ProjectApprovedPK() {
         }
 
@@ -89,11 +85,11 @@ public class ProjectApproved implements Serializable {
         public void setProject(Integer project) {
             this.project = project;
         }
-        
+
         public void setRole(Integer role) {
             this.role = role;
         }
-        
+
         public Integer getRole() {
             return this.role;
         }
@@ -129,6 +125,6 @@ public class ProjectApproved implements Serializable {
                 return false;
             }
             return true;
-        } 
+        }
     }
 }

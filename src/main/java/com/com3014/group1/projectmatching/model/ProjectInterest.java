@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in ProjectEntity Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.model;
 
 import java.io.Serializable;
@@ -19,26 +14,27 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
+ * Database representation of a @Project Interest
  *
  * @author Daniel
  */
 @Entity
 @Table(name = "project_interests")
 public class ProjectInterest implements Serializable {
-    
+
     @Id
-    @Column(name="interest_id")
+    @Column(name = "interest_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer interestId;
-   
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "project_id")
     private ProjectEntity project;
-    
+
     @NotNull
-    @Column (name="interest")
+    @Column(name = "interest")
     private String interest;
-    
+
     public ProjectInterest() {
     }
 
@@ -49,7 +45,7 @@ public class ProjectInterest implements Serializable {
     public void setInterestId(Integer interestId) {
         this.interestId = interestId;
     }
-    
+
     public void setProject(ProjectEntity project) {
         this.project = project;
     }
@@ -60,7 +56,7 @@ public class ProjectInterest implements Serializable {
 
     public void setInterest(String interest) {
         this.interest = interest;
-    }   
+    }
 
     @Override
     public int hashCode() {
@@ -94,6 +90,5 @@ public class ProjectInterest implements Serializable {
         }
         return true;
     }
-    
-    
+
 }

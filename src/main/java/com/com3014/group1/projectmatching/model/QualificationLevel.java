@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.model;
 
 import java.io.Serializable;
@@ -16,22 +11,23 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
+ * Database representation of a Qualification Level
  *
  * @author Daniel
  */
 @Entity
 @Table(name = "qualification_levels")
 public class QualificationLevel implements Serializable {
-    
+
     @Id
-    @Column(name="qualification_id")
+    @Column(name = "qualification_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer qualificationId;
-    
+
     @NotNull
-    @Column(name="qualification_level")
+    @Column(name = "qualification_level")
     private String qualificationLevel;
-    
+
     public QualificationLevel() {
     }
 
@@ -49,7 +45,7 @@ public class QualificationLevel implements Serializable {
 
     public void setQualificationLevel(String qualificationLevel) {
         this.qualificationLevel = qualificationLevel;
-    } 
+    }
 
     @Override
     public int hashCode() {
@@ -79,6 +75,5 @@ public class QualificationLevel implements Serializable {
         }
         return true;
     }
-    
-    
+
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in ProjectEntity Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.model;
 
 import java.io.Serializable;
@@ -15,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
+ * Database representation of a Declined @User
  *
  * @author Daniel
  */
@@ -22,25 +18,25 @@ import javax.persistence.Table;
 @Table(name = "users_declined")
 @IdClass(UserDeclined.UserDeclinedPK.class)
 public class UserDeclined implements Serializable {
-    
+
     @Id
     @ManyToOne
-    @JoinColumn(name ="user_id")
+    @JoinColumn(name = "user_id")
     private UserEntity user;
-    
+
     @Id
     @ManyToOne
-    @JoinColumn(name ="project_id")
+    @JoinColumn(name = "project_id")
     private ProjectEntity project;
-    
+
     @Id
     @ManyToOne
-    @JoinColumn(name ="role_id")
+    @JoinColumn(name = "role_id")
     private RoleEntity role;
-    
+
     public UserDeclined() {
     }
-    
+
     public void setUser(UserEntity user) {
         this.user = user;
     }
@@ -51,7 +47,7 @@ public class UserDeclined implements Serializable {
 
     public void setProject(ProjectEntity project) {
         this.project = project;
-    }   
+    }
 
     public UserEntity getUser() {
         return user;
@@ -64,13 +60,13 @@ public class UserDeclined implements Serializable {
     public void setRole(RoleEntity role) {
         this.role = role;
     }
-    
+
     public static class UserDeclinedPK implements Serializable {
-        
+
         private Integer user;
         private Integer project;
         private Integer role;
-        
+
         public UserDeclinedPK() {
         }
 
@@ -97,7 +93,7 @@ public class UserDeclined implements Serializable {
         public void setRole(Integer role) {
             this.role = role;
         }
-        
+
         @Override
         public int hashCode() {
             int hash = 7;
@@ -129,6 +125,6 @@ public class UserDeclined implements Serializable {
                 return false;
             }
             return true;
-        } 
+        }
     }
 }

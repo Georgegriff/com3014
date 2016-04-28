@@ -1,9 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.model;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -20,7 +16,7 @@ import org.hibernate.annotations.Columns;
 import org.hibernate.annotations.Type;
 
 /**
- * The definition of a UserEntity
+ * Database representation of a UserEntity
  *
  * @author Sam Waters
  * @author Dan Ashworth
@@ -31,42 +27,42 @@ public class UserEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="user_id")
+    @Column(name = "user_id")
     private Integer userId;
-    
-    @Column(name="username")
+
+    @Column(name = "username")
     private String username;
-    
+
     @NotNull
-    @Column(name="name")
+    @Column(name = "name")
     private String name;
-    
+
     @NotNull
-    @Column(name="surname")
+    @Column(name = "surname")
     private String surname;
-    
+
     @NotNull
-    @Column(name="email")
+    @Column(name = "email")
     private String email;
-    
-    @Column(name="average_rating", nullable = true)
+
+    @Column(name = "average_rating", nullable = true)
     private Float averageRating;
 
     @Temporal(TemporalType.DATE)
-    @Column(name="last_login", nullable = false)
+    @Column(name = "last_login", nullable = false)
     private Date lastLogin;
-    
-    @Type (type="com.com3014.group1.projectmatching.model.LocationType")
+
+    @Type(type = "com.com3014.group1.projectmatching.model.LocationType")
     @Columns(columns = {
-        @Column(name="location_lat"),
-        @Column(name="location_lon")
-        }
+        @Column(name = "location_lat"),
+        @Column(name = "location_lon")
+    }
     )
     private Location location;
-    
+
     public UserEntity() {
     }
-    
+
     public Integer getUserId() {
         return userId;
     }
@@ -74,7 +70,7 @@ public class UserEntity implements Serializable {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
-    
+
     public String getUsername() {
         return username;
     }
@@ -130,7 +126,7 @@ public class UserEntity implements Serializable {
     public void setLocation(Location location) {
         this.location = location;
     }
-        
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -179,6 +175,5 @@ public class UserEntity implements Serializable {
         }
         return true;
     }
-    
-    
+
 }

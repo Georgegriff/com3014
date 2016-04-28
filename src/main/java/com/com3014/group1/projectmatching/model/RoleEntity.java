@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.model;
 
 import java.io.Serializable;
@@ -18,7 +13,7 @@ import org.hibernate.annotations.Columns;
 import org.hibernate.annotations.Type;
 
 /**
- * A @Project role
+ * Database representation of a @Project role
  *
  * @author Sam Waters
  * @author Daniel Ashworth
@@ -31,22 +26,22 @@ public class RoleEntity implements Serializable {
     @Column(name = "role_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer roleId;
-    
+
     @NotNull
-    @Column (name = "name")
+    @Column(name = "name")
     private String name;
-    
-    @Type (type="com.com3014.group1.projectmatching.model.PaymentType")
+
+    @Type(type = "com.com3014.group1.projectmatching.model.PaymentType")
     @Columns(columns = {
-        @Column(name="payment"),
-        @Column(name="payment_type")
-        }
+        @Column(name = "payment"),
+        @Column(name = "payment_type")
+    }
     )
     private Payment payment;
 
     public RoleEntity() {
     }
-    
+
     public int getRoleId() {
         return roleId;
     }
@@ -54,7 +49,7 @@ public class RoleEntity implements Serializable {
     public void setRoleId(Integer roleId) {
         this.roleId = roleId;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -103,6 +98,5 @@ public class RoleEntity implements Serializable {
         }
         return true;
     }
-    
-    
+
 }

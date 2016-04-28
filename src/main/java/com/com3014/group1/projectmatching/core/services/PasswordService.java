@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.core.services;
 
 import com.com3014.group1.projectmatching.dao.PasswordDAO;
@@ -19,6 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
 /**
+ * A service to provide password functionality to the REST Service
  *
  * @author Sam Waters
  */
@@ -33,7 +29,15 @@ public class PasswordService {
     @Autowired
     private UserDAO userDAO;
 
+    /**
+     * Check that the given password is correct
+     *
+     * @param username The username to check the password for
+     * @param submittedPassword The password that the user submitted
+     * @return Whether the password was correct
+     */
     public boolean checkPassword(String username, String submittedPassword) {
+        // Null check
         if (username == null || submittedPassword == null) {
             return false;
         }
@@ -42,10 +46,13 @@ public class PasswordService {
 
         if (userEntity != null) {
             try {
+                // Find the user's actual password
                 Password userPassword = passwordDAO.findByUserId(userEntity.getUserId());
+                // Hash the submitted password
                 String submittedPasswordHash = hashPassword(submittedPassword);
                 return userPassword != null && submittedPasswordHash.equals(userPassword.getPassword());
-            } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+            } // Catch errors from the hashPassword method
+            catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
                 Logger.getLogger(PasswordService.class.getName()).log(Level.SEVERE, null, ex);
                 return false;
             }
@@ -53,6 +60,18 @@ public class PasswordService {
         return false;
     }
 
+    /**
+     * Change the user's password
+     *
+     * @param username The username of the user that wishes to change their
+     * password
+     * @param oldPassword The user's old password
+     * @param newPassword The desired new password
+     * @throws AuthenticationException Exception thrown if the user fails to
+     * authenticate
+     * @throws IllegalArgumentException Exception thrown if the new password is
+     * invalid
+     */
     public void changePassword(String username, String oldPassword, String newPassword) throws AuthenticationException, IllegalArgumentException {
         if (!validPassword(newPassword)) {
             // Maybe change to a different type of exception
@@ -76,8 +95,16 @@ public class PasswordService {
         }
     }
 
-    public void addPassword(String username, String newPassword) throws AuthenticationException, IllegalArgumentException {
-        if (!validPassword(newPassword)) {
+    /**
+     * Add a password for a user
+     *
+     * @param username The user to add the password to
+     * @param password The desired password
+     * @throws IllegalArgumentException Exception thrown if the new password is
+     * invalid
+     */
+    public void addPassword(String username, String password) throws IllegalArgumentException {
+        if (!validPassword(password)) {
             // Maybe change to a different type of exception
             throw new IllegalArgumentException("New password is invalid") {
             };
@@ -86,7 +113,7 @@ public class PasswordService {
         if (userEntity != null) {
             try {
                 Password userPassword = passwordDAO.findByUserId(userEntity.getUserId());
-                userPassword.setPassword(hashPassword(newPassword));
+                userPassword.setPassword(hashPassword(password));
                 passwordDAO.save(userPassword);
             } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
                 Logger.getLogger(PasswordService.class.getName()).log(Level.SEVERE, null, ex);
@@ -97,6 +124,12 @@ public class PasswordService {
         }
     }
 
+    /**
+     * Check if the password is valid
+     *
+     * @param password The desired password
+     * @return Whether the desired password is valid
+     */
     private boolean validPassword(String password) {
         if (password == null || password.length() < MIN_PASSWORD_LENGTH) {
             return false;
@@ -107,10 +140,20 @@ public class PasswordService {
         return false;
     }
 
-    private String hashPassword(String submittedPassword) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    /**
+     * Has the password
+     *
+     * @param password The password to hash
+     * @return The hashed password
+     * @throws NoSuchAlgorithmException Exception thrown if the hashing
+     * algorithm is not available
+     * @throws UnsupportedEncodingException Exception thrown if the encoding
+     * algorithm is not available
+     */
+    private String hashPassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
 
-        md.update(submittedPassword.getBytes("UTF-8")); // Change this to "UTF-16" if needed
+        md.update(password.getBytes("UTF-8")); // Change this to "UTF-16" if needed
         byte[] digest = md.digest();
         return String.format("%064x", new java.math.BigInteger(1, digest));
     }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.dto;
 
 import com.com3014.group1.projectmatching.model.RoleEntity;
@@ -12,19 +7,40 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * A @Role belonging to a @Project
  *
  * @author Daniel
  */
 public class ProjectRole {
-    
+
+    /**
+     * The Project that this Role belongs to
+     */
     private Project project;
-    
+
+    /**
+     * The Role
+     */
     private RoleEntity role;
-    
+
+    /**
+     * The list of skills related to the Role
+     */
     private List<RoleSkill> skillsList;
-    
+
+    /**
+     * The list of qualifications related to the Role
+     */
     private List<RoleQualification> qualificationsList;
-    
+
+    /**
+     * Constructor
+     *
+     * @param project The Project that this Role belongs to
+     * @param role The Role
+     * @param roleSkills The list of skills related to the Role
+     * @param roleQualifications The list of qualifications related to the Role
+     */
     public ProjectRole(Project project, RoleEntity role, List<RoleSkill> roleSkills, List<RoleQualification> roleQualifications) {
         super();
         this.project = project;
@@ -32,13 +48,19 @@ public class ProjectRole {
         this.skillsList = roleSkills;
         this.qualificationsList = roleQualifications;
     }
-    
+
+    /**
+     * Constructor
+     *
+     * @param project The Project that this Role belongs to
+     * @param role The Role
+     */
     public ProjectRole(Project project, RoleEntity role) {
         super();
         this.project = project;
         this.role = role;
     }
-   
+
     public Project getProject() {
         return project;
     }
@@ -99,8 +121,5 @@ public class ProjectRole {
         }
         return true;
     }
-   
-    
-        
-    
+
 }

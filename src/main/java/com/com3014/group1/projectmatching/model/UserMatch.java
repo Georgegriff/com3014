@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.model;
 
 import java.io.Serializable;
@@ -21,31 +16,32 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 /**
+ * Database representation of a @User Match
  *
  * @author Daniel
  */
 @Entity
 @Table(name = "user_matches")
 public class UserMatch implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="set_id")
+    @Column(name = "set_id")
     private Integer setId;
-    
+
     @NotNull
     @ManyToOne
-    @JoinColumn(name ="user_id")
+    @JoinColumn(name = "user_id")
     private UserEntity user;
-    
+
     @NotNull
-    @Column (name = "cache_expire")
+    @Column(name = "cache_expire")
     @Temporal(TemporalType.TIMESTAMP)
     private Date cacheExpire;
-    
-    @Column (name = "status_control")
+
+    @Column(name = "status_control")
     private String statusControl;
-    
+
     public UserMatch() {
     }
 
@@ -117,6 +113,5 @@ public class UserMatch implements Serializable {
         }
         return true;
     }
-    
-    
+
 }

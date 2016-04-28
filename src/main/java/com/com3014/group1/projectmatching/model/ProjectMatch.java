@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in ProjectEntity Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.model;
 
 import java.io.Serializable;
@@ -21,31 +16,32 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 /**
+ * Database representation of a Project Match
  *
  * @author Daniel
  */
 @Entity
 @Table(name = "project_matches")
 public class ProjectMatch implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="set_id")
+    @Column(name = "set_id")
     private Integer setId;
-    
+
     @NotNull
     @ManyToOne
-    @JoinColumn(name ="project_id")
+    @JoinColumn(name = "project_id")
     private ProjectEntity project;
-    
+
     @NotNull
-    @Column (name = "cache_expire")
+    @Column(name = "cache_expire")
     @Temporal(TemporalType.TIMESTAMP)
     private Date cacheExpire;
-    
-    @Column (name = "status_control")
+
+    @Column(name = "status_control")
     private String statusControl;
-    
+
     public ProjectMatch() {
     }
 
@@ -56,7 +52,7 @@ public class ProjectMatch implements Serializable {
     public void setSetId(Integer setId) {
         this.setId = setId;
     }
-    
+
     public void setProject(ProjectEntity project) {
         this.project = project;
     }
@@ -75,7 +71,7 @@ public class ProjectMatch implements Serializable {
 
     public void setStatusControl(String statusControl) {
         this.statusControl = statusControl;
-    }   
+    }
 
     public ProjectEntity getProject() {
         return project;
@@ -116,5 +112,5 @@ public class ProjectMatch implements Serializable {
             return false;
         }
         return true;
-    } 
+    }
 }

@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
+ * Database representation of a ProjectDeclined object
  *
  * @author Daniel
  */
@@ -22,55 +23,55 @@ import javax.persistence.Table;
 @Table(name = "projects_declined")
 @IdClass(ProjectDeclined.ProjectDeclinedPK.class)
 public class ProjectDeclined implements Serializable {
-    
+
     @Id
     @ManyToOne
-    @JoinColumn(name ="project_id")
+    @JoinColumn(name = "project_id")
     private ProjectEntity project;
-    
+
     @Id
     @ManyToOne
-    @JoinColumn(name ="user_id")
+    @JoinColumn(name = "user_id")
     private UserEntity user;
-    
+
     @Id
     @ManyToOne
-    @JoinColumn(name ="role_id")
+    @JoinColumn(name = "role_id")
     private RoleEntity role;
-    
+
     public ProjectDeclined() {
     }
 
     public UserEntity getUser() {
         return user;
     }
-    
+
     public void setUser(UserEntity user) {
-       this.user = user;
+        this.user = user;
     }
 
     public void setProject(ProjectEntity project) {
         this.project = project;
-    }   
+    }
 
     public ProjectEntity getProject() {
         return project;
     }
-    
+
     public RoleEntity getRole() {
         return role;
     }
-    
+
     public void setRole(RoleEntity role) {
         this.role = role;
     }
-    
+
     public static class ProjectDeclinedPK implements Serializable {
-        
+
         private Integer project;
         private Integer user;
         private Integer role;
-        
+
         public ProjectDeclinedPK() {
         }
 
@@ -89,11 +90,11 @@ public class ProjectDeclined implements Serializable {
         public void setProject(Integer project) {
             this.project = project;
         }
-        
+
         public Integer getRole() {
             return role;
         }
-        
+
         public void setRole(Integer role) {
             this.role = role;
         }
@@ -129,6 +130,6 @@ public class ProjectDeclined implements Serializable {
                 return false;
             }
             return true;
-        } 
+        }
     }
 }

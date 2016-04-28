@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.model;
 
 import java.io.Serializable;
@@ -52,8 +47,8 @@ public class LocationType implements UserType {
         double lon = rs.getDouble(columns[1]);
         
         location = new Location();
-        location.setLat(lat);
-        location.setLon(lon);
+        location.setLatitude(lat);
+        location.setLongitude(lon);
         
         return location;
     }
@@ -65,8 +60,8 @@ public class LocationType implements UserType {
             ps.setNull(index+1, Types.DECIMAL);
         }
         else{
-            ps.setDouble(index, ((Location)obj).getLat());
-            ps.setDouble(index+1, ((Location)obj).getLon());
+            ps.setDouble(index, ((Location)obj).getLatitude());
+            ps.setDouble(index+1, ((Location)obj).getLongitude());
         }
     }
 
@@ -78,8 +73,8 @@ public class LocationType implements UserType {
         else{
             Location newObj=new Location();
             Location existObj=(Location)obj;
-            newObj.setLat(existObj.getLat());
-            newObj.setLon(existObj.getLon());
+            newObj.setLatitude(existObj.getLatitude());
+            newObj.setLongitude(existObj.getLongitude());
         
             return newObj;
         }

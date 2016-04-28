@@ -1,6 +1,3 @@
-/*
- * Manages databse interactions for Projects
- */
 package com.com3014.group1.projectmatching.dto;
 
 import com.com3014.group1.projectmatching.model.Location;
@@ -11,12 +8,13 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * The definition of a Project
  *
  * @author Sam Waters
  * @author Dan Ashworth
  */
 public class Project {
-        
+
     private Integer projectId;
     private String name;
     private String description;
@@ -26,12 +24,8 @@ public class Project {
     private int projectOwner;
     private List<ProjectRole> rolesList;
     private List<ProjectInterest> interestsList;
-    
-    public Project() {
-        super();
-    }
-        
-    public Project(ProjectEntity entity){
+
+    public Project(ProjectEntity entity) {
         super();
         this.projectId = entity.getProjectId();
         this.name = entity.getName();
@@ -112,8 +106,14 @@ public class Project {
 
     public void setProjectOwner(int projectOwner) {
         this.projectOwner = projectOwner;
-    }   
+    }
 
+    /**
+     * Overridden because a payment is equal if it's fields are equal, not
+     * objects
+     *
+     * @return the hash code
+     */
     @Override
     public int hashCode() {
         int hash = 7;
@@ -129,6 +129,13 @@ public class Project {
         return hash;
     }
 
+    /**
+     * Overridden because a payment is equal if it's fields are equal, not
+     * objects
+     *
+     * @param obj The object to compare this one to
+     * @return Whether the given object's fields are the same as this one
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -170,6 +177,5 @@ public class Project {
         }
         return true;
     }
-    
-    
+
 }

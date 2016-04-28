@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in ProjectEntity Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.model;
 
 import java.io.Serializable;
@@ -23,7 +18,7 @@ import org.hibernate.annotations.Columns;
 import org.hibernate.annotations.Type;
 
 /**
- * The definition of a project
+ * Database representation of a ProjectEntity
  *
  * @author Sam Waters
  * @author Dan Ashworth
@@ -34,33 +29,33 @@ public class ProjectEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="project_id")
+    @Column(name = "project_id")
     private Integer projectId;
-    
+
     @NotNull
-    @Column (name = "name")
+    @Column(name = "name")
     private String name;
-    
+
     @NotNull
-    @Column (name = "description")
+    @Column(name = "description")
     private String description;
-    
+
     @Temporal(TemporalType.DATE)
-    @Column (name = "project_start")
+    @Column(name = "project_start")
     private Date projectStart;
-    
+
     @Temporal(TemporalType.DATE)
-    @Column (name = "estimated_end")
+    @Column(name = "estimated_end")
     private Date estimatedEnd;
-    
-    @Type (type="com.com3014.group1.projectmatching.model.LocationType")
+
+    @Type(type = "com.com3014.group1.projectmatching.model.LocationType")
     @Columns(columns = {
-        @Column(name="location_lat"),
-        @Column(name="location_lon")
-        }
+        @Column(name = "location_lat"),
+        @Column(name = "location_lon")
+    }
     )
     private Location location;
-    
+
     @ManyToOne
     @JoinColumn(name = "project_owner")
     private UserEntity projectOwner;
@@ -75,7 +70,7 @@ public class ProjectEntity implements Serializable {
     public void setProjectId(Integer projectId) {
         this.projectId = projectId;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -115,11 +110,11 @@ public class ProjectEntity implements Serializable {
     public void setLocation(Location location) {
         this.location = location;
     }
-    
+
     public UserEntity getProjectOwner() {
         return projectOwner;
     }
-    
+
     public void setProjectOwner(UserEntity projectOwner) {
         this.projectOwner = projectOwner;
     }
@@ -172,6 +167,5 @@ public class ProjectEntity implements Serializable {
         }
         return true;
     }
-    
-    
+
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in ProjectEntity Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.model;
 
 import java.io.Serializable;
@@ -15,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
+ * Database representation of an Approved @User
  *
  * @author Daniel
  */
@@ -22,25 +18,25 @@ import javax.persistence.Table;
 @Table(name = "users_approved")
 @IdClass(UserApproved.UserApprovedPK.class)
 public class UserApproved implements Serializable {
-    
+
     @Id
     @ManyToOne
-    @JoinColumn(name ="user_id")
+    @JoinColumn(name = "user_id")
     private UserEntity user;
-    
+
     @Id
     @ManyToOne
-    @JoinColumn(name ="project_id")
+    @JoinColumn(name = "project_id")
     private ProjectEntity project;
-    
+
     @Id
     @ManyToOne
-    @JoinColumn(name ="role_id")
+    @JoinColumn(name = "role_id")
     private RoleEntity role;
-    
+
     public UserApproved() {
     }
-    
+
     public void setUser(UserEntity user) {
         this.user = user;
     }
@@ -51,7 +47,7 @@ public class UserApproved implements Serializable {
 
     public void setProject(ProjectEntity project) {
         this.project = project;
-    }   
+    }
 
     public UserEntity getUser() {
         return user;
@@ -64,13 +60,13 @@ public class UserApproved implements Serializable {
     public void setRole(RoleEntity role) {
         this.role = role;
     }
-        
+
     public static class UserApprovedPK implements Serializable {
-        
+
         private Integer user;
         private Integer project;
         private Integer role;
-        
+
         public UserApprovedPK() {
         }
 
@@ -96,7 +92,7 @@ public class UserApproved implements Serializable {
 
         public void setRole(Integer role) {
             this.role = role;
-        }     
+        }
 
         @Override
         public int hashCode() {
@@ -129,6 +125,6 @@ public class UserApproved implements Serializable {
                 return false;
             }
             return true;
-        } 
+        }
     }
 }

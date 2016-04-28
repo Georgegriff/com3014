@@ -1,6 +1,3 @@
-/*
- * Manages Database interactions for Users
- */
 package com.com3014.group1.projectmatching.dto;
 
 import com.com3014.group1.projectmatching.model.Location;
@@ -13,13 +10,14 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 /**
+ * The definition of a User
  *
  * @author Sam Waters
  * @author Dan Ashworth
  */
 @Repository
 public class User {
-        
+
     private Integer userId;
     private String username;
     private String name;
@@ -33,13 +31,9 @@ public class User {
     private Date lastLogin;
     private Location location;
 
-    public User() {
-        super();
-    }
-    
     public User(UserEntity user, List<UserSkill> skillList, List<UserQualification> qualificationList, List<UserInterest> interests) {
         super();
-        
+
         this.userId = user.getUserId();
         this.username = user.getUsername();
         this.name = constructName(user);
@@ -53,7 +47,7 @@ public class User {
         this.lastLogin = user.getLastLogin();
         this.location = user.getLocation();
     }
-    
+
     public Integer getUserId() {
         return userId;
     }
@@ -149,7 +143,7 @@ public class User {
     public void setLocation(Location location) {
         this.location = location;
     }
-       
+
     private String constructName(UserEntity user) {
         return user.getName() + ' ' + user.getSurname();
     }

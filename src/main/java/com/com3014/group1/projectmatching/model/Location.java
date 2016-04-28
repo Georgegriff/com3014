@@ -1,43 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.model;
 
 /**
  * @author Sam Waters
  *
- * Note: This can be expanded to allow for other types of location, not just lat
- * and lon
+ * A location defined by latitude and longitude
  */
 public class Location {
 
-    private double lat;
-    private double lon;
+    private double latitude;
+    private double longitude;
 
     public Location() {
     }
 
-    public Location(double lat, double lon) {
-        this.lat = lat;
-        this.lon = lon;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public double getLat() {
-        return lat;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
-    public void setLat(double lat) {
-        this.lat = lat;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public double getLon() {
-        return lon;
-    }
-
-    public void setLon(double lon) {
-        this.lon = lon;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     /**
@@ -53,10 +42,10 @@ public class Location {
     public double getDistance(Location location) {
         final int R = 6371; // Radius of the earth
 
-        Double latDistance = Math.toRadians(lat - location.getLat());
-        Double lonDistance = Math.toRadians(lon - location.getLon());
+        Double latDistance = Math.toRadians(latitude - location.getLatitude());
+        Double lonDistance = Math.toRadians(longitude - location.getLongitude());
         Double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                + Math.cos(Math.toRadians(location.getLat())) * Math.cos(Math.toRadians(lat))
+                + Math.cos(Math.toRadians(location.getLatitude())) * Math.cos(Math.toRadians(latitude))
                 * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
         Double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double distance = R * c * 1000; // convert to meters
