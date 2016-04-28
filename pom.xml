@@ -73,7 +73,12 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.google.maps</groupId>
+            <artifactId>google-maps-services</artifactId>
+            <version>0.1.12</version>
+        </dependency>
+   
     </dependencies>
 
     <build>

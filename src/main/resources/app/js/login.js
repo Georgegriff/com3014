@@ -30,6 +30,7 @@ require(['underscore', 'jquery', 'jquery.ui', 'js/plugins/form/plugin'], functio
             listenToInput($username);
             listenToInput($password);
             registerButton();
+              $loginPage.removeClass("register-pg");
         }
 
         function hasError() {
@@ -76,7 +77,9 @@ require(['underscore', 'jquery', 'jquery.ui', 'js/plugins/form/plugin'], functio
 
 
     function RegisterPage(loginPage) {
-        var $registerPage = $('<section id="register-page">'),
+        var skills = [],
+                qualifications = [],
+                $registerPage = $('<section id="register-page">'),
                 $registerBtn = $('#register-btn'),
                 $loginRoot = $('#login-page'),
                 SiteForm = SiteForms.init({
@@ -86,61 +89,146 @@ require(['underscore', 'jquery', 'jquery.ui', 'js/plugins/form/plugin'], functio
                 form = new SiteForm({
                     title: "Register",
                     name: "registerform",
-                    description: "Sign up to ProMatch."
-                });
+                    description: '<a href="/login" class="login-link">Login</a><span>Sign up to ProMatch.</span>'
+                }); 
         form.attachTo($registerPage);
-        var firstName = form.addField({label: "First Name", validator: function (value) {
+        var $firstName = form.addField({label: "First Name", validator: function (value) {
                 return value && value !== "";
             }}),
-                lastName = form.addField({label: "Last Name", validator: function (value) {
+                $lastName = form.addField({label: "Last Name", validator: function (value) {
                         return value && value !== "";
                     }}),
-                email = form.addField({type: "email", label: "Email", validator: function (value) {
+                $email = form.addField({type: "email", label: "Email", validator: function (value) {
                         return value && value !== "";
                     }}),
-                username = form.addField({label: "Username", validator: function (value) {
+                $username = form.addField({label: "Username", validator: function (value) {
                         return value && value !== "";
                     }}),
-                location = form.addField({label: "Location", validator: function (value) {
+                $password = form.addField({type: "password", label: "Password", validator: function (value) {
                         return value && value !== "";
                     }}),
-                qualifications = form.additionButton({id: "add-qual", label: "Add Qualification", action: function (e) {
-                        form.addComboAndField({subElement: "#add-qual", validator: function (value) {
+                $location = form.addField({label: "Post Code", validator: function (value) {
+                        return value && value !== "";
+                    }}),
+                $qualifications = form.additionButton({id: "add-qual", label: "Add Qualification", action: function (e) {
+                        form.addComboAndField({subElement: "#add-qual", "label": "Qualification Title", validator: function (value) {
                                 return value && value !== "";
                             }});
+                        form.populateCombo($qualifications.find("select"), qualifications, function (qual) {
+                            return {
+                                value: qual.qualificationId,
+                                name: qual.qualificationLevel
+                            };
+                        });
                     }}),
-                skills = form.additionButton({id: "add-skill", label: "Add Skill", action: function (e) {
-                        form.addComboAndField({subElement: "#add-skill", validator: function (value) {
+                $skills = form.additionButton({id: "add-skill", label: "Add Skill", action: function (e) {
+                        form.addComboAndField({subElement: "#add-skill", "label": "Months Experience", validator: function (value) {
                                 return value && value !== "";
                             }});
+                        form.populateCombo($skills.find("select"), skills, function (skill) {
+                            return {
+                                value: skill.skillId,
+                                name: skill.name
+                            };
+                        });
                     }}),
-                interests = form.additionButton({id: "add-inter", label: "Add Interest", action: function (e) {
+                $interests = form.additionButton({id: "add-inter", label: "Add Interest", action: function (e) {
                         form.addField({subElement: "#add-inter", label: "Interest", validator: function (value) {
                                 return value && value !== "";
                             }});
-                    }});
+                    }}),
+                fields = {
+                    $firstName: $firstName,
+                    $lastName: $lastName,
+                    $email: $email,
+                    $username: $username,
+                    $password: $password,
+                    $location: $location,
+                    $qualifications: $qualifications,
+                    $skills: $skills,
+                    $interests: $interests
+                };
         form.addButton({label: "Register", action: function (e) {
                 e.preventDefault();
-                registerUser();
+                registerUser(fields);
             }});
+        getAllSkillsAndQualifications();
 
 
 
         $registerBtn.click(function (e) {
             render();
         });
-        function getRegistrationData() {
+
+        function getAllSkillsAndQualifications() {
+            return $.getJSON("/services/userskills").then(function (data) {
+                if (data) {
+                    skills = data.skills && data.skills.length ? data.skills : [];
+                    qualifications = data.qualifications && data.qualifications.length ? data.qualifications : [];
+                }
+            });
+        }
+
+        function getRegistrationData(fields) {
             return {
-                username: "1",
-                name: "2",
-                forename: "3",
-                surname: "4",
-                email: "5"
+                password: fields.$password.find('input').val(),
+                user: {
+                    forename: fields.$firstName.find('input').val(),
+                    surname: fields.$lastName.find('input').val(),
+                    email: fields.$email.find('input').val(),
+                    username: fields.$username.find('input').val(),
+                    location: {stringLocation: fields.$location.find('input').val()
+                    },
+                    skillsList: function (values) {
+                        var output = [];
+                        if (values && values.length) {
+                            values.forEach(function (value) {
+                                output.push({
+                                    "monthsOfExperience": value.inputValue,
+                                    "skill": {
+                                        skillId: value.comboValue.value,
+                                        name: value.comboValue.text
+                                    }
+                                });
+                            });
+                        }
+                        return output;
+
+                    }(form.getComboFieldValues(fields.$skills)),
+                    qualificationsList: function (values) {
+                        var output = [];
+                        if (values && values.length) {
+                            values.forEach(function (value) {
+                                output.push({
+                                    "subject": value.inputValue,
+                                    "qualificationLevel": {
+                                        qualificationId: value.comboValue.value,
+                                        qualificationLevel: value.comboValue.text
+                                    }
+                                });
+                            });
+                        }
+                        return output;
+
+                    }(form.getComboFieldValues(fields.$qualifications)),
+                    interestsList: function (values) {
+                        var output = [];
+                        if (values && values.length) {
+                            values.forEach(function (value) {
+                                output.push({
+                                    "interest": value
+                                });
+                            });
+                        }
+                        return output;
+
+                    }(form.getFieldValues(fields.$interests))
+                }
 
 
             };
         }
-        function registerUser() {
+        function registerUser(fields) {
             $.ajax({
                 type: "POST",
                 headers: {
@@ -148,7 +236,7 @@ require(['underscore', 'jquery', 'jquery.ui', 'js/plugins/form/plugin'], functio
                 },
                 url: "/register",
                 contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(getRegistrationData()),
+                data: JSON.stringify(getRegistrationData(fields)),
                 dataType: "json"
             }).success(function () {
                 showLogin();
@@ -158,6 +246,7 @@ require(['underscore', 'jquery', 'jquery.ui', 'js/plugins/form/plugin'], functio
         }
 
         function render() {
+            $loginRoot.addClass("register-pg");
             loginPage.hide();
             $loginRoot.prepend($registerPage);
         }

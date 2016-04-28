@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // Allow /login, /register, CSS and Javascript giles through the secuirty
         httpSecurity
                 .authorizeRequests()
-                .antMatchers("/login", "/register", "/css/**", "/js/login.js", "/js/plugins/form/plugin.js", "/js/plugins/form/template/template.htm", "/js/vendor/**.min.js", "/js/vendor/**.js").permitAll().anyRequest().authenticated()
+                .antMatchers("/services/userskills", "/login", "/register", "/css/**", "/js/login.js", "/js/plugins/form/plugin.js", "/js/plugins/form/template/template.htm", "/js/vendor/**.min.js", "/js/vendor/**.js").permitAll().anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")

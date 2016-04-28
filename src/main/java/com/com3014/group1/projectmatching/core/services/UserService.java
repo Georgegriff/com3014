@@ -42,8 +42,9 @@ public class UserService {
 
     @Autowired
     private UserInterestDAO userInterestDAO;
-    
-    @Autowired ProjectMatchService projectMatchService;
+
+    @Autowired
+    ProjectMatchService projectMatchService;
 
     public User getUser(int id) {
         User user;
@@ -74,13 +75,13 @@ public class UserService {
         }
         return usersMap;
     }
-    
+
     public Map<Integer, User> getAlreadySwipedUsers(int projectId) {
         HashMap<Integer, User> alreadySwiped = new HashMap<>();
         try {
             List<UserEntity> entities = this.projectMatchService.getAlreadySwipedUsers(projectId);
 
-            for(UserEntity user : entities) {
+            for (UserEntity user : entities) {
                 alreadySwiped.put(user.getUserId(), convertEntityToUser(user));
             }
         } catch (ObjectNotFoundException onf) {
@@ -103,47 +104,57 @@ public class UserService {
     }
 
     @Transactional
-    public boolean registerUser(User user){
-        if (!validUser(user)){
+    public boolean registerUser(User user) {
+        if (!validUser(user)) {
             return false;
         }
-        
+
         // Save the top level user entity
         UserEntity userEntity = convertUserToEntity(user);
-        userDAO.save(userEntity);
+        userDAO.save(userEntity);  
+        UserEntity newEntity = userDAO.findByUsername(user.getUsername());
         // Save user interest
+        for (UserInterest interest : user.getInterestsList()) {
+            interest.setUser(newEntity);
+        }
         userInterestDAO.save(user.getInterestsList());
         // Save user skill
+        for (UserSkill skill : user.getSkillsList()) {
+            skill.setUser(newEntity);
+        }
         userSkillDAO.save(user.getSkillsList());
         // Save user qualifications
+        for (UserQualification qual : user.getQualificationsList()) {
+            qual.setUser(newEntity);
+        }
         userQualDAO.save(user.getQualificationsList());
-        
+
         return true;
     }
-    
-    private boolean validUser(User user){
-        if (user.getForename().equals("") || user.getForename().isEmpty() || user.getForename() == null){
+
+    private boolean validUser(User user) {
+        if (user.getForename().equals("") || user.getForename().isEmpty() || user.getForename() == null) {
             return false;
         }
-        if (user.getName().equals("") || user.getName().isEmpty() || user.getName() == null){
+        if (user.getName().equals("") || user.getName().isEmpty() || user.getName() == null) {
             return false;
         }
-        if (user.getUsername().equals("") || user.getUsername().isEmpty() || user.getUsername() == null){
+        if (user.getUsername().equals("") || user.getUsername().isEmpty() || user.getUsername() == null) {
             return false;
         }
-        if (user.getEmail().equals("") || user.getEmail().isEmpty() || user.getEmail() == null || !isValidEmailAddress(user.getEmail())){
+        if (user.getEmail().equals("") || user.getEmail().isEmpty() || user.getEmail() == null || !isValidEmailAddress(user.getEmail())) {
             return false;
         }
         return true;
     }
-    
+
     private boolean isValidEmailAddress(String email) {
-           String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
-           java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
-           java.util.regex.Matcher m = p.matcher(email);
-           return m.matches();
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
     }
-    
+
     /* Convert a UserEntity from the database to a User Object for the front end */
     public User convertEntityToUser(UserEntity entity) throws ObjectNotFoundException {
 
@@ -158,16 +169,19 @@ public class UserService {
             throw new ObjectNotFoundException(entity, "User Not Found");
         }
     }
-    
+
     public UserEntity convertUserToEntity(User user) {
         // See if the user already exists in the datbase, get persisted
-        UserEntity entity = userDAO.findOne(user.getUserId());
-        
+        UserEntity entity = null;
+        if (user.getUserId() != null) {
+            entity = userDAO.findOne(user.getUserId());
+        }
+
         // If not create a new user object
-        if(entity == null) {
+        if (entity == null) {
             entity = new UserEntity();
         }
-        
+
         entity.setUsername(user.getUsername());
         entity.setName(user.getForename());
         entity.setSurname(user.getSurname());
@@ -175,25 +189,24 @@ public class UserService {
         entity.setAverageRating(user.getAverageRating());
         entity.setLastLogin(user.getLastLogin());
         entity.setLocation(user.getLocation());
-        
+
         return entity;
     }
- 
+
     public List<User> convertEntityListToUserList(List<UserEntity> entities) {
         List<User> users = new ArrayList<>();
-        for(UserEntity entity : entities) {
+        for (UserEntity entity : entities) {
             try {
                 User user = convertEntityToUser(entity);
                 users.add(user);
-            }
-            catch(ObjectNotFoundException onf) {
+            } catch (ObjectNotFoundException onf) {
                 users = null;
                 break;
             }
         }
         return users;
     }
-    
+
     public UserEntity findEntityById(int id) {
         return this.userDAO.findOne(id);
     }

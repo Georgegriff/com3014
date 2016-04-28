@@ -9,6 +9,7 @@ public class Location {
 
     private double latitude;
     private double longitude;
+    private String stringLocation;
 
     public Location() {
     }
@@ -28,6 +29,15 @@ public class Location {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
+
+    public String getStringLocation() {
+        return stringLocation;
+    }
+
+    public void setStringLocation(String stringLocation) {
+        this.stringLocation = stringLocation;
+    }
+    
 
     /**
      * Get the distance between this location and another in metres
