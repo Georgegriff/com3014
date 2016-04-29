@@ -337,14 +337,16 @@ ul {
     word-wrap: break-word;
 }
 /** Desktop */
-@media screen and (min-width: 840px) {
-    /* Swiper */
-    .swipe-container {
+@media screen and (min-width: 840px) and (min-height: 900px) {
+   .swipe-container {
 
         min-height:700px;
         height: auto;
 
-    }
+    } 
+}
+@media screen and (min-width: 840px) {
+
     .profile-container {
 
         width:105%;
@@ -368,6 +370,20 @@ ul {
     }
     .profile-container {
         max-height:550px;
+    }
+}
+/** Small Desktop */
+@media screen and (min-width: 840px) and (max-height: 900px) {
+    .profile-container {
+        min-height: 450px;
+        max-height:450px;
+
+    }
+    .swipe-container {
+        max-height: 650px;
+    }
+    .profile-images {
+        max-height:300px;
     }
 }
 /** Mobile */

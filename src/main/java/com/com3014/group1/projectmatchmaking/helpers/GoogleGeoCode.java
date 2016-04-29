@@ -12,13 +12,9 @@ package com.com3014.group1.projectmatchmaking.helpers;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.model.GeocodingResult;
-import com.google.maps.model.LatLng;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.springframework.stereotype.Service;
+
 
 
 public class GoogleGeoCode {
