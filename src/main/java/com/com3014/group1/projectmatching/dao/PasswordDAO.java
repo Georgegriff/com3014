@@ -6,7 +6,6 @@
 package com.com3014.group1.projectmatching.dao;
 
 import com.com3014.group1.projectmatching.model.Password;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -17,5 +16,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface PasswordDAO extends JpaRepository<Password, Integer> {
 
-    public Password findByUserId(int userId) throws ObjectNotFoundException;
+    public Password findByUserId(Integer userId);
 }
