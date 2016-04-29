@@ -127,7 +127,7 @@ public class ProjectMatchService {
      * manager
      *
      * @param projectId The ID of the project
-     * @return
+     * @return The list of already swiped Users
      */
     protected List<UserEntity> getAlreadySwipedUsers(int projectId) {
         List<UserApproved> approved = this.userApprovedDAO.findByProject_ProjectId(projectId);

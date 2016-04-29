@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.matchmaking;
 
 import com.com3014.group1.projectmatching.model.Location;
@@ -28,6 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
+ * The Matchmaking algorithm for suggesting Users to Project Managers and
+ * Projects to Users
  *
  * @author Elliot
  */
@@ -39,21 +36,36 @@ public class Matchmaking {
 
     @Autowired
     private ProjectService projectService;
-    
+
     @Autowired
     private UserMatchService userMatchService;
 
+    /**
+     * Default Constructor
+     */
     public Matchmaking() {
     }
 
-    // generate random number between min and max
+    /**
+     * Generate random number between min and max
+     *
+     * @param min The minimum number that the result can be
+     * @param max The maximum number that the result can be
+     * @return The random number
+     */
     private static double randDouble(double min, double max) {
         Random rand = new Random();
         double randomNumber = min + (max - min) * rand.nextDouble();
         return randomNumber;
     }
 
-    // Calculate the fitness score for a particular user to a role
+    /**
+     * Calculate the fitness score for a particular user to a role
+     *
+     * @param user The User to get the score for
+     * @param role The Role to calculate the score against
+     * @return The score
+     */
     private double calculateUserScore(User user, ProjectRole role) {
         // a list of skills desired but not required for this role
         List<RoleSkill> roleSkills = role.getSkillsList();
@@ -93,15 +105,14 @@ public class Matchmaking {
         // calculate the distance weighting
         Location projectLocation = role.getProject().getLocation();
         Location userLocation = user.getLocation();
-      
+
         double distance = projectLocation.getDistance(userLocation);
         double distanceWeighting = 5.0;
-        
-        if(distance > 400.0) {
+
+        if (distance > 400.0) {
             distanceWeighting = 0.0;
-        }
-        else if(distance > 10.0) {
-            distanceWeighting = ((distance / 400.0) * 5);    
+        } else if (distance > 10.0) {
+            distanceWeighting = ((distance / 400.0) * 5);
         }
 
         // generate a random weighting
@@ -112,7 +123,12 @@ public class Matchmaking {
         return userScore;
     }
 
-    // Returns an array of user id's, ordered by matchmaking score
+    /**
+     * Returns an array of user id's, ordered by matchmaking score
+     *
+     * @param projectRole The Project Role to find Users for
+     * @return The recommended Users for the Role
+     */
     public List<User> findUsersForRole(ProjectRole projectRole) {
         // a list of skills required for this role
         List<RoleSkill> roleSkills = projectRole.getSkillsList();
@@ -151,6 +167,13 @@ public class Matchmaking {
         return usersOrdered;
     }
 
+    /**
+     * Check whether the User has the skills required by the Role
+     *
+     * @param userSkills The Users skills
+     * @param roleSkills The skills that the Role requires
+     * @return Whether the User has the skills required by the Role
+     */
     private boolean userHasRequiredSkills(List<UserSkill> userSkills, List<RoleSkill> roleSkills) {
         int numberOfRequiredSkills = 0;
         int numberOfRequiredSkillsUserHas = 0;
@@ -167,7 +190,12 @@ public class Matchmaking {
         return numberOfRequiredSkills == numberOfRequiredSkillsUserHas;
     }
 
-    // returns an array of projects with matches roles, ordered by score
+    /**
+     * Returns an array of projects with matches roles, ordered by score
+     *
+     * @param user The User to find Roles for
+     * @return Recommended Roles for the User
+     */
     public List<ProjectRole> findRolesForUser(User user) {
         // a list of skills this user has
         List<UserSkill> userSkills = user.getSkillsList();
@@ -179,16 +207,16 @@ public class Matchmaking {
 
         //Map<Role, Project> roleIdProjectData = new HashMap<>();
         Map<Double, ProjectRole> projectRolesAndScores = new HashMap<>();
-        
+
         for (Project project : allProjects) {
             // get the projects roles
             List<ProjectRole> allProjectRoles = project.getRolesList();
-            
+
             for (ProjectRole projectRole : allProjectRoles) {
-                
+
                 // check the role in this project has not already been swiped
                 if (!alreadySwipedMap.contains(projectRole)) {
-                       
+
                     List<RoleSkill> roleSkills = projectRole.getSkillsList();
 
                     if (userHasRequiredSkills(userSkills, roleSkills)) {

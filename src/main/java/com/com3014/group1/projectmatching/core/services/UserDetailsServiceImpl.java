@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.core.services;
 
 import com.com3014.group1.projectmatching.dto.User;
@@ -17,31 +12,45 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
+ * A service to provide UserDetails
  *
  * @author George
  */
 @Service("detailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
-    
+
     @Autowired
     private UserService userService;
 
+    /**
+     * Retrieve the details of a user from their username
+     *
+     * @param userName The username of the user you wish to retrieve
+     * @return The User Details
+     * @throws UsernameNotFoundException Exception thrown if the user is not
+     * found
+     */
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         User user = userService.getUserByUsername(userName);
-        if(user != null){
-              return new org.springframework.security.core.userdetails.User(userName, "", buildAuthUser(user));
-        }else {
+        if (user != null) {
+            return new org.springframework.security.core.userdetails.User(userName, "", buildAuthUser(user));
+        } else {
             throw new UsernameNotFoundException("User Not Found");
         }
-      
+
     }
-    private List<GrantedAuthority> buildAuthUser(User user){
+
+    /**
+     *
+     * @param user
+     * @return
+     */
+    private List<GrantedAuthority> buildAuthUser(User user) {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new SimpleGrantedAuthority("USER"));
         return authorities;
 
     }
- 
-    
+
 }

@@ -14,40 +14,83 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * REST Service for Projects
+ *
+ * @author George
+ */
 @RestController
 @RequestMapping("/services")
 public class RestProjectService {
 
     @Autowired
     private ProjectService projectService;
-    
-    /* Map for project id with params to decide if role and interets should be pulled */
+
+    /**
+     * Get the Project from the ID
+     *
+     * @param id The ID of the Project
+     * @param session The session used to obtain the current user
+     * @param roles Whether to get the roles
+     * @param interest Whether to get the interests
+     * @return The Project
+     */
     @RequestMapping(value = "/project/{id}", params = {"roleInfo", "interestInfo"}, headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
     public Project getProject(@PathVariable String id, HttpSession session, @RequestParam("roleInfo") boolean roles, @RequestParam("interestInfo") boolean interest) {
         return projectService.getProject(Integer.parseInt(id), getCurrentUser(session), roles, interest);
     }
 
-    /* Default project map that will pull in both interest and roles as well as project info */
+    /**
+     * Get the Project from the ID
+     *
+     * @param id The ID of the Project
+     * @param session The session used to obtain the current user
+     * @return The Project
+     */
     @RequestMapping(value = "/project/{id}", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
     public Project getProject(@PathVariable String id, HttpSession session) {
         return projectService.getProject(Integer.parseInt(id), getCurrentUser(session), true, true);
     }
-    
+
+    /**
+     * Get all of the Projects that the User owns
+     *
+     * @param session The session used to obtain the current user
+     * @return The list of Projects that the User owns
+     */
     @RequestMapping(value = "/user/projects", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
     public List<Project> getProjectsUserOwns(HttpSession session) {
         return projectService.getProjectsUserOwns(getCurrentUser(session));
     }
-    
-    @RequestMapping(method=RequestMethod.POST, value = "/user/{userId}/projects/create", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
+
+    /**
+     * Save a Project to the database
+     *
+     * @param userId The ID of the Project
+     * @param project The Project to save
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "/user/{userId}/projects/create", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
     public void createProject(@PathVariable String userId, @RequestBody final Project project) {
         boolean valid = projectService.saveProject(project);
     }
-    
-    @RequestMapping(method=RequestMethod.PUT, value = "/user/{userId}/projects/update", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
+
+    /**
+     * Update a Project to the database
+     *
+     * @param userId The ID of the Project
+     * @param project The Project to save
+     */
+    @RequestMapping(method = RequestMethod.PUT, value = "/user/{userId}/projects/update", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
     public void updateProject(@PathVariable String userId, @RequestBody final Project project) {
         boolean valid = projectService.saveProject(project);
     }
-    
+
+    /**
+     * Get the current user from the session
+     *
+     * @param session The session
+     * @return The current user
+     */
     private User getCurrentUser(HttpSession session) {
         return (User) session.getAttribute("currentUser");
     }

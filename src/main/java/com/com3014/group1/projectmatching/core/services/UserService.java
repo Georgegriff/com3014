@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.core.services;
 
 import com.com3014.group1.projectmatching.dao.UserDAO;
@@ -24,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * A service to provide User retrieval and saving to the REST Service
  *
  * @author Sam Waters
  * @author Dan Ashworth
@@ -46,6 +42,12 @@ public class UserService {
     @Autowired
     ProjectMatchService projectMatchService;
 
+    /**
+     * Get the User from the ID
+     *
+     * @param id The ID of the User
+     * @return The User
+     */
     public User getUser(int id) {
         User user;
 
@@ -61,6 +63,11 @@ public class UserService {
         return user;
     }
 
+    /**
+     * Get all Users within the system
+     *
+     * @return All the Users within the system
+     */
     public Map<Integer, User> getAllUsers() {
         Map<Integer, User> usersMap = new HashMap<>();
         try {
@@ -76,6 +83,13 @@ public class UserService {
         return usersMap;
     }
 
+    /**
+     * Get the list of users that have already been swiped by the project
+     * manager
+     *
+     * @param projectId The ID of the project
+     * @return The list of already swiped Users
+     */
     public Map<Integer, User> getAlreadySwipedUsers(int projectId) {
         HashMap<Integer, User> alreadySwiped = new HashMap<>();
         try {
@@ -90,6 +104,12 @@ public class UserService {
         return alreadySwiped;
     }
 
+    /**
+     * Get a User from their Username
+     *
+     * @param userName The Username
+     * @return The User
+     */
     public User getUserByUsername(String userName) {
         User user;
 
@@ -103,6 +123,12 @@ public class UserService {
         return user;
     }
 
+    /**
+     * Register a User
+     *
+     * @param user The User to register
+     * @return Whether the User was registered
+     */
     @Transactional
     public boolean registerUser(User user) {
         if (!validUser(user)) {
@@ -111,7 +137,7 @@ public class UserService {
 
         // Save the top level user entity
         UserEntity userEntity = convertUserToEntity(user);
-        userDAO.save(userEntity);  
+        userDAO.save(userEntity);
         UserEntity newEntity = userDAO.findByUsername(user.getUsername());
         // Save user interest
         for (UserInterest interest : user.getInterestsList()) {
@@ -132,6 +158,12 @@ public class UserService {
         return true;
     }
 
+    /**
+     * Check whether the given User is valid
+     *
+     * @param user The User to check
+     * @return Whether the User was valid
+     */
     private boolean validUser(User user) {
         if (user.getForename().equals("") || user.getForename().isEmpty() || user.getForename() == null) {
             return false;
@@ -148,6 +180,12 @@ public class UserService {
         return true;
     }
 
+    /**
+     * Check whether the given email address is valid
+     *
+     * @param email The email address to check
+     * @return Whether the email address is valid
+     */
     private boolean isValidEmailAddress(String email) {
         String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
@@ -155,7 +193,14 @@ public class UserService {
         return m.matches();
     }
 
-    /* Convert a UserEntity from the database to a User Object for the front end */
+    /**
+     * Convert a UserEntity a User
+     *
+     * @param entity The UserEntity to convert
+     * @return The User
+     * @throws ObjectNotFoundException Exception thrown if the given entity is
+     * null
+     */
     public User convertEntityToUser(UserEntity entity) throws ObjectNotFoundException {
 
         if (entity != null) {
@@ -170,6 +215,12 @@ public class UserService {
         }
     }
 
+    /**
+     * Convert a User to a User Entity
+     *
+     * @param user The User
+     * @return The User Entity
+     */
     public UserEntity convertUserToEntity(User user) {
         // See if the user already exists in the datbase, get persisted
         UserEntity entity = null;
@@ -193,6 +244,12 @@ public class UserService {
         return entity;
     }
 
+    /**
+     * Convert a list of User Entities to a list of Users
+     *
+     * @param entities The list of User Entities
+     * @return The list of USers
+     */
     public List<User> convertEntityListToUserList(List<UserEntity> entities) {
         List<User> users = new ArrayList<>();
         for (UserEntity entity : entities) {
@@ -207,6 +264,12 @@ public class UserService {
         return users;
     }
 
+    /**
+     * Find a User by it's ID
+     *
+     * @param id The ID of the User
+     * @return The User
+     */
     public UserEntity findEntityById(int id) {
         return this.userDAO.findOne(id);
     }

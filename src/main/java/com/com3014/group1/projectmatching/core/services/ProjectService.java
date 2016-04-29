@@ -79,6 +79,7 @@ public class ProjectService {
 
     /**
      * Get all of the Projects that the User owns
+     *
      * @param user The User
      * @return The list of Projects that the User owns
      */
@@ -102,6 +103,7 @@ public class ProjectService {
 
     /**
      * Get all Projects within the system
+     *
      * @return All the Projects within the system
      */
     public List<Project> getAllProjects() {
@@ -122,6 +124,7 @@ public class ProjectService {
 
     /**
      * Save a Project to the database
+     *
      * @param project The Project to save
      * @return Whether the Project was saved
      */
@@ -142,7 +145,7 @@ public class ProjectService {
 
     /**
      * Check if the Project is valid
-     * 
+     *
      * @param project The Project to check
      * @return Whether the Project is valid
      */
@@ -164,6 +167,7 @@ public class ProjectService {
 
     /**
      * Convert a ProjectEntity in to a Project
+     *
      * @param entity The ProjectEntity
      * @return The Project
      * @throws ObjectNotFoundException Exception thrown if the entity is null
@@ -179,7 +183,7 @@ public class ProjectService {
 
     /**
      * Convert a Project into a ProjectEntity
-     * 
+     *
      * @param entity The Project Entity
      * @return The Project
      */
@@ -194,6 +198,7 @@ public class ProjectService {
 
     /**
      * Convert A list of Project Entities to a list of Projects
+     *
      * @param entities The list of Project Entities
      * @return The list of Projects
      */
@@ -214,6 +219,7 @@ public class ProjectService {
 
     /**
      * Get the Project Roles for a Project Entity
+     *
      * @param entity The Project Entity
      * @return The list of Project Roles
      */
@@ -230,8 +236,9 @@ public class ProjectService {
 
     /**
      * Get the Project Interests for a Project Entity
-     * @param entity
-     * @return 
+     *
+     * @param entity The Project Entity
+     * @return The list of Project Interests
      */
     private List<ProjectInterest> getProjectInterests(ProjectEntity entity) {
         // Get the project interests
@@ -251,6 +258,14 @@ public class ProjectService {
         }
     }
 
+    /**
+     * Covert Project Role Entities to Project Roles
+     *
+     * @param entityList The list of Project Role Entities
+     * @return The list of Project Roles
+     * @throws ObjectNotFoundException Exception thrown if the entity list is
+     * empty
+     */
     private List<ProjectRole> convertEntitiesToRoles(List<ProjectRoleEntity> entityList) throws ObjectNotFoundException {
         List<ProjectRole> projectRoleList = new ArrayList<>();
         if (entityList != null) {
@@ -273,6 +288,12 @@ public class ProjectService {
         }
     }
 
+    /**
+     * Convert Project to a Project Entity
+     *
+     * @param project The Project
+     * @return The Project Entity
+     */
     public ProjectEntity convertProjectToEntity(Project project) {
         // Try and find a persisted object in the database
         ProjectEntity entity = projectDAO.findOne(project.getProjectId());
@@ -290,6 +311,12 @@ public class ProjectService {
         return entity;
     }
 
+    /**
+     * Find a Project from the ID
+     *
+     * @param projectId The ID of the Project
+     * @return The Project Entity
+     */
     public ProjectEntity findProjectById(int projectId) {
         return this.projectDAO.findOne(projectId);
     }

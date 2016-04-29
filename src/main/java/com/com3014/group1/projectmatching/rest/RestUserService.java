@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.rest;
 
 import com.com3014.group1.projectmatching.core.services.SkillQualificationService;
@@ -15,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * REST Service for Users
  *
  * @author George
  */
@@ -25,11 +21,22 @@ public class RestUserService {
     @Autowired
     private SkillQualificationService skillQualService;
 
+    /**
+     * Get the current user from the session
+     *
+     * @param session The session
+     * @return The current user
+     */
     @RequestMapping(value = "/user", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
     public User getUser(HttpSession session) {
         return (User) session.getAttribute("currentUser");
     }
 
+    /**
+     * Get the lists of Skills and Qualifications
+     *
+     * @return The list of Skills and Qualifications
+     */
     @RequestMapping(value = "/userskills", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
     public SkillsAndQualifications getSkillsAndQualificationsLists() {
         SkillsAndQualifications skilsqual = new SkillsAndQualifications();

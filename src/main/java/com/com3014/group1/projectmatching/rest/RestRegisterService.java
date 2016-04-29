@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.rest;
 
 import com.com3014.group1.projectmatching.core.services.UserService;
@@ -20,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * REST Service for Registering Users
  *
  * @author Sam Waters
  * @author George Griffiths
@@ -30,23 +26,27 @@ public class RestRegisterService {
     @Autowired
     private UserService userService;
 
-
+    /**
+     * Register a User
+     *
+     * @param registerUser The User to register
+     * @return Whether the User was registered
+     */
     @RequestMapping(method = RequestMethod.POST, value = "/register", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity registerUser(@RequestBody RegisterUser registerUser) {
         User user = registerUser.getUser();
         user.setLastLogin(new Date());
-        user.setName(user.getForename()+ ' ' + user.getSurname());
+        user.setName(user.getForename() + ' ' + user.getSurname());
         try {
             double[] latlon = GoogleGeoCode.getLatLngFromPostCode(user.getLocation().getStringLocation());
-            if(latlon.length == 2){
+            if (latlon.length == 2) {
                 user.getLocation().setLatitude(latlon[0]);
                 user.getLocation().setLongitude(latlon[1]);
             }
-        }catch(NumberFormatException ex){
-           return new ResponseEntity<String>(HttpStatus.BAD_REQUEST); 
+        } catch (NumberFormatException ex) {
+            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
-        
-        
+
         if (!userService.registerUser(user)) {
             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
@@ -55,4 +55,3 @@ public class RestRegisterService {
         return new ResponseEntity<String>(HttpStatus.OK);
     }
 }
-

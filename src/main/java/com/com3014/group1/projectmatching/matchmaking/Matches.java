@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.com3014.group1.projectmatching.matchmaking;
 
 import com.com3014.group1.projectmatching.core.services.UserMatchService;
@@ -26,7 +21,8 @@ import org.springframework.stereotype.Service;
 
 /**
  *
- * @author Elliot & George
+ * @author Elliot
+ * @author George
  */
 @Service
 public class Matches {
@@ -39,13 +35,20 @@ public class Matches {
 
     @Autowired
     private ProjectService projectService;
-    
+
     @Autowired
     private ProjectRoleService projectRoleService;
-    
+
     @Autowired
     private UserService userService;
 
+    /**
+     * Find the mutual matches for a Project, the Users that have approved the
+     * Project that the Project manager has also approved
+     *
+     * @param projectId The ID of the Project
+     * @return The mutual matches
+     */
     public List<MatchedUser> findMutualMatchesForProject(int projectId) {
         ProjectEntity project = projectService.findProjectById(projectId);
         List<MatchedUser> mutualMatchedUsers = new ArrayList<>();
@@ -53,12 +56,12 @@ public class Matches {
         for (ProjectApproved userMatched : usersMatches) {
             UserEntity user = userMatched.getUser();
             List<UserApproved> userProjectsMatched = projectMatchService.getProjectsMatchedToUser(user);
-            for(UserApproved approvedProject : userProjectsMatched) {
+            for (UserApproved approvedProject : userProjectsMatched) {
                 if ((approvedProject.getProject().equals(project))) {
                     try {
-                        
+
                         mutualMatchedUsers.add(convertToMatchedUser(userMatched));
-                    }catch(ObjectNotFoundException ex){
+                    } catch (ObjectNotFoundException ex) {
 
                     }
                 }
@@ -68,31 +71,37 @@ public class Matches {
     }
 
     /**
-     * Check if a user is contained within a list of users.
+     * Check if a user is contained within a list of User matches
      *
-     * @param user
-     * @param matches
-     * @return
+     * @param user The user
+     * @param matches The matches
+     * @return Whether the User is contained within the list of matches
      */
     private boolean searchForMatchedUser(UserApproved user, List<UserApproved> matches) {
         return matches.contains(user);
     }
 
     /**
-     * Check if a project is contained within a list of projects
+     * Check if a project is contained within a list of project matches
      *
-     * @param project
-     * @param matches
-     * @return
+     * @param project The Project
+     * @param matches The matches
+     * @return Whether the project is contained within the list of matches
      */
     private boolean searchForMatchedProject(ProjectApproved project, List<ProjectApproved> matches) {
         return matches.contains(project);
     }
 
-    private MatchedUser convertToMatchedUser(ProjectApproved userMatched) {
-        User user = userService.convertEntityToUser(userMatched.getUser());
-        Project project = projectService.convertEntityToProject(userMatched.getProject());
-        RoleEntity role = userMatched.getRole();
+    /**
+     * Convert a Project Approval into a matched User
+     *
+     * @param projectApproval The project approval
+     * @return The matched User
+     */
+    private MatchedUser convertToMatchedUser(ProjectApproved projectApproval) {
+        User user = userService.convertEntityToUser(projectApproval.getUser());
+        Project project = projectService.convertEntityToProject(projectApproval.getProject());
+        RoleEntity role = projectApproval.getRole();
         return new MatchedUser(user, project, role);
     }
 
