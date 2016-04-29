@@ -48,6 +48,9 @@ public class User {
         this.location = user.getLocation();
     }
 
+    public User() {
+    }
+    
     public Integer getUserId() {
         return userId;
     }
