@@ -45,10 +45,7 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                                         swiper.addList("Qualifications", user.qualificationsList, function (qualification) {
                                             return qualification.subject + ": " + qualification.qualificationLevel.qualificationLevel;
                                         });
-                                        // load more data
-                                        loadNewData(roles, function (role, data) {
-                                            loadDone(role, data);
-                                        });
+
                                     }
                                 }
                             } else {
@@ -122,17 +119,25 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                             $('#content').append($pending);
                             $pending.fadeIn();
                         }
-                        function getMatchesForRole(roles) {
-                            if (roles.length > 0) {
-                                var firstRole = roles[0].role;
-                                return app.models.matches.getMatchesForRole(projectId, firstRole.roleId)
+                        function getMatchesForRole(roleData) {
+                            if (roleData.length > 0) {
+                                var newRoles = [];
+                                var firstRole = roleData[0].role;
+                                return app.models.matches.getMatchesForRole(firstRole.roleId, projectId)
                                         .then(function (data) {
+                                            if (roleData.length > 1) {
+                                                roleData.splice(0,1);
+                                                loadNewData(roleData, function (role, data) {
+                                                    loadDone(role, data);
+                                                });
+                                            }
                                             return $.Deferred().resolve(firstRole, data);
-                                            roles.shift();
                                         }).fail(function (err) {
                                     console.error(err);
 
                                 });
+
+
                             }
                             return null;
                         }
@@ -154,7 +159,7 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                                     }
                                     index++;
                                     if (index >= data.length) {
-                                        roleMatches.concat(data);
+                                        roleMatches = roleMatches.concat(data);
                                         return promise.resolve();
                                     }
 
@@ -167,9 +172,10 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         function loadNewData(roles, pushData) {
                             if (roles.length > 0) {
                                 roles.forEach(function (role) {
-                                    return app.models.matches.getMatchesForRole(projectId, role.roleId)
+                                    var roleInfo = role.role;
+                                    return app.models.matches.getMatchesForRole(roleInfo.roleId, projectId)
                                             .then(function (data) {
-                                                return pushData(role, data);
+                                                return pushData(roleInfo, data);
                                             }).fail(function (err) {
                                         console.error(err);
                                     });

@@ -31,7 +31,7 @@ require(['jquery', 'jquery.ui', 'js/app'], function ($, JQueryUI, app) {
                     }
                 }
             ]
-        }).text("Page Not Found.");
+        }).text("Error Loading Page.");
         $dialog.addClass("has-error");
     }
 
