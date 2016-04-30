@@ -17,7 +17,7 @@ define(['underscore', 'jquery', 'text!js/pages/project-profile/template/template
                             });
 
                         }
-                                               
+
                         function monthYearRange(start, end) {
                             var start = new Date(start),
                                     end = new Date(end);
@@ -29,7 +29,11 @@ define(['underscore', 'jquery', 'text!js/pages/project-profile/template/template
                             $projData.append('<div class="prof-detail">Estmated Project Timeline: ' + monthYearRange(start, end) + '</div>');
                         }
                         function show() {
-                            $.getJSON("/services/" + window.location.pathname)
+                            var urlParams = {roleInfo: "true", interestInfo: "true"},
+                            path = window.location.pathname,
+                                    splitPath = path.split("/"),
+                                    id = splitPath[splitPath.length - 1];
+                            return app.models.project.getProject(id, urlParams)
                                     .then(function (project) {
                                         $page = $(app.parseTemplate(Template, {
                                             projectsLink: app.models.project.getUserProjectsPath(app.currentUser.userId),
@@ -42,15 +46,13 @@ define(['underscore', 'jquery', 'text!js/pages/project-profile/template/template
 
                         }
                         function renderRole(role, profile) {
-                            profile.addList("Skills", role.skillsList, function (skill) {
-                                return skill.skill.name + ", " + skill.monthsOfExperience + " Months Experience.";
-                            });
+                            profile.addTitle("Role - " + role.role.name);
                             profile.addList("Required Qualifications", role.qualificationsList, function (qualification) {
                                 return qualification.subject + ": " + qualification.qualificationLevel.qualificationLevel;
                             });
 
                             profile.addList("Required Skills", role.skillsList, function (skill) {
-                                return skill.skill.name + ", " + skill.monthsOfExperience + " Months Experience.";
+                                return skill.skill.name;
                             });
                         }
                         function setupProfile(project) {
@@ -63,12 +65,11 @@ define(['underscore', 'jquery', 'text!js/pages/project-profile/template/template
                             profile.addList("Related Interests", project.interestsList, function (interest) {
                                 return interest.interest;
                             });
-                            roles.forEach(function (role) {
+                            roles. forEach(function (role) {
                                 renderRole(role, profile);
                             });
 
                             profile.attachTo($page.find('.project-data'));
-                            console.log(project);
                         }
                         return {
                             show: show

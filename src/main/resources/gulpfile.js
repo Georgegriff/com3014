@@ -114,9 +114,9 @@ gulp.task('watch', function () {
         return gulp.src("app/img/**/*.*")
                 .pipe(gulp.dest(directories.TARGET_DIR + "public/img"));
     });
-    gulp.watch('templates/*.htm').on('change', function () {
+    gulp.watch('templates/**').on('change', function () {
         console.log("Building Templates...");
-        return gulp.src("templates/*.htm")
+        return gulp.src("templates/**")
                 .pipe(gulp.dest(directories.TARGET_DIR + "templates"));
 
     });

@@ -17,6 +17,9 @@ define(['underscore', 'jquery', 'text!js/plugins/profile/template/template.htm']
                         function attachTo($parent) {
                             $parent.prepend($profile);
                         }
+                         function addTitle(title){
+                            $profile.find('.profile-page-info').append("<h2>" + title + "</h2>");
+                        }
                         function addList(listTitle, items, itemHandler) {
                             var $pContainer = $profile.find('.profile-page-info'),
                                     $plist = $('<div class="profile-list-cont">'),
@@ -44,9 +47,11 @@ define(['underscore', 'jquery', 'text!js/plugins/profile/template/template.htm']
                             $desc.html(text);
 
                         }
+                       
                         return {
                             attachTo: attachTo,
                             addDescription: addDescription,
+                            addTitle : addTitle,
                             addList: addList
 
                         };

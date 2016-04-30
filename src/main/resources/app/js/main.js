@@ -10,20 +10,49 @@ require.config({
     }
 
 });
-require.onError = function (err) {
-    if (err.requireType === 'timeout') {
-        console.error(err);
-    } 
-    else {
-       console.error(err);
-    }   
-};    
-require(['jquery', 'js/app'], function ($, app) {
+
+require(['jquery', 'jquery.ui', 'js/app'], function ($, JQueryUI, app) {
     "use strict";
+
+    function errorDialog() {
+        var $cont = $('<div id="error-dialog">');
+        $('body').prepend($cont);
+        var $dialog = $("#error-dialog");
+        $dialog.dialog({
+            dialogClass: "no-close",
+            buttons: [
+                {
+                    text: "OK",
+                    click: function () {
+                        $(this).dialog("close");
+                        $(this).removeClass("has-error");
+                        $('body').remove($cont);
+                    }
+                }
+            ]
+        }).text("An Error Has Occurred.");
+        $dialog.addClass("has-error");
+    }
 
     $(document).ready(function () {
         app.init();
+
+        if ($('.has-error').length) {
+            errorDialog();
+        }
     });
+    window.onerror = function () {
+        errorDialog();
+    };
+    require.onError = function (err) {
+        if (err.requireType === 'timeout') {
+            console.error(err);
+        } else {
+            console.error(err);
+        }
+        errorDialog();
+
+    };
 });
 
 

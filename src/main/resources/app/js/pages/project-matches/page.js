@@ -25,9 +25,7 @@ define(['underscore', 'jquery', 'text!js/pages/project-matches/template/template
                            getProject().then(getProjectId)
                                    .then(app.models.matches.getProjectMatches)
                                    .then(function (data) {
-                                       if (data) {
-                                           console.log(data);
-                                 
+                                       if (data) {                                 
                                            $page = $(app.parseTemplate(Template, {
                                                projectsLink: app.models.project.getUserProjectsPath(app.currentUser.userId),
                                                 matches: data || [],

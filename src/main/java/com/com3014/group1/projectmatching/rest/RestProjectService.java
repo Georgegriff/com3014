@@ -6,7 +6,9 @@ import com.com3014.group1.projectmatching.dto.User;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,8 +38,13 @@ public class RestProjectService {
      * @return The Project
      */
     @RequestMapping(value = "/project/{id}", params = {"roleInfo", "interestInfo"}, headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
-    public Project getProject(@PathVariable String id, HttpSession session, @RequestParam("roleInfo") boolean roles, @RequestParam("interestInfo") boolean interest) {
-        return projectService.getProject(Integer.parseInt(id), getCurrentUser(session), roles, interest);
+    public ResponseEntity<Project> getProject(@PathVariable String id, HttpSession session, @RequestParam("roleInfo") boolean roles, @RequestParam("interestInfo") boolean interest) {
+        Project project = projectService.getProject(Integer.parseInt(id), getCurrentUser(session), roles, interest);
+        if(project != null){
+        return new ResponseEntity<Project>(project,HttpStatus.OK);
+        }else {
+         return new ResponseEntity<Project>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**
@@ -48,8 +55,13 @@ public class RestProjectService {
      * @return The Project
      */
     @RequestMapping(value = "/project/{id}", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
-    public Project getProject(@PathVariable String id, HttpSession session) {
-        return projectService.getProject(Integer.parseInt(id), getCurrentUser(session), true, true);
+    public ResponseEntity<Project> getProject(@PathVariable String id, HttpSession session) {
+        Project project = projectService.getProject(Integer.parseInt(id), getCurrentUser(session), true, true);
+        if(project != null){
+        return new ResponseEntity<Project>(project,HttpStatus.OK);
+        }else {
+         return new ResponseEntity<Project>(HttpStatus.FORBIDDEN);
+        }
     }
 
     /**
