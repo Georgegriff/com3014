@@ -38,12 +38,12 @@ public class RestProjectService {
      * @return The Project
      */
     @RequestMapping(value = "/project/{id}", params = {"roleInfo", "interestInfo"}, headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Project> getProject(@PathVariable String id, HttpSession session, @RequestParam("roleInfo") boolean roles, @RequestParam("interestInfo") boolean interest) {
+    public ResponseEntity<Object> getProject(@PathVariable String id, HttpSession session, @RequestParam("roleInfo") boolean roles, @RequestParam("interestInfo") boolean interest) {
         Project project = projectService.getProject(Integer.parseInt(id), getCurrentUser(session), roles, interest);
-        if(project != null){
-        return new ResponseEntity<Project>(project,HttpStatus.OK);
-        }else {
-         return new ResponseEntity<Project>(HttpStatus.BAD_REQUEST);
+        if (project != null) {
+            return new ResponseEntity<Object>(project, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Object>("Insufficient Permissions.", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -55,12 +55,12 @@ public class RestProjectService {
      * @return The Project
      */
     @RequestMapping(value = "/project/{id}", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Project> getProject(@PathVariable String id, HttpSession session) {
+    public ResponseEntity<Object> getProject(@PathVariable String id, HttpSession session) {
         Project project = projectService.getProject(Integer.parseInt(id), getCurrentUser(session), true, true);
-        if(project != null){
-        return new ResponseEntity<Project>(project,HttpStatus.OK);
-        }else {
-         return new ResponseEntity<Project>(HttpStatus.FORBIDDEN);
+        if (project != null) {
+            return new ResponseEntity<Object>(project, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Object>("Insufficient Permissions.", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -71,8 +71,13 @@ public class RestProjectService {
      * @return The list of Projects that the User owns
      */
     @RequestMapping(value = "/user/projects", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
-    public List<Project> getProjectsUserOwns(HttpSession session) {
-        return projectService.getProjectsUserOwns(getCurrentUser(session));
+    public ResponseEntity<Object> getProjectsUserOwns(HttpSession session) {
+        List<Project> projects = projectService.getProjectsUserOwns(getCurrentUser(session));
+        if (projects != null) {
+            return new ResponseEntity<Object>(projects, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Object>("Could Not Retrieve Projects.", HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**

@@ -4,7 +4,7 @@ define(['jquery'],
             "use strict";
             var csrf = $("meta[name='_csrf']").attr("content");
 
-            function errorDialog() {
+            function errorDialog(message) {
                 var $cont = $('<div id="error-dialog">');
                 $('body').prepend($cont);
                 var $dialog = $("#error-dialog");
@@ -16,17 +16,21 @@ define(['jquery'],
                             click: function () {
                                 $(this).dialog("close");
                                 $(this).removeClass("has-error");
-                                $('body').remove($cont);
+                                $(this).remove();
                             }
                         }
                     ]
-                }).text("An Error Has Occurred.");
+                }).text(message || "An Error Has Occurred.");
                 $dialog.addClass("has-error");
             }
             $.ajaxSetup({
                 error: function (x, status, error) {
                     if (x.status.toString().charAt(0) === "4" || x.status.toString().charAt(0) === "5") {
-                        errorDialog();
+                        if (x.status === 404) {
+                            errorDialog("Page Not Found.");
+                        } else {
+                            errorDialog(x.responseText);
+                        }
                     }
                 }
             });

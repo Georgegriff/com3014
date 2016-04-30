@@ -13,6 +13,7 @@ import com.com3014.group1.projectmatching.model.UserEntity;
 import com.com3014.group1.projectmatching.model.UserInterest;
 import com.com3014.group1.projectmatching.model.UserQualification;
 import com.com3014.group1.projectmatching.model.UserSkill;
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

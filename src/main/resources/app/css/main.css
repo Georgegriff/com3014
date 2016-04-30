@@ -711,6 +711,7 @@ ul.profile-list {
 .match-image img {
     height:110%;
 }
+/* Form Stuff */
 .site-form form, .form-fields {
     display: flex;
     align-items: center;
@@ -726,7 +727,7 @@ ul.profile-list {
 .form-description {
     text-align: center;   
 }
-.form-error {
+.form-error, .detailed-error {
     color:red;
 }
 .addition-field {
@@ -735,6 +736,9 @@ ul.profile-list {
     text-align:left;
     justify-content: center;
 
+}
+#add-inter .form-field {
+    margin-left: 50px;
 }
 .form-field {
     display: inline-block;

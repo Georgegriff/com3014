@@ -7,7 +7,9 @@ import com.com3014.group1.projectmatching.dto.User;
 import com.com3014.group1.projectmatching.model.UserEntity;
 import com.com3014.group1.projectmatchmaking.helpers.GoogleGeoCode;
 import java.util.Date;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +29,7 @@ public class RestRegisterService {
 
     @Autowired
     private UserService userService;
-       
+
     @Autowired
     private PasswordService passwordService;
 
@@ -38,9 +40,10 @@ public class RestRegisterService {
      * @return Whether the User was registered
      */
     @RequestMapping(method = RequestMethod.POST, value = "/register", headers = "Accept=" + MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity registerUser(@RequestBody RegisterUser registerUser) {
+    public ResponseEntity<Object> registerUser(@RequestBody RegisterUser registerUser) {
         User user = registerUser.getUser();
         user.setLastLogin(new Date());
+        String errorMessage = "Provided Information is Invalid";
         user.setName(user.getForename() + ' ' + user.getSurname());
         try {
             double[] latlon = GoogleGeoCode.getLatLngFromPostCode(user.getLocation().getStringLocation());
@@ -55,12 +58,18 @@ public class RestRegisterService {
         UserEntity userEntity;
         try {
             userEntity = userService.registerUser(user);
-        } catch (Exception e) {
-            userEntity = null;                    
+        } catch (DataIntegrityViolationException e) {
+            userEntity = null;
+            ConstraintViolationException cause = (ConstraintViolationException) e.getCause();
+            if (cause != null && cause.getConstraintName().equals("email")) {
+                 errorMessage = "Email already in use.";
+            } else if (cause != null && cause.getConstraintName().equals("username")) {
+                 errorMessage = "Username unavailable.";
+            }
         }
-        
+
         if (userEntity == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Object>(errorMessage, HttpStatus.BAD_REQUEST);
         }
         // then save user password password
         this.passwordService.addPassword(userEntity, registerUser.getPassword());
