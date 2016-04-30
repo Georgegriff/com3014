@@ -178,6 +178,8 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         }
                         function render() {
                             var swipers = app.plugins.swipers;
+                            $pending = swipers.pending();
+
                             if (swipers) {
                                 swipers.attachTo($page);
                                 showLoading($pending);

@@ -1,6 +1,7 @@
 /* global define: true,require:true */
 define(['underscore',
     'jquery',
+    'jquery.ui',
     'js/components/banner/banner',
     'js/components/core-container/container',
     "js/routing",
@@ -8,7 +9,7 @@ define(['underscore',
     "js/models/user",
     "js/models/project",
     "js/models/matches"],
-        function (_, $, banner, container, Routing, PluginLoader, UserModel, ProjectModel, MatchesModel) {
+        function (_, $, JQueryUI, banner, container, Routing, PluginLoader, UserModel, ProjectModel, MatchesModel) {
             "use strict";
             function App() {
                 var self = this,
@@ -29,14 +30,14 @@ define(['underscore',
                 };
                 App.prototype.initialiseUser = function initUser() {
                     //return self.models.user.getCurrentUser().then(function (user) {
-                      //  self.currentUser = user;
+                    //  self.currentUser = user;
                     //});
                     return self.models.user.getUser().then(function (user) {
                         self.currentUser = user;
                     });
 
                 };
-                App.prototype.linkUserProfile = function linkUserProfile(){
+                App.prototype.linkUserProfile = function linkUserProfile() {
                     //var uri = self.models.user.getProfile(self.currentUser.userId);
                     var uri = self.models.user.getProfile();
                     $('#profile-icon').find('a').prop("href", uri);
@@ -107,6 +108,22 @@ define(['underscore',
                 };
                 App.prototype.parseTemplate = function parseTemplate(html, attributes) {
                     return _.template(html)(attributes || {});
+
+                };
+
+                App.prototype.setHelpTips = function setHelpTips(html) {
+                    var $help = $("#help-tips");
+                    $help.attr("title", html);
+                            $help.tooltip({
+                        content : function(){
+                            return html;
+                        },
+                        show: {
+                            effect: "slideDown",
+                            delay: 100,
+                            duration  : 300
+                        }
+                    });
 
                 };
 

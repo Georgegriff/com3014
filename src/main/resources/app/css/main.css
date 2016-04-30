@@ -36,12 +36,26 @@ ul {
     width:100%;
     max-height:100%;
     flex-direction: row;
+    align-items: center;
+}
+.help {
+    font-size:50px;
+    display:flex;
+    color:white;
+    flex:1;
+    cursor: pointer;
+}
+.help:hover {
+    color:#5A6EC2;
 }
 .site-logo {
     color: white;
     font-size:150%;
     font-weight: 600;
     margin-left: 2%;
+}
+.site-logo a:hover {
+    color: #5A6EC2;
 }
 .profile-icon {
     z-index:100;
@@ -388,7 +402,12 @@ ul {
 }
 /** Mobile */
 @media screen and (max-width: 894px)and (orientation : portrait) {
-    html 
+    .site-logo a{
+     font-size:20px;   
+    }
+    .flex-left {
+        flex:1.5;
+    }
     .profile {
         text-align: center;
         display: flex;
@@ -817,4 +836,9 @@ ul.profile-list {
 
 .ui-button, .ui-button:hover, .ui-button:active {
     background:white !important;
+}
+
+.help-item {
+    margin-bottom:5px;
+    color: #5A6EC2;
 }
