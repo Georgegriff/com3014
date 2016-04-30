@@ -1,8 +1,10 @@
 package com.com3014.group1.projectmatching.rest;
 
+import com.com3014.group1.projectmatching.core.services.PasswordService;
 import com.com3014.group1.projectmatching.core.services.UserService;
 import com.com3014.group1.projectmatching.dto.RegisterUser;
 import com.com3014.group1.projectmatching.dto.User;
+import com.com3014.group1.projectmatching.model.UserEntity;
 import com.com3014.group1.projectmatchmaking.helpers.GoogleGeoCode;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class RestRegisterService {
 
     @Autowired
     private UserService userService;
+       
+    @Autowired
+    private PasswordService passwordService;
 
     /**
      * Register a User
@@ -44,14 +49,21 @@ public class RestRegisterService {
                 user.getLocation().setLongitude(latlon[1]);
             }
         } catch (NumberFormatException ex) {
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        if (!userService.registerUser(user)) {
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+        UserEntity userEntity;
+        try {
+            userEntity = userService.registerUser(user);
+        } catch (Exception e) {
+            userEntity = null;                    
         }
-        // then save password
-
-        return new ResponseEntity<String>(HttpStatus.OK);
+        
+        if (userEntity == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        // then save user password password
+        this.passwordService.addPassword(userEntity, registerUser.getPassword());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

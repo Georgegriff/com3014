@@ -1,11 +1,13 @@
 package com.com3014.group1.projectmatching.model;
 
+import java.io.Serializable;
+
 /**
  * @author Sam Waters
  *
  * A location defined by latitude and longitude
  */
-public class Location {
+public class Location implements Serializable {
 
     private double latitude;
     private double longitude;

@@ -1,10 +1,14 @@
 package com.com3014.group1.projectmatching.core.services;
 
+import com.com3014.group1.projectmatching.dao.QualificationLevelDAO;
+import com.com3014.group1.projectmatching.dao.SkillDAO;
 import com.com3014.group1.projectmatching.dao.UserDAO;
 import com.com3014.group1.projectmatching.dao.UserInterestDAO;
 import com.com3014.group1.projectmatching.dao.UserQualificationDAO;
 import com.com3014.group1.projectmatching.dao.UserSkillDAO;
 import com.com3014.group1.projectmatching.dto.User;
+import com.com3014.group1.projectmatching.model.QualificationLevel;
+import com.com3014.group1.projectmatching.model.Skill;
 import com.com3014.group1.projectmatching.model.UserEntity;
 import com.com3014.group1.projectmatching.model.UserInterest;
 import com.com3014.group1.projectmatching.model.UserQualification;
@@ -40,7 +44,13 @@ public class UserService {
     private UserInterestDAO userInterestDAO;
 
     @Autowired
-    ProjectMatchService projectMatchService;
+    private ProjectMatchService projectMatchService;
+    
+    @Autowired
+    private SkillDAO skillDAO;
+    
+    @Autowired
+    private QualificationLevelDAO qualificationLevelDAO;
 
     /**
      * Get the User from the ID
@@ -130,32 +140,37 @@ public class UserService {
      * @return Whether the User was registered
      */
     @Transactional
-    public boolean registerUser(User user) {
+    public UserEntity registerUser(User user) {
         if (!validUser(user)) {
-            return false;
+            return null;
         }
-
+        
         // Save the top level user entity
         UserEntity userEntity = convertUserToEntity(user);
         userDAO.save(userEntity);
-        UserEntity newEntity = userDAO.findByUsername(user.getUsername());
+        
         // Save user interest
         for (UserInterest interest : user.getInterestsList()) {
-            interest.setUser(newEntity);
+            interest.setUser(userEntity);
         }
         userInterestDAO.save(user.getInterestsList());
         // Save user skill
         for (UserSkill skill : user.getSkillsList()) {
-            skill.setUser(newEntity);
+            skill.setUser(userEntity);
+            // Get the persisted entity from the db.
+            Skill skillEntity = this.skillDAO.findOne(skill.getSkill().getSkillId());
+            skill.setSkill(skillEntity);
         }
         userSkillDAO.save(user.getSkillsList());
         // Save user qualifications
         for (UserQualification qual : user.getQualificationsList()) {
-            qual.setUser(newEntity);
+            qual.setUser(userEntity);
+            QualificationLevel qualLevel = this.qualificationLevelDAO.findOne(qual.getQualificationLevel().getQualificationId());
+            qual.setQualificationLevel(qualLevel);
         }
         userQualDAO.save(user.getQualificationsList());
-
-        return true;
+        
+        return userEntity;
     }
 
     /**

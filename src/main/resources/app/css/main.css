@@ -810,3 +810,7 @@ ul.profile-list {
     outline: 0 none;
 
 }
+
+.ui-button, .ui-button:hover, .ui-button:active {
+    background:white !important;
+}

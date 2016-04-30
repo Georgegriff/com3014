@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * A service to provide password functionality to the REST Service
@@ -47,6 +48,7 @@ public class PasswordService {
         if (userEntity != null) {
             try {
                 // Find the user's actual password
+                System.out.println("ID: " + userEntity.getUserId());
                 Password userPassword = passwordDAO.findByUserId(userEntity.getUserId());
                 // Hash the submitted password
                 String submittedPasswordHash = hashPassword(submittedPassword);
@@ -98,29 +100,27 @@ public class PasswordService {
     /**
      * Add a password for a user
      *
-     * @param username The user to add the password to
+     * @param entity The user entity to add the password to
      * @param password The desired password
      * @throws IllegalArgumentException Exception thrown if the new password is
      * invalid
      */
-    public void addPassword(String username, String password) throws IllegalArgumentException {
+    @Transactional
+    public void addPassword(UserEntity entity, String password) throws IllegalArgumentException {
         if (!validPassword(password)) {
             // Maybe change to a different type of exception
             throw new IllegalArgumentException("New password is invalid") {
             };
         }
-        UserEntity userEntity = userDAO.findByUsername(username);
-        if (userEntity != null) {
-            try {
-                Password userPassword = passwordDAO.findByUserId(userEntity.getUserId());
-                userPassword.setPassword(hashPassword(password));
-                passwordDAO.save(userPassword);
-            } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
-                Logger.getLogger(PasswordService.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            throw new AuthenticationException("Unable to authenticate") {
-            };
+        
+        try {
+            Password userPassword = new Password();
+            userPassword.setUserId(entity.getUserId());
+            userPassword.setPassword(hashPassword(password));
+            passwordDAO.save(userPassword);
+            
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+            Logger.getLogger(PasswordService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -141,7 +141,7 @@ public class PasswordService {
     }
 
     /**
-     * Has the password
+     * Hash the password
      *
      * @param password The password to hash
      * @return The hashed password

@@ -3,8 +3,11 @@ package com.com3014.group1.projectmatching.model;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * Database representation of a Password
@@ -14,11 +17,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "passwords")
 public class Password implements Serializable {
-
+    
     @Id
     @Column(name = "user_id")
     private Integer userId;
-
+    
     @Column(name = "password")
     private String password;
 
@@ -33,7 +36,12 @@ public class Password implements Serializable {
 
     public Password() {
     }
-
+    
+    public Password(Integer userId, String password) {
+        this.userId = userId;
+        this.password = password;
+    }
+    
     public Integer getUserId() {
         return userId;
     }

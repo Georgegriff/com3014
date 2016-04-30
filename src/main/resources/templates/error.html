@@ -1,23 +1,49 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
     <head>   
-        <title>Error</title>
+        <title>ProMatch </title>
         <base href="/"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> <!--320-->
-
+        <meta name="application-name" content="ProMatch"/>
+        <meta name="description" content=""/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+        <meta name="_csrf" th:content="${_csrf.token}"/>
+        <script src="js/vendor/require.js" data-main="js/main.js"></script>
+        <link rel="stylesheet" href="css/vendor/normalize.css"/>
+        <link rel="stylesheet" href="css/vendor/font-awesome.min.css"/>
+        <link rel="stylesheet" href="css/vendor/jquery-ui.css"/>
+        <link rel="stylesheet" href="css/main.css"/>
 
 
     </head>
     <body>
-        
-           <div class="error">
-                            <h1>An Error Occurred</h1>
-                        </div>
-                <article id="container"><section id="content">
-                     
-            </section></article>
-  
+        <div class="has-error"></div>
+        <header id="site-header">
+            <ul id="header-cont">
+                <li class="flex-left flex-center-row"><span class="site-logo"><a href="/">ProMatch<i class="rotTfive fa fa-lightbulb-o"></i></a></span></li>
+                <li class="flex-right profile-icon">
+                    <div id="profile-icon" class="profile-wrapper">
+                        <a><img  class="profile-img" src="img/default-profile.svg" alt="User Profile" /></a>
+                    </div>
+                </li>
+                <li id="header-menu-btn" class="flex-center-row">
+                    <div id="hamburger">
+                        <i class="fa fa-bars"></i>
+                    </div>
+                </li>
+            </ul>
+        </header>
+        <article id="container"><section id="content"></section></article>
+        <footer>
+            <div style="display:none;" id="logout-form">
+                <form th:action="@{/logout}" method="post">
+                    <input class="core-button" type="submit" value="Sign Out"/>
+                </form>
+            </div>
+        </footer>
 
     </body>
 </html>

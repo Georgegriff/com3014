@@ -109,7 +109,10 @@ define(['underscore', 'jquery', 'js/plugins/swipers/swiper', 'text!js/plugins/sw
                     onAccept: onAccept,
                     onReject: onReject,
                     pending: pending,
-                    hide: hide
+                    hide: hide,
+                    reset : function(){
+                        self.swipers = [];
+                    }
                 };
             }
 

@@ -30,7 +30,7 @@ require(['underscore', 'jquery', 'jquery.ui', 'js/plugins/form/plugin'], functio
             listenToInput($username);
             listenToInput($password);
             registerButton();
-              $loginPage.removeClass("register-pg");
+            $loginPage.removeClass("register-pg");
         }
 
         function hasError() {
@@ -232,7 +232,7 @@ require(['underscore', 'jquery', 'jquery.ui', 'js/plugins/form/plugin'], functio
             $.ajax({
                 type: "POST",
                 headers: {
-                    "X-CSRF-TOKEN": $("meta[name='_csrf']").attr("content"),
+                    "X-CSRF-TOKEN": $("meta[name='_csrf']").attr("content")
                 },
                 url: "/register",
                 contentType: "application/json; charset=utf-8",

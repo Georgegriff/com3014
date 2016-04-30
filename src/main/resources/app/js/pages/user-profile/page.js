@@ -31,7 +31,6 @@ define(['underscore', 'jquery', 'text!js/pages/user-profile/template/template.ht
                             });
 
                             profile.attachTo($page);
-                            console.log(user);
                         }
 
                         function show() {
