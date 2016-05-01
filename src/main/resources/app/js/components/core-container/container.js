@@ -1,4 +1,9 @@
 /* global define: true */
+
+/**
+ * 
+ * JavaScript model for the Site Container.
+ */
 define(['jquery'],
         function ($) {
             "use strict";

@@ -18,7 +18,10 @@ require.onError = function (err) {
     }
 };
 require(['underscore', 'jquery', 'jquery.ui', 'js/plugins/form/plugin'], function (_, $, JQueryUI, SiteForms) {
-
+    /**
+     * 
+     * JavaScript module for LoginPage
+     */
     function LoginPage() {
 
         var $loginPage, $username, $password, $button;
@@ -69,13 +72,18 @@ require(['underscore', 'jquery', 'jquery.ui', 'js/plugins/form/plugin'], functio
 
         return {
             render: render,
+            show : show,
             hasError: hasError,
             shake: shake,
             hide: hide
         };
     }
 
-
+    /**
+     * 
+     * JavaScript module for Registration
+     * @param loginPage
+     */
     function RegisterPage(loginPage) {
         var skills = [],
                 qualifications = [],
@@ -99,13 +107,22 @@ require(['underscore', 'jquery', 'jquery.ui', 'js/plugins/form/plugin'], functio
                         return value && value !== "";
                     }}),
                 $email = form.addField({type: "email", label: "Email", validator: function (value) {
-                        return value && value !== "";
+                        var isValid = value && value !== "" && 
+                                value.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+                        if(!isValid){
+                             form.showDetailedError("Email is Invalid.");          
+                        }
+                        return isValid;
                     }}),
                 $username = form.addField({label: "Username", validator: function (value) {
                         return value && value !== "";
                     }}),
                 $password = form.addField({type: "password", label: "Password", validator: function (value) {
-                        return value && value !== "";
+                        var isValid = value && value !== "" && value.length >= 5 && value.match(/[0-9]{1,}/);
+                        if(!isValid){
+                           form.showDetailedError("Passwords must Be 5 or more characters and contain a number.");         
+                        }
+                        return isValid;
                     }}),
                 $location = form.addField({label: "Post Code", validator: function (value) {
                         return value && value !== "";
@@ -236,12 +253,12 @@ require(['underscore', 'jquery', 'jquery.ui', 'js/plugins/form/plugin'], functio
                 },
                 url: "/register",
                 contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(getRegistrationData(fields)),
-                dataType: "json"
+                data: JSON.stringify(getRegistrationData(fields))
             }).success(function () {
                 showLogin();
             }).fail(function (e) {
-                form.showError("Validation Error");
+                form.showDetailedError(e.responseText);
+                form.showError("Validation Error");               
             });
         }
 

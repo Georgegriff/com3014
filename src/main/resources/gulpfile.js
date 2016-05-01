@@ -67,6 +67,10 @@ gulp.task('copy-css', function () {
             }))
             .pipe(gulp.dest('public/css'));
 });
+gulp.task('copy-css-images', function () {
+    return gulp.src("app/css/**/*.png")
+            .pipe(gulp.dest('public/css'));
+});
 gulp.task('copy-img', function () {
     return gulp.src("app/img/**/*.*")
             .pipe(gulp.dest(directories.SRC_DIR + "public/img"));
@@ -82,6 +86,7 @@ gulp.task('build', [
     'build-login-scripts',
     'copy-css',
     'copy-img',
+    'copy-css-images',
     'copy-templates',
     'copyjson',
     'copy-pages',

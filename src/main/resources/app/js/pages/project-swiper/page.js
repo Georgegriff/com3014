@@ -1,4 +1,7 @@
 /* global define: true, document: true */
+/**
+ * User Swiper Page
+ */
 define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm'],
         function (_, $, Template) {
             "use strict";
@@ -22,7 +25,6 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                             if (roleMatches.length) {
                                 app.plugins.swipers.show();
                                 if (swiper) {
-                                    //TODO:: check if roleMatches array is < threshold if so repopulate;
                                     var user = roleMatches[swiper.getPosition()],
                                             role = null;
                                     if (user) {
@@ -45,10 +47,7 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                                         swiper.addList("Qualifications", user.qualificationsList, function (qualification) {
                                             return qualification.subject + ": " + qualification.qualificationLevel.qualificationLevel;
                                         });
-                                        // load more data
-                                        loadNewData(roles, function (role, data) {
-                                            loadDone(role, data);
-                                        });
+
                                     }
                                 }
                             } else {
@@ -72,13 +71,6 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
 
                                 swipes++;
                                 checkSwipeThreshold();
-                                //Not sure why the below was added only here but it was causing strange
-                                //matching behaviour so I have removed it
-                                /*
-                                 app.models.matches.addToUsersAccepted(userId)
-                                 .then(function(returnData) {                  
-                                 });
-                                 */
                                 // remove current entry from array
                                 roleMatches.shift();
                             };
@@ -122,17 +114,24 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                             $('#content').append($pending);
                             $pending.fadeIn();
                         }
-                        function getMatchesForRole(roles) {
-                            if (roles.length > 0) {
-                                var firstRole = roles[0].role;
-                                return app.models.matches.getMatchesForRole(projectId, firstRole.roleId)
+                        function getMatchesForRole(roleData) {
+                            if (roleData.length > 0) {
+                                var firstRole = roleData[0].role;
+                                return app.models.matches.getMatchesForRole(firstRole.roleId, projectId)
                                         .then(function (data) {
+                                            if (roleData.length > 1) {
+                                                roleData.splice(0, 1);
+                                                loadNewData(roleData, function (role, data) {
+                                                    loadDone(role, data);
+                                                });
+                                            }
                                             return $.Deferred().resolve(firstRole, data);
-                                            roles.shift();
                                         }).fail(function (err) {
                                     console.error(err);
 
                                 });
+
+
                             }
                             return null;
                         }
@@ -154,7 +153,7 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                                     }
                                     index++;
                                     if (index >= data.length) {
-                                        roleMatches.concat(data);
+                                        roleMatches = roleMatches.concat(data);
                                         return promise.resolve();
                                     }
 
@@ -167,9 +166,10 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         function loadNewData(roles, pushData) {
                             if (roles.length > 0) {
                                 roles.forEach(function (role) {
-                                    return app.models.matches.getMatchesForRole(projectId, role.roleId)
+                                    var roleInfo = role.role;
+                                    return app.models.matches.getMatchesForRole(roleInfo.roleId, projectId)
                                             .then(function (data) {
-                                                return pushData(role, data);
+                                                return pushData(roleInfo, data);
                                             }).fail(function (err) {
                                         console.error(err);
                                     });
@@ -178,6 +178,8 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         }
                         function render() {
                             var swipers = app.plugins.swipers;
+                            $pending = swipers.pending();
+
                             if (swipers) {
                                 swipers.attachTo($page);
                                 showLoading($pending);
@@ -187,6 +189,7 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                                         .then(loadDone)
                                         .then(function () {
                                             hidePending(function () {
+                                                app.container.showContent($page);
                                                 swipers.onDataLoad(onDataLoad);
                                                 swipers.showSwipers();
                                             });
@@ -198,14 +201,11 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                                             });
 
                                         });
-
-                                //TODO populate data for remaning roles
                             }
                         }
 
                         function show() {
                             app.reloadSwipers();
-                            app.container.showContent($page);
                             render();
                         }
 

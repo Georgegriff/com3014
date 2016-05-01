@@ -68,7 +68,6 @@ public class UserService {
             user = convertEntityToUser(userEntity);
         } catch (ObjectNotFoundException onf) {
             user = null;
-            onf.printStackTrace();
         }
         return user;
     }
@@ -258,7 +257,7 @@ public class UserService {
 
         return entity;
     }
-
+    
     /**
      * Convert a list of User Entities to a list of Users
      *
@@ -278,7 +277,7 @@ public class UserService {
         }
         return users;
     }
-
+    
     /**
      * Find a User by it's ID
      *

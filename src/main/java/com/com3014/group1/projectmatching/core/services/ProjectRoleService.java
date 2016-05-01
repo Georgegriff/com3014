@@ -1,7 +1,6 @@
 package com.com3014.group1.projectmatching.core.services;
 
 import com.com3014.group1.projectmatching.dao.ProjectRoleDAO;
-import com.com3014.group1.projectmatching.dao.RoleDAO;
 import com.com3014.group1.projectmatching.dao.RoleQualificationDAO;
 import com.com3014.group1.projectmatching.dao.RoleSkillDAO;
 import com.com3014.group1.projectmatching.dto.Project;
@@ -26,9 +25,6 @@ public class ProjectRoleService {
 
     @Autowired
     private ProjectRoleDAO projectRoleDAO;
-
-    @Autowired
-    private RoleDAO roleDAO;
 
     @Autowired
     private RoleSkillDAO roleSkillDAO;
@@ -70,7 +66,7 @@ public class ProjectRoleService {
             entity = new ProjectRoleEntity();
         }
 
-        ProjectEntity projectEntity = projectService.convertProjectToEntity(projectRole.getProject());
+        ProjectEntity projectEntity = projectService.findProjectById(projectRole.getProject().getProjectId());
         entity.setProject(projectEntity);
         entity.setRole(projectRole.getRole());
 

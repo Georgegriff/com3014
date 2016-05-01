@@ -26,11 +26,12 @@ require(['jquery', 'jquery.ui', 'js/app'], function ($, JQueryUI, app) {
                     click: function () {
                         $(this).dialog("close");
                         $(this).removeClass("has-error");
-                        $('body').remove($cont);
+                        $(this).remove();
+
                     }
                 }
             ]
-        }).text("An Error Has Occurred.");
+        }).text("Error Loading Page.");
         $dialog.addClass("has-error");
     }
 
@@ -41,9 +42,6 @@ require(['jquery', 'jquery.ui', 'js/app'], function ($, JQueryUI, app) {
             errorDialog();
         }
     });
-    window.onerror = function () {
-        errorDialog();
-    };
     require.onError = function (err) {
         if (err.requireType === 'timeout') {
             console.error(err);

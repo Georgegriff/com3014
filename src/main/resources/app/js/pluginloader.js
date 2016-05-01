@@ -7,6 +7,11 @@ define([
     'js/plugins/form/plugin'
 ], function (SideMenu, Tile, Swipers, Profile, SiteForm) {
     "use strict";
+    /**
+     * PluginLoader module
+     * for loading pluggable content
+     * @param {type} app
+     */
     function PluginLoader(app) {
         app.plugins = {};
         function loadPlugins() {

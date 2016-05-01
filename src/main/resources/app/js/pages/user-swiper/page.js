@@ -1,4 +1,7 @@
 /* global define: true, document: true */
+/**
+ * User Swiper Page
+ */
 define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm'],
         function (_, $, Template) {
             "use strict";
@@ -8,21 +11,18 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         var $page = $(app.parseTemplate(Template)),
                                 $pending,
                                 roleMatches = [],
-                                project = {},
-                                roles = [],
                                 swipes = 0,
                                 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                        
+
                         // Triggers a save if the use navigates away from the application
-                        $(window).bind('unload', function() {
+                        $(window).bind('unload', function () {
                             app.models.matches.saveSwipedProjects(app.currentUser.userId);
                         });
-                                               
+
                         function onDataLoad(swiper) {
                             if (roleMatches.length) {
                                 app.plugins.swipers.show();
                                 if (swiper) {
-                                    //TODO:: check if roleMatches array is < threshold if so repopulate;
                                     var project = roleMatches[swiper.getPosition()],
                                             projectRole = null,
                                             role = null;
@@ -66,12 +66,12 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
 
                         function onAccept(projectId, roleId) {
                             return function () {
-                                 // save to accepted array
+                                // save to accepted array
                                 var obj = new Object();
                                 obj.project = projectId;
                                 obj.role = roleId;
                                 app.models.matches.addToProjectsAccepted(obj);
-                                
+
                                 swipes++;
                                 checkSwipeThreshold();
                                 // remove current entry from array
@@ -80,12 +80,12 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         }
                         function onReject(projectId, roleId) {
                             return function () {
-                                 // save to rejected array
+                                // save to rejected array
                                 var obj = new Object();
                                 obj.project = projectId;
                                 obj.role = roleId;
                                 app.models.matches.addToProjectsRejected(obj);
-                                
+
                                 swipes++;
                                 checkSwipeThreshold();
                                 // remove current entry from array
@@ -93,7 +93,7 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                             };
                         }
                         function checkSwipeThreshold() {
-                            if(swipes > 5) {
+                            if (swipes > 5) {
                                 app.models.matches.saveSwipedProjects(app.currentUser.userId);
                                 swipes = 0;
                             }
@@ -101,11 +101,6 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         }
                         function getMatches() {
                             return app.models.matches.getMatchesForUser();
-                        }
-                        function prepareProjectData(data) {
-                            project = data;
-                            roles = project.rolesList;
-                            return roles;
                         }
                         function showLoading($pending) {
                             $('#content').append($pending);
@@ -123,12 +118,11 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         function loadDone(data) {
                             roleMatches = data;
                         }
-                        function loadNewData() {
-                            // TODO
-                        }
+
                         function render() {
                             var swipers = app.plugins.swipers;
                             $pending = swipers.pending();
+                            roleMatches = [];
                             if (swipers) {
                                 swipers.attachTo($page);
                                 showLoading($pending);
@@ -136,6 +130,7 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                                         .then(loadDone)
                                         .then(function () {
                                             hidePending(function () {
+                                                app.container.showContent($page);
                                                 swipers.onDataLoad(onDataLoad);
                                                 swipers.showSwipers();
                                             });
@@ -154,7 +149,6 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
 
                         function show() {
                             app.reloadSwipers();
-                            app.container.showContent($page);
                             render();
                         }
 

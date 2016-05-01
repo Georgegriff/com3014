@@ -1,6 +1,12 @@
-define(['jquery'], function ($) {
+define(['jquery', 'text!js/help/help.htm'], function ($, Help) {
     var ROOT = "/";
+    /**
+     * Routing module
+     * module for handling application routing
+     * @param {type} app
+     */
     function Routing(app) {
+        var $help = $(Help);
         function historyAPI() {
             return !!(window.history && history.pushState);
         }
@@ -35,25 +41,26 @@ define(['jquery'], function ($) {
                 e.preventDefault();
                 var self = this;
                 saveSessionSwipes().done(function () {
-                     self.submit();
+                    self.submit();
                 });
             });
         }
-        
-        function saveSessionSwipes(){
+
+        function saveSessionSwipes() {
             var saveSwipes = [],
-                   projectIds = app.models.matches.getProjectIds();
-           
-            projectIds.forEach(function(id){
-                saveSwipes.push(app.models.matches.saveSwipedUsers(id)); 
-            });           
+                    projectIds = app.models.matches.getProjectIds();
+
+            projectIds.forEach(function (id) {
+                saveSwipes.push(app.models.matches.saveSwipedUsers(id));
+            });
             saveSwipes.push(app.models.matches.saveSwipedProjects());
-       
-            return $.when.apply($,saveSwipes);
+
+            return $.when.apply($, saveSwipes);
         }
-        
+
         return {
             routeHandler: function (route, event) {
+                var $helpInfo = null;
                 $('#content').empty();
                 if (typeof (route) !== 'undefined' && route) {
                     if (historyAPI()) {
@@ -62,7 +69,7 @@ define(['jquery'], function ($) {
                         }
                     }
                     if (route.indexOf("/matches/") > -1) {
-                        
+
                         if (route.indexOf("/project/") > -1) {
                             route = app.models.matches.getProjectMatcherPath("id");
                         }
@@ -71,34 +78,55 @@ define(['jquery'], function ($) {
                     } else if (route.indexOf("/projectmatches/") > -1) {
                         route = app.models.matches.getProjectMatchesPath("id");
                     }
-                    
+
                     switch (route) {
                         case ROOT:
                             showPage("user-swiper", event);
+                            $helpInfo = $help.find("#help-user-swiper");
+                            if ($helpInfo.length) {
+                                app.setHelpTips($helpInfo.html());
+                            }
                             break;
                         case app.models.user.getProfile():
                             // Save any swipes made before navigating to new screen
-                            saveSessionSwipes().then(function(){
+                            saveSessionSwipes().then(function () {
                                 showPage("user-profile", event);
                             });
+                            $helpInfo = $help.find("#help-default");
+                            if ($helpInfo.length) {
+                                app.setHelpTips($helpInfo.html());
+                            }
                             break;
                         case app.models.project.getUserProjectsPath():
                             // Save any swipes made before navigating to new screen
-                            saveSessionSwipes().then(function(){
+                            saveSessionSwipes().then(function () {
                                 showPage("projects", event);
+                                $helpInfo = $help.find("#help-projects");
+                                if ($helpInfo.length) {
+                                    app.setHelpTips($helpInfo.html());
+                                }
                             });
                             break;
                         case app.models.project.getProjectPath("id"):
                             showPage("project-profile", event);
-                            break;
-                         case app.models.project.createProjectPath():
-                            showPage("create-project", event);
+                              $helpInfo = $help.find("#help-default");
+                            if ($helpInfo.length) {
+                                app.setHelpTips($helpInfo.html());
+                            }
                             break;
                         case app.models.matches.getProjectMatcherPath("id"):
                             showPage("project-swiper", event);
+                            $helpInfo = $help.find("#help-project-swiper");
+                            if ($helpInfo.length) {
+                                app.setHelpTips($helpInfo.html());
+                            }
                             break;
                         case app.models.matches.getProjectMatchesPath("id"):
                             showPage("project-matches", event);
+                              $helpInfo = $help.find("#help-default");
+                            if ($helpInfo.length) {
+                                app.setHelpTips($helpInfo.html());
+                            }
                             break;
                         default:
                             return true;

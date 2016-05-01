@@ -36,12 +36,27 @@ ul {
     width:100%;
     max-height:100%;
     flex-direction: row;
+
+}
+.help {
+    font-size:50px;
+    display:flex;
+    color:white;
+    flex:1;
+    cursor: pointer;
+    align-items: center;
+}
+.help:hover {
+    color:#5A6EC2;
 }
 .site-logo {
     color: white;
     font-size:150%;
     font-weight: 600;
     margin-left: 2%;
+}
+.site-logo a:hover {
+    color: #5A6EC2;
 }
 .profile-icon {
     z-index:100;
@@ -388,7 +403,12 @@ ul {
 }
 /** Mobile */
 @media screen and (max-width: 894px)and (orientation : portrait) {
-    html 
+    .site-logo a{
+     font-size:20px;   
+    }
+    .flex-left {
+        flex:1.5;
+    }
     .profile {
         text-align: center;
         display: flex;
@@ -644,8 +664,12 @@ ul.profile-list {
 }
 .spin {
     animation:spin 4s linear infinite;
+	-webkit-animation:spin 4s linear infinite;
+    -moz-animation:spin 4s linear infinite;
 }
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 
 
 /** Profile */
@@ -711,6 +735,7 @@ ul.profile-list {
 .match-image img {
     height:110%;
 }
+/* Form Stuff */
 .site-form form, .form-fields {
     display: flex;
     align-items: center;
@@ -726,7 +751,7 @@ ul.profile-list {
 .form-description {
     text-align: center;   
 }
-.form-error {
+.form-error, .detailed-error {
     color:red;
 }
 .addition-field {
@@ -735,6 +760,9 @@ ul.profile-list {
     text-align:left;
     justify-content: center;
 
+}
+#add-inter .form-field {
+    margin-left: 50px;
 }
 .form-field {
     display: inline-block;
@@ -813,4 +841,9 @@ ul.profile-list {
 
 .ui-button, .ui-button:hover, .ui-button:active {
     background:white !important;
+}
+
+.help-item {
+    margin-bottom:5px;
+    color: #5A6EC2;
 }

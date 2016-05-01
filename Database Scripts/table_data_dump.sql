@@ -15,7 +15,7 @@ LOAD DATA LOCAL INFILE 'C:/Users/Daniel/Desktop/PASSWORD_DATA.csv'
 INTO TABLE match_making.passwords
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' 
-(user_id, password);
+(user_id, password, salt);
 
 # Strip of the last space from the password. Run if passwords are not working
 UPDATE match_making.passwords

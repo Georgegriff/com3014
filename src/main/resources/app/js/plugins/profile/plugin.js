@@ -1,10 +1,14 @@
 /* global define: true, document: true */
+
 define(['underscore', 'jquery', 'text!js/plugins/profile/template/template.htm'],
         function (_, $, Template) {
             "use strict";
             return {
                 init: function (app) {
-
+                    /**
+                     * Profile plugin module
+                     * @param {type} options
+                     */
                     function Profile(options) {
                         options = options || {};
                         var $profile = $(app.parseTemplate(Template, {
@@ -17,7 +21,7 @@ define(['underscore', 'jquery', 'text!js/plugins/profile/template/template.htm']
                         function attachTo($parent) {
                             $parent.prepend($profile);
                         }
-                         function addTitle(title){
+                        function addTitle(title) {
                             $profile.find('.profile-page-info').append("<h2>" + title + "</h2>");
                         }
                         function addList(listTitle, items, itemHandler) {
@@ -47,11 +51,11 @@ define(['underscore', 'jquery', 'text!js/plugins/profile/template/template.htm']
                             $desc.html(text);
 
                         }
-                       
+
                         return {
                             attachTo: attachTo,
                             addDescription: addDescription,
-                            addTitle : addTitle,
+                            addTitle: addTitle,
                             addList: addList
 
                         };

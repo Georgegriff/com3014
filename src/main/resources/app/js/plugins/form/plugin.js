@@ -1,4 +1,8 @@
 /* global define: true, document: true */
+
+/**
+ * SiteForm plugin module
+ */
 define(['underscore', 'jquery', 'text!js/plugins/form/template/template.htm'],
         function (_, $, Template) {
             "use strict";
@@ -176,7 +180,7 @@ define(['underscore', 'jquery', 'text!js/plugins/form/template/template.htm'],
                                     values = [];
                             if ($fields && $fields.length) {
                                 $fields.each(function () {
-                                    values.push(comboValue($(this).find("select")))
+                                    values.push(comboValue($(this).find("select")));
                                 });
                             }
                             return values;
@@ -187,7 +191,11 @@ define(['underscore', 'jquery', 'text!js/plugins/form/template/template.htm'],
                             $error.html(err);
                             $error.show();
                         }
-
+                          function showDetailedError(err) {
+                            var $error = $form.find(".detailed-error");
+                            $error.html(err);
+                            $error.show();
+                        }
                         function attachTo($parent) {
                             $parent.prepend($form);
                         }
@@ -203,7 +211,8 @@ define(['underscore', 'jquery', 'text!js/plugins/form/template/template.htm'],
                             getFieldValues : getFieldValues,
                             populateCombo: populateCombo,
                             additionButton: additionButton,
-                            showError: showError
+                            showError: showError,
+                            showDetailedError : showDetailedError
                         };
                     }
                     return SiteForm;

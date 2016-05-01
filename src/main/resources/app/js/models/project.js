@@ -1,14 +1,15 @@
 /* global define: true, document: true */
+
+/**
+ * 
+ * JavaScript model for the Project Requests
+ */
 define(['jquery', 'js/models/requests'],
         function ($, Requests) {
             "use strict";
             function getUserProjectsPath() {
                 return "/user/projects";
-            }
-            
-            function createProjectPath(){
-                 return "/user/projects/create";
-            }
+            }              
             
             function getProjectPath(projectId, urlParams) {
                 var request = "/project/" + projectId;
@@ -27,7 +28,7 @@ define(['jquery', 'js/models/requests'],
             }
             return {
                 getUserProjectsPath: getUserProjectsPath,
-                createProjectPath : createProjectPath,
+            
                 getUserProjects: function () {
                     return Requests.getJSON(getUserProjectsPath());
                 },
