@@ -22,7 +22,6 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                             if (roleMatches.length) {
                                 app.plugins.swipers.show();
                                 if (swiper) {
-                                    //TODO:: check if roleMatches array is < threshold if so repopulate;
                                     var user = roleMatches[swiper.getPosition()],
                                             role = null;
                                     if (user) {
@@ -69,13 +68,6 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
 
                                 swipes++;
                                 checkSwipeThreshold();
-                                //Not sure why the below was added only here but it was causing strange
-                                //matching behaviour so I have removed it
-                                /*
-                                 app.models.matches.addToUsersAccepted(userId)
-                                 .then(function(returnData) {                  
-                                 });
-                                 */
                                 // remove current entry from array
                                 roleMatches.shift();
                             };
@@ -121,7 +113,6 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         }
                         function getMatchesForRole(roleData) {
                             if (roleData.length > 0) {
-                                var newRoles = [];
                                 var firstRole = roleData[0].role;
                                 return app.models.matches.getMatchesForRole(firstRole.roleId, projectId)
                                         .then(function (data) {
@@ -206,8 +197,6 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                                             });
 
                                         });
-
-                                //TODO populate data for remaning roles
                             }
                         }
 

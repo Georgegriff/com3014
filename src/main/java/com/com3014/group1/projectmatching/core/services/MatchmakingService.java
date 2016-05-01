@@ -53,15 +53,18 @@ public class MatchmakingService {
         ProjectRole projectRole = roleService.findByProjectRole(projectId, roleId);
         ProjectEntity projectEntity = this.projectService.findProjectById(projectId);
         ProjectMatch projectMatch = this.projectMatchService.findMatchForProject(projectEntity);
-        List<User> users = new ArrayList<User>();
+        List<User> users = new ArrayList<>();
 
         // If there isn't a project role then return the empty list
         if (projectRole == null) {
             return users;
-        } // If we dont have a current match entry and we have a valid role
+        } 
+        // If we dont have a current match entry and we have a valid role
         // or if the match set cache has expired then rerun the algorithm
         else if ((projectMatch == null) || (projectMatch.getCacheExpire().before(new Date()))) {
             users = matching.findUsersForRole(projectRole);
+            //Remove the project owner from the list of match users incase they so happen to match
+            users.remove(this.userService.convertEntityToUser(projectEntity.getProjectOwner()));
             this.projectMatchService.saveMatchesForProject(projectEntity, users, projectRole.getRole());
         } // Else, retrieve cached set
         else {
@@ -80,16 +83,22 @@ public class MatchmakingService {
     public List<Project> matchUserToProjectRoles(User user) {
         UserEntity userEntity = userService.convertUserToEntity(user);
         UserMatch userMatch = userMatchService.findMatchForUser(userEntity);
-        List<Project> projects = new ArrayList<Project>();
+        List<Project> projects = new ArrayList<>();
         // If there is no match in the database or the cache has expired, 
         // rerun the algorithm and save the new set
         if ((userMatch == null) || (userMatch.getCacheExpire().before(new Date()))) {
             List<ProjectRole> projectRoles = matching.findRolesForUser(user);
 
             for (ProjectRole projectRole : projectRoles) {
+                // Get the project associated with each role
                 Project project = projectRole.getProject();
+                // Grab the skills, qualifications and interest associated with each project
                 this.projectService.getRemainingData(projectRole.getProject());
-                projects.add(project);
+                
+                // Add project to list as long as the project is not owned by the user
+                if(project.getProjectOwner() != user.getUserId()) {
+                    projects.add(project);
+                }
             }
 
             this.userMatchService.saveMatchesForUser(userEntity, projectRoles);

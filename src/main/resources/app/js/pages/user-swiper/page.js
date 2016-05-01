@@ -22,7 +22,6 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                             if (roleMatches.length) {
                                 app.plugins.swipers.show();
                                 if (swiper) {
-                                    //TODO:: check if roleMatches array is < threshold if so repopulate;
                                     var project = roleMatches[swiper.getPosition()],
                                             projectRole = null,
                                             role = null;
@@ -123,9 +122,7 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         function loadDone(data) {
                             roleMatches = data;
                         }
-                        function loadNewData() {
-                            // TODO
-                        }
+                        
                         function render() {
                             var swipers = app.plugins.swipers;
                             $pending = swipers.pending();

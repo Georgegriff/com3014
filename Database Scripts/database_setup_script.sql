@@ -36,10 +36,8 @@ CREATE TABLE match_making.users(
 #Passwords Table
 CREATE TABLE match_making.passwords(
   user_id INT NOT NULL
-, password VARCHAR(45) 
-, salt VARCHAR(45) UNIQUE
-, jwt_token VARCHAR(45)
-, refresh_token VARCHAR(100)
+, password VARCHAR(100) 
+, salt VARCHAR(45)
 , PRIMARY KEY(user_id)
 , FOREIGN KEY (user_id) REFERENCES match_making.users(user_id)
 );

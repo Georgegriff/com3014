@@ -5,8 +5,10 @@ import com.com3014.group1.projectmatching.dao.UserDAO;
 import com.com3014.group1.projectmatching.model.Password;
 import com.com3014.group1.projectmatching.model.UserEntity;
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,12 +50,18 @@ public class PasswordService {
         if (userEntity != null) {
             try {
                 // Find the user's actual password
-                System.out.println("ID: " + userEntity.getUserId());
                 Password userPassword = passwordDAO.findByUserId(userEntity.getUserId());
-                // Hash the submitted password
-                String submittedPasswordHash = hashPassword(submittedPassword);
-                return userPassword != null && submittedPasswordHash.equals(userPassword.getPassword());
-            } // Catch errors from the hashPassword method
+                // If there is a password record in the database
+                if(userPassword != null) {
+                    // Hash the submitted password with the user specific salt
+                    String submittedPasswordHash = hashPassword(submittedPassword, userPassword.getSalt());
+                    // Check the submitted hash equals the stored password
+                    return submittedPasswordHash.equals(userPassword.getPassword());
+                }
+                // When there is no password record associated
+                return false;
+            } 
+            // Catch errors from the hashPassword method
             catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
                 Logger.getLogger(PasswordService.class.getName()).log(Level.SEVERE, null, ex);
                 return false;
@@ -85,7 +93,7 @@ public class PasswordService {
             if (userEntity != null) {
                 try {
                     Password userPassword = passwordDAO.findByUserId(userEntity.getUserId());
-                    userPassword.setPassword(hashPassword(newPassword));
+                    userPassword.setPassword(hashPassword(newPassword, userPassword.getSalt()));
                     passwordDAO.save(userPassword);
                 } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
                     Logger.getLogger(PasswordService.class.getName()).log(Level.SEVERE, null, ex);
@@ -116,7 +124,11 @@ public class PasswordService {
         try {
             Password userPassword = new Password();
             userPassword.setUserId(entity.getUserId());
-            userPassword.setPassword(hashPassword(password));
+            
+            SecureRandom secureRandom = new SecureRandom();
+            userPassword.setSalt(Long.toHexString(secureRandom.nextLong()));
+            
+            userPassword.setPassword(hashPassword(password, userPassword.getSalt()));
             passwordDAO.save(userPassword);
             
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
@@ -144,18 +156,20 @@ public class PasswordService {
      * Hash the password
      *
      * @param password The password to hash
+     * @param salt The salt associated with the users password
      * @return The hashed password
      * @throws NoSuchAlgorithmException Exception thrown if the hashing
      * algorithm is not available
      * @throws UnsupportedEncodingException Exception thrown if the encoding
      * algorithm is not available
      */
-    private String hashPassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    private String hashPassword(String password, String salt) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
-
-        md.update(password.getBytes("UTF-8")); // Change this to "UTF-16" if needed
+        md.update(password.getBytes("UTF-8"));
+        md.update(salt.getBytes("UTF-8"));
+        
         byte[] digest = md.digest();
-        return String.format("%064x", new java.math.BigInteger(1, digest));
+        return String.format("%064x", new BigInteger(1, digest));
     }
 
 }

@@ -13,7 +13,6 @@ import com.com3014.group1.projectmatching.model.UserEntity;
 import com.com3014.group1.projectmatching.model.UserInterest;
 import com.com3014.group1.projectmatching.model.UserQualification;
 import com.com3014.group1.projectmatching.model.UserSkill;
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -69,7 +68,6 @@ public class UserService {
             user = convertEntityToUser(userEntity);
         } catch (ObjectNotFoundException onf) {
             user = null;
-            onf.printStackTrace();
         }
         return user;
     }
@@ -259,7 +257,7 @@ public class UserService {
 
         return entity;
     }
-
+    
     /**
      * Convert a list of User Entities to a list of Users
      *
