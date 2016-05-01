@@ -1,0 +1,269 @@
+@startuml
+skinParam backgroundColor white
+title ProMatch Client (JavaScript)
+object App{
+	+App()
+	+init()
+	+initialiseUser()
+	+linkUserProfile()
+	+initModels()
+	+routeHandler(route, event)
+	+requireModule(path, names, filename)
+	+loadComponents()
+	+loadPlugins()
+	+parseTemplate(html, attributes)
+	+setHelpTips(html)
+	+plugins
+	+models
+	+pages
+	+container
+	+banner
+}
+App *-- Pages
+object Pages {
+	+project-matches
+	+project-profile
+	+project-swiper
+	+projects
+	+user-profile
+	+user-swiper
+	
+}
+App *-- Plugins
+object Plugins {
+	+tile
+	+profile
+	+form
+	+sidemenu
+	+swipers	
+}
+App *-- Models
+object Models {
+	+ user
+	+ project
+	+ matches
+}
+
+App *-- Routing
+App *-- PluginLoader
+object Routing {
+	+Routing(app)
+	+routeHandler(route, event)
+	+interceptLogout()
+	-historyAPI()
+	-showPage(name event)
+	-loadPage(name)
+	-getPage(name)
+	-saveSessionSwipes()
+}
+object Banner {
+	+init(app)
+	+attachMenu(menu)
+	+getMenu
+}
+object Container {
+	+init(app)
+	+showContent($element)
+}
+App *-- Banner
+App *-- Container
+
+object User {
+	+getUser()
+	+getProfile()
+	+getProjects()
+	-currentUser : Object
+	-USER_PATH : String
+}
+object Project {
+	+getUserProjectsPath()
+	+getUserProjects()
+	+getProjectPath()
+	+getProject(projectId, urlParams)
+}
+object Matches {
+	+getProjectMatcherPath(projectId)
+	+getProjectMatchesPath(projectId)
+	+getProjectMatches(id)
+	+getMatchesForRole(roleId, projectId)
+	+getMatchesForUser()
+	+saveSwipedUsers(projectId)
+	+saveSwipedProjects()
+	+clearSwipedUsers()
+	+clearSwipedProjects()
+	+addToUsersAccepted(userRole)
+	+addToUsersRejected(userRole)
+	+addToProjectsAccepted(projectRole)
+	+addToProjectsRejected(projectRole)
+	+addProjectId(id)
+	+getProjectIds()
+	-usersAccepted : Array
+	-usersRejected : Array
+	-projectsAccepted : Array
+	-projectsRejected : Array
+	-projectIds : Array
+	-MATCHES : String
+}
+object Requests {
+	-errorDialog(message)
+	+getJSON(url)
+	+postPreferences(url, accepted, rejected)
+}
+Models *-- User
+Models *-- Project
+Models *-- Matches
+User o-- Requests
+Project o-- Requests
+Matches o-- Requests
+
+
+object PluginLoader {
+	+PluginLoader(app)
+	+loadPlugins()
+}
+object SideMenu {
+	+init(app)
+	+render()
+	+show()
+	+isShown()
+	+addItem(item)
+	+hide()
+}
+object Profile {
+	+init(app)
+	+attachTo($parent)
+	+addTitle(title)
+	+addList(listTitle, items, itemHandler)
+	+addDescription(text)
+}
+object Tile {
+	+init(app)
+	+attachTo($parent)
+	+setLink: setLink(href)
+    +setMatchLink(href)
+    +setMatchesLin(href)
+    +setEditLink(href)
+}
+object Swipers {
+	+init(app)
+	+attachTo($parent)
+	+showSwipers()
+	+show()
+	+onDataLoad(action)
+	+onAccept(action)
+	+onReject(action)
+	+pending()
+	+hide()
+	+reset()
+}
+object SiteForm {
+	+init(app)
+	+addField(options)
+	+addComboAndField(options)
+	+checkValidation()
+	+addButton(options)
+	+populateCombo($select, list, valueAndNameExtractor)
+	+additionButton(options)
+	+getComboFieldValues($wrapper)
+	-comboValue($select)
+	+getFieldValues($wrapper)
+	+getComboValues($wrapper)
+	+showError(err)
+	+showDetailedError(err)
+	+attachTo($parent)
+}
+Plugins *-- Profile
+Plugins *-- SideMenu
+Plugins *-- Tile
+Plugins *-- Swipers
+Plugins *-- SiteForm
+
+object Page {
+	+show()
+}
+
+object ProjectMatches {
+	+init(app)
+	-getProject()
+	-getProjectId(data)
+	-render()
+	+show()
+	
+}
+object ProjectProfile {
+	+init(app)
+	-render(project)
+	-monthYearRange(start, end)
+	-addEstimatedDate(start end)
+	-renderRole(role, profile)
+	-setupProfile(project)
+	+show()
+	
+}
+ProjectProfile o-- Profile
+object ProjectSwiper {
+	+init(app)
+	-onDataLoad(swiper)
+	-lastActive(epoch)
+	-onAccept(userId, roleId)
+	-onReject(userId, roleId)
+	-checkSwipeThreshold()
+	-getProject()
+	-prepareProjectData(data)
+	-showLoading($pending)
+	-getMatchesForRole(roleData)
+	-hidePending(action)
+	-loadDone(role, data)
+	-loadNewData(roles, pushData)
+	-render()
+	+show()
+}
+Swipers o-- ProjectSwiper
+object Projects {
+	+init(app)
+	+show()
+	-render()
+	-showAddTile()
+	-showProjects(projects)
+	-createProjectTile(project)
+	
+}
+Tile o-- Projects
+object UserProfile {
+	+init(app)
+	-render()
+	-setupProfile()
+	+show()
+}
+UserProfile o-- Profile
+object UserSwiper {
+	+init(app)
+	-onDataLoad(swiper)
+	-monthYearRange(start, end)
+	-onAccept(projectId, roleId)
+	-onReject(projectId, roleId)
+	-checkSwipeThreshold()
+	-getMatches()
+	-showLoading($pending)
+	-hidePending(action)
+	-loadDone(data)
+	-loadNewData(roles, pushData)
+	-render()
+	+show()
+}
+Swipers o-- UserSwiper
+ProjectMatches o-- Page
+ProjectProfile o-- Page
+ProjectSwiper o-- Page
+Projects o-- Page
+UserProfile o-- Page
+UserSwiper o-- Page
+
+Pages *-- ProjectMatches
+Pages *-- ProjectProfile
+Pages *-- ProjectSwiper
+Pages *-- Projects
+Pages *-- UserProfile
+Pages *-- UserSwiper
+
+@enduml

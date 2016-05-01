@@ -8,8 +8,6 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         var $page = $(app.parseTemplate(Template)),
                                 $pending,
                                 roleMatches = [],
-                                project = {},
-                                roles = [],
                                 swipes = 0,
                                 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -100,11 +98,6 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                         }
                         function getMatches() {
                             return app.models.matches.getMatchesForUser();
-                        }
-                        function prepareProjectData(data) {
-                            project = data;
-                            roles = project.rolesList;
-                            return roles;
                         }
                         function showLoading($pending) {
                             $('#content').append($pending);
