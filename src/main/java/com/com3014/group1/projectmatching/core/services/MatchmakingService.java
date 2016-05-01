@@ -81,7 +81,7 @@ public class MatchmakingService {
      * @return The list of @Project that matched
      */
     public List<Project> matchUserToProjectRoles(User user) {
-        UserEntity userEntity = userService.convertUserToEntity(user);
+        UserEntity userEntity = userService.findEntityById(user.getUserId());
         UserMatch userMatch = userMatchService.findMatchForUser(userEntity);
         List<Project> projects = new ArrayList<>();
         // If there is no match in the database or the cache has expired, 

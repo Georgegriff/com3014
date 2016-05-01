@@ -84,7 +84,7 @@ public class UserMatchService {
 
             UserSet userSetEntity = new UserSet();
             userSetEntity.setSet(userMatchEntity);
-            userSetEntity.setProject(projectService.convertProjectToEntity(projectRole.getProject()));
+            userSetEntity.setProject(projectService.findProjectById(projectRole.getProject().getProjectId()));
             userSetEntity.setRole(projectRole.getRole());
 
             userSets.add(userSetEntity);

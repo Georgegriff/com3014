@@ -90,7 +90,7 @@ public class ProjectMatchService {
         for (int i = 0; i < users.size(); i++) {
             ProjectSet projectSetEntity = new ProjectSet();
             projectSetEntity.setSet(projectMatchEntity);
-            projectSetEntity.setUser(this.userService.convertUserToEntity(users.get(i)));
+            projectSetEntity.setUser(this.userService.findEntityById(users.get(i).getUserId()));
             projectSetEntity.setRole(roleEntity);
 
             projectSets.add(projectSetEntity);

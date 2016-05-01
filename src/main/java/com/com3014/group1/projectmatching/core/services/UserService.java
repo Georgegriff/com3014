@@ -277,7 +277,7 @@ public class UserService {
         }
         return users;
     }
-
+    
     /**
      * Find a User by it's ID
      *
