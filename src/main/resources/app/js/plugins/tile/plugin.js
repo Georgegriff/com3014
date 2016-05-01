@@ -4,7 +4,12 @@ define(['underscore', 'jquery', 'text!js/plugins/tile/template/template.htm'],
             "use strict";
             return {
                 init: function (app) {
-
+                    /**
+                     * Tile plugin module
+                     * re-usable Tile component
+                     * @param {type} title
+                     * @param {type} description
+                     */
                     function Tile(title, description) {
                         var $tile = $(app.parseTemplate(Template, {
                             title: title, description: description

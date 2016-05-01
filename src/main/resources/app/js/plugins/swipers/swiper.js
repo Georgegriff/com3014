@@ -2,7 +2,13 @@
 define(['underscore', 'jquery'],
         function (_, $) {
             "use strict";
-
+            /**
+             * Swiper module
+             * @param {type} position
+             * @param {type} html
+             * @param {type} onRemove
+             * @param {type} defaultImagePath
+             */
             function Swiper(position, html, onRemove, defaultImagePath) {
                 var pos = position,
                         TRANSLATE_BY = 5,

@@ -11,6 +11,10 @@ define(['underscore',
     "js/models/matches"],
         function (_, $, JQueryUI, banner, container, Routing, PluginLoader, UserModel, ProjectModel, MatchesModel) {
             "use strict";
+            /**
+             * 
+             * Core Application Module
+             */
             function App() {
                 var self = this,
                         routing = null,
@@ -29,9 +33,6 @@ define(['underscore',
 
                 };
                 App.prototype.initialiseUser = function initUser() {
-                    //return self.models.user.getCurrentUser().then(function (user) {
-                    //  self.currentUser = user;
-                    //});
                     return self.models.user.getUser().then(function (user) {
                         self.currentUser = user;
                     });
@@ -101,7 +102,6 @@ define(['underscore',
                 /**
                  * 
                  *Asyncronously load plugins
-                 *@param {Array} pluginNames pluginName
                  */
                 App.prototype.loadPlugins = function loadPlugins() {
                     return pluginLoader.loadPlugins();

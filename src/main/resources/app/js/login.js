@@ -18,7 +18,10 @@ require.onError = function (err) {
     }
 };
 require(['underscore', 'jquery', 'jquery.ui', 'js/plugins/form/plugin'], function (_, $, JQueryUI, SiteForms) {
-
+    /**
+     * 
+     * JavaScript module for LoginPage
+     */
     function LoginPage() {
 
         var $loginPage, $username, $password, $button;
@@ -76,7 +79,11 @@ require(['underscore', 'jquery', 'jquery.ui', 'js/plugins/form/plugin'], functio
         };
     }
 
-
+    /**
+     * 
+     * JavaScript module for Registration
+     * @param loginPage
+     */
     function RegisterPage(loginPage) {
         var skills = [],
                 qualifications = [],

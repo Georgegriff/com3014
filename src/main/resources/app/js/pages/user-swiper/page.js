@@ -1,4 +1,7 @@
 /* global define: true, document: true */
+/**
+ * User Swiper Page
+ */
 define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm'],
         function (_, $, Template) {
             "use strict";

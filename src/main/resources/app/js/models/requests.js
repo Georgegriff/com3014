@@ -1,4 +1,9 @@
 /* global define: true, document: true */
+
+/**
+ * 
+ * Generic HTTP Request Module
+ */
 define(['jquery'],
         function ($) {
             "use strict";
@@ -24,7 +29,7 @@ define(['jquery'],
                 $dialog.addClass("has-error");
             }
             $.ajaxSetup({
-                error: function (x, status, error) {
+                error: function (x) {
                     if (x.status.toString().charAt(0) === "4" || x.status.toString().charAt(0) === "5") {
                         if (x.status === 404) {
                             errorDialog("Page Not Found.");

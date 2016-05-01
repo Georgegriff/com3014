@@ -1,4 +1,7 @@
 /* global define: true, document: true */
+/**
+ * User Profile Page
+ */
 define(['underscore', 'jquery', 'text!js/pages/user-profile/template/template.htm'],
         function (_, $, Template) {
             "use strict";

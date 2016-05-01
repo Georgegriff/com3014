@@ -1,4 +1,8 @@
 /* global define: true, document: true */
+
+/**
+ * Project Matches Page
+ */
 define(['underscore', 'jquery', 'text!js/pages/project-matches/template/template.htm'],
        function (_, $, Template) {
            "use strict";

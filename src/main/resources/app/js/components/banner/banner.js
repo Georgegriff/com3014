@@ -1,4 +1,9 @@
 /* global define: true */
+
+/**
+ * 
+ * JavaScript model for the Site Banner.
+ */
 define(['jquery'],
         function ($) {
             "use strict";

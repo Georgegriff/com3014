@@ -1,4 +1,8 @@
 /* global define: true, document: true */
+/**
+ * SideMenu plugin module 
+ * slide in menu component
+ */
 define(['underscore', 'jquery', 'jquery.ui', 'text!js/plugins/sidemenu/template/template.htm', 'js/models/user'],
         function (_, $, $UI, Template, User) {
             "use strict";

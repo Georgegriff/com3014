@@ -16,7 +16,9 @@ define(['underscore', 'jquery', 'js/plugins/swipers/swiper', 'text!js/plugins/sw
                 return $element;
 
             }
-
+            /**
+             * Stack of Swipers module
+             */
             function Swipers() {
                 var self = this,
                         $noMatchesMessage = createNoMatchMessage();

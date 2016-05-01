@@ -1,5 +1,10 @@
 define(['jquery', 'text!js/help/help.htm'], function ($, Help) {
     var ROOT = "/";
+    /**
+     * Routing module
+     * module for handling application routing
+     * @param {type} app
+     */
     function Routing(app) {
         var $help = $(Help);
         function historyAPI() {

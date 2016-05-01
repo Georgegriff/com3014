@@ -1,4 +1,8 @@
 /* global define: true, document: true */
+
+/**
+ * SiteForm plugin module
+ */
 define(['underscore', 'jquery', 'text!js/plugins/form/template/template.htm'],
         function (_, $, Template) {
             "use strict";
@@ -176,7 +180,7 @@ define(['underscore', 'jquery', 'text!js/plugins/form/template/template.htm'],
                                     values = [];
                             if ($fields && $fields.length) {
                                 $fields.each(function () {
-                                    values.push(comboValue($(this).find("select")))
+                                    values.push(comboValue($(this).find("select")));
                                 });
                             }
                             return values;

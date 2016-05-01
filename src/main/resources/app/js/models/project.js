@@ -1,4 +1,9 @@
 /* global define: true, document: true */
+
+/**
+ * 
+ * JavaScript model for the Project Requests
+ */
 define(['jquery', 'js/models/requests'],
         function ($, Requests) {
             "use strict";
