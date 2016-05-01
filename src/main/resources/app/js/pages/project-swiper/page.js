@@ -117,7 +117,7 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                                 return app.models.matches.getMatchesForRole(firstRole.roleId, projectId)
                                         .then(function (data) {
                                             if (roleData.length > 1) {
-                                                roleData.splice(0,1);
+                                                roleData.splice(0, 1);
                                                 loadNewData(roleData, function (role, data) {
                                                     loadDone(role, data);
                                                 });
@@ -186,6 +186,7 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
                                         .then(loadDone)
                                         .then(function () {
                                             hidePending(function () {
+                                                app.container.showContent($page);
                                                 swipers.onDataLoad(onDataLoad);
                                                 swipers.showSwipers();
                                             });
@@ -202,7 +203,6 @@ define(['underscore', 'jquery', 'text!js/pages/user-swiper/template/template.htm
 
                         function show() {
                             app.reloadSwipers();
-                            app.container.showContent($page);
                             render();
                         }
 
