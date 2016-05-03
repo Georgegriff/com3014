@@ -42,11 +42,10 @@ public class Location implements Serializable {
     
 
     /**
-     * Get the distance between this location and another in metres
+     * Get the distance between this location and another in metres, using lat and lon
      *
-     * Note: I got this from SO, don't think it would need to be referenced but
-     * just incase:
-     * http://stackoverflow.com/questions/3694380/calculating-distance-between-two-points-using-latitude-longitude-what-am-i-doi
+     * 
+     * Ref: http://stackoverflow.com/questions/3694380/calculating-distance-between-two-points-using-latitude-longitude-what-am-i-doi
      *
      * @param location The other location
      * @return The distance between this location and the given position
